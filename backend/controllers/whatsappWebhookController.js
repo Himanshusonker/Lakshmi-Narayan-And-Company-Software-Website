@@ -4,15 +4,14 @@
 
 const verifyWhatsAppWebhook = (req, res) => {
 
+    const mode = req.query["hub.mode"];
+    const token = req.query["hub.verify_token"];
+    const challenge = req.query["hub.challenge"];
+
     console.log("WhatsApp Verification Request:");
     console.log("Mode:", req.query["hub.mode"]);
     console.log("Token:", req.query["hub.verify_token"]);
     console.log("Challenge:", req.query["hub.challenge"]);
-
-
-    const mode = req.query["hub.mode"];
-    const token = req.query["hub.verify_token"];
-    const challenge = req.query["hub.challenge"];
 
     if (
         mode === "subscribe" &&
@@ -39,10 +38,7 @@ const handleWhatsAppWebhook = (req, res) => {
 
     try {
 
-        console.log(
-            "WhatsApp Webhook Received:",
-            JSON.stringify(req.body, null, 2)
-        );
+        console.log("WhatsApp Webhook Received:", JSON.stringify(req.body, null, 2));
 
         // Meta ko immediately 200 response
         return res.sendStatus(200);
