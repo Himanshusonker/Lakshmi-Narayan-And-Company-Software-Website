@@ -1,0 +1,348 @@
+.quote-page {
+    width: 100%;
+    background: #ffffff;
+}
+
+
+/* ============================================================
+   HERO
+============================================================ */
+
+.quote-hero {
+    padding: 110px 6%;
+    background: #020b1d;
+    color: white;
+}
+
+
+.quote-hero-container {
+    max-width: 1100px;
+    margin: auto;
+    text-align: center;
+}
+
+
+.quote-hero-container > span {
+    color: #f5b942;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+
+.quote-hero-container h1 {
+    margin: 20px 0;
+    font-size: 55px;
+    line-height: 1.15;
+}
+
+
+.quote-hero-container h1 strong {
+    color: #f5b942;
+}
+
+
+.quote-hero-container p {
+    max-width: 700px;
+    margin: auto;
+    color: #9da9bd;
+    line-height: 1.8;
+    font-size: 17px;
+}
+
+
+/* ============================================================
+   QUOTE SECTION
+============================================================ */
+
+.quote-section {
+    padding: 90px 6%;
+}
+
+
+.quote-container {
+    max-width: 1250px;
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        0.8fr 1.2fr;
+
+    gap: 80px;
+
+    align-items: start;
+}
+
+
+/* ============================================================
+   CONTENT
+============================================================ */
+
+.quote-small-title {
+    color: #d59a23;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+
+.quote-content h2 {
+    margin: 15px 0 20px;
+
+    color: #07142f;
+
+    font-size: 40px;
+
+    line-height: 1.2;
+}
+
+
+.quote-content > p {
+    color: #687890;
+
+    line-height: 1.8;
+
+    font-size: 15px;
+}
+
+
+.quote-points {
+    margin-top: 30px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+
+.quote-points div {
+    color: #26344c;
+
+    font-weight: 600;
+}
+
+
+/* ============================================================
+   FORM
+============================================================ */
+
+.quote-form {
+    padding: 40px;
+
+    border-radius: 18px;
+
+    background: #f7f9fc;
+
+    border: 1px solid #e5eaf1;
+}
+
+
+.quote-row {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 20px;
+}
+
+
+.quote-field {
+    display: flex;
+
+    flex-direction: column;
+
+    margin-bottom: 20px;
+}
+
+
+.quote-field label {
+    margin-bottom: 8px;
+
+    color: #17243c;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+
+.quote-field input,
+.quote-field select,
+.quote-field textarea {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 13px 14px;
+
+    border: 1px solid #dbe2eb;
+
+    border-radius: 7px;
+
+    background: white;
+
+    color: #1b2940;
+
+    font-family: inherit;
+
+    outline: none;
+
+    transition: 0.3s;
+}
+
+
+.quote-field textarea {
+    resize: vertical;
+}
+
+
+.quote-field input:focus,
+.quote-field select:focus,
+.quote-field textarea:focus {
+    border-color: #f5b942;
+
+    box-shadow:
+        0 0 0 3px rgba(245,185,66,0.10);
+}
+
+
+/* ============================================================
+   MESSAGES
+============================================================ */
+
+.quote-success {
+    padding: 13px 15px;
+
+    margin-bottom: 18px;
+
+    border-radius: 7px;
+
+    background: #eaf8ef;
+
+    color: #21733c;
+
+    font-size: 14px;
+}
+
+
+.quote-error {
+    padding: 13px 15px;
+
+    margin-bottom: 18px;
+
+    border-radius: 7px;
+
+    background: #fff0f0;
+
+    color: #c0392b;
+
+    font-size: 14px;
+}
+
+
+/* ============================================================
+   BUTTON
+============================================================ */
+
+.quote-submit {
+    border: none;
+
+    padding: 15px 23px;
+
+    border-radius: 7px;
+
+    background: #f5b942;
+
+    color: #07142f;
+
+    font-weight: 700;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    transition: 0.3s;
+}
+
+
+.quote-submit:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px
+        rgba(245,185,66,0.20);
+}
+
+
+.quote-submit:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .quote-container {
+        grid-template-columns: 1fr;
+
+        gap: 50px;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 600px) {
+
+    .quote-hero {
+        padding: 80px 20px;
+    }
+
+
+    .quote-hero-container h1 {
+        font-size: 38px;
+    }
+
+
+    .quote-section {
+        padding: 60px 20px;
+    }
+
+
+    .quote-content h2 {
+        font-size: 32px;
+    }
+
+
+    .quote-form {
+        padding: 25px 20px;
+    }
+
+
+    .quote-row {
+        grid-template-columns: 1fr;
+
+        gap: 0;
+    }
+
+}

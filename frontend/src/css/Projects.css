@@ -1,0 +1,648 @@
+/* ============================================================
+   PROJECTS PAGE
+============================================================ */
+
+.projects-page {
+    width: 100%;
+    background: #ffffff;
+    color: #07142f;
+}
+
+
+/* ============================================================
+   HERO
+============================================================ */
+
+.projects-hero {
+    padding: 115px 6% 105px;
+
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(245,185,66,0.14),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #020b1d,
+            #071a3d
+        );
+
+    color: white;
+}
+
+
+.projects-hero-container {
+    max-width: 1000px;
+
+    margin: auto;
+
+    text-align: center;
+}
+
+
+.projects-hero-container > span {
+    color: #f5b942;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+
+.projects-hero h1 {
+    margin: 20px 0;
+
+    font-size: 58px;
+
+    line-height: 1.15;
+}
+
+
+.projects-hero h1 strong {
+    color: #f5b942;
+}
+
+
+.projects-hero p {
+    max-width: 680px;
+
+    margin: auto;
+
+    color: #aebbd0;
+
+    font-size: 16px;
+
+    line-height: 1.8;
+}
+
+
+/* ============================================================
+   INTRO
+============================================================ */
+
+.projects-intro {
+    padding: 90px 6% 45px;
+}
+
+
+.projects-intro-container {
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 70px;
+
+    align-items: end;
+}
+
+
+.projects-small-title {
+    color: #d59516;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+
+.projects-intro h2 {
+    margin: 15px 0 0;
+
+    max-width: 600px;
+
+    font-size: 42px;
+
+    line-height: 1.2;
+}
+
+
+.projects-intro-container > p {
+    margin: 0;
+
+    color: #687890;
+
+    line-height: 1.8;
+}
+
+
+/* ============================================================
+   PROJECT LIST
+============================================================ */
+
+.projects-list {
+    padding: 40px 6% 100px;
+}
+
+
+.projects-grid {
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 35px;
+}
+
+
+/* ============================================================
+   PROJECT CARD
+============================================================ */
+
+.project-card {
+    overflow: hidden;
+
+    border:
+        1px solid #e5eaf1;
+
+    border-radius: 18px;
+
+    background: white;
+
+    box-shadow:
+        0 12px 35px
+        rgba(7,20,47,0.06);
+
+    transition: 0.35s;
+}
+
+
+.project-card:hover {
+    transform: translateY(-8px);
+
+    box-shadow:
+        0 22px 50px
+        rgba(7,20,47,0.12);
+
+    border-color:
+        rgba(245,185,66,0.5);
+}
+
+
+/* ============================================================
+   IMAGE
+============================================================ */
+
+.project-card-image {
+    position: relative;
+
+    height: 280px;
+
+    overflow: hidden;
+}
+
+
+.project-card-image img {
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: 0.5s;
+}
+
+
+.project-card:hover
+.project-card-image img {
+    transform: scale(1.06);
+}
+
+
+/* ============================================================
+   CATEGORY
+============================================================ */
+
+.project-category {
+    position: absolute;
+
+    left: 20px;
+
+    bottom: 20px;
+
+    padding: 8px 13px;
+
+    border-radius: 5px;
+
+    background: #f5b942;
+
+    color: #07142f;
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+
+/* ============================================================
+   CONTENT
+============================================================ */
+
+.project-card-content {
+    padding: 30px;
+}
+
+
+.project-number {
+    color: #d59516;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+
+.project-card-content h3 {
+    margin: 10px 0;
+
+    font-size: 25px;
+}
+
+
+.project-card-content > p {
+    margin: 0;
+
+    color: #687890;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+/* ============================================================
+   TECHNOLOGIES
+============================================================ */
+
+.project-tech {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin: 20px 0;
+}
+
+
+.project-tech span {
+    padding: 6px 9px;
+
+    border-radius: 5px;
+
+    background: #f4f6f9;
+
+    color: #59677d;
+
+    font-size: 11px;
+}
+
+
+/* ============================================================
+   BUTTON
+============================================================ */
+
+.project-view-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 12px 17px;
+
+    border-radius: 7px;
+
+    background: #07142f;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    transition: 0.3s;
+}
+
+
+.project-view-button:hover {
+    background: #f5b942;
+
+    color: #07142f;
+
+    transform: translateY(-2px);
+}
+
+
+/* ============================================================
+   CTA
+============================================================ */
+
+.projects-cta {
+    padding: 70px 6%;
+}
+
+
+.projects-cta-container {
+    max-width: 1200px;
+
+    margin: auto;
+
+    padding: 55px;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #020b1d,
+            #0b2148
+        );
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 40px;
+}
+
+
+.projects-cta-container > div > span {
+    color: #f5b942;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+
+.projects-cta-container h2 {
+    margin: 12px 0;
+
+    font-size: 35px;
+
+    line-height: 1.2;
+}
+
+
+.projects-cta-container p {
+    margin: 0;
+
+    color: #aebbd0;
+
+    line-height: 1.7;
+}
+
+
+.projects-cta-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 15px 23px;
+
+    border-radius: 8px;
+
+    background: #f5b942;
+
+    color: #07142f;
+
+    text-decoration: none;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+
+    transition: 0.3s;
+}
+
+
+.projects-cta-button:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 15px 35px
+        rgba(245,185,66,0.25);
+}
+
+
+/* ============================================================
+   LOADING
+============================================================ */
+
+.projects-loading {
+    min-height: 60vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #687890;
+}
+
+
+.projects-loader {
+    width: 42px;
+
+    height: 42px;
+
+    border: 4px solid #e5e9ef;
+
+    border-top-color: #f5b942;
+
+    border-radius: 50%;
+
+    animation:
+        projectSpin 0.8s linear infinite;
+
+    margin-bottom: 15px;
+}
+
+
+@keyframes projectSpin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* ============================================================
+   ERROR
+============================================================ */
+
+.projects-error {
+    min-height: 60vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+}
+
+
+.projects-error button {
+    padding: 12px 20px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #07142f;
+
+    color: white;
+
+    cursor: pointer;
+}
+
+
+/* ============================================================
+   NO PROJECTS
+============================================================ */
+
+.no-projects {
+    grid-column: 1 / -1;
+
+    padding: 80px 20px;
+
+    text-align: center;
+}
+
+
+.no-projects p {
+    color: #687890;
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .projects-hero h1 {
+        font-size: 45px;
+    }
+
+
+    .projects-intro-container {
+        grid-template-columns: 1fr;
+
+        gap: 25px;
+    }
+
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .projects-cta-container {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 600px) {
+
+    .projects-hero {
+        padding:
+            80px 20px;
+    }
+
+
+    .projects-hero h1 {
+        font-size: 36px;
+    }
+
+
+    .projects-hero p {
+        font-size: 14px;
+    }
+
+
+    .projects-intro {
+        padding:
+            65px 20px 35px;
+    }
+
+
+    .projects-intro h2 {
+        font-size: 32px;
+    }
+
+
+    .projects-list {
+        padding:
+            25px 20px 70px;
+    }
+
+
+    .project-card-image {
+        height: 220px;
+    }
+
+
+    .project-card-content {
+        padding: 25px;
+    }
+
+
+    .projects-cta {
+        padding:
+            30px 20px;
+    }
+
+
+    .projects-cta-container {
+        padding:
+            35px 25px;
+    }
+
+
+    .projects-cta-container h2 {
+        font-size: 28px;
+    }
+
+}

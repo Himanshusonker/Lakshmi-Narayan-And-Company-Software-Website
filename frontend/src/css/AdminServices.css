@@ -1,0 +1,575 @@
+/* ================================================================================================
+   ADMIN SERVICES
+================================================================================================ */
+
+.admin-services-page {
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    padding: 40px;
+
+    background: #f5f7fb;
+
+    color: #172033;
+
+}
+
+
+/* ================================================================================================
+   HEADER
+================================================================================================ */
+
+.admin-services-header {
+
+    margin-bottom: 30px;
+
+}
+
+.admin-services-header span {
+
+    color: #d89a20;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+}
+
+.admin-services-header h1 {
+
+    margin: 8px 0;
+
+    font-size: 32px;
+
+}
+
+.admin-services-header p {
+
+    margin: 0;
+
+    color: #6f7b91;
+
+}
+
+
+/* ================================================================================================
+   MESSAGE
+================================================================================================ */
+
+.admin-service-message {
+
+    margin-bottom: 25px;
+
+    padding: 14px 18px;
+
+    border-radius: 8px;
+
+    background: #e8f7ed;
+
+    color: #18763a;
+
+    font-weight: 600;
+
+}
+
+
+/* ================================================================================================
+   CARD
+================================================================================================ */
+
+.service-admin-card {
+
+    background: white;
+
+    border-radius: 14px;
+
+    padding: 30px;
+
+    margin-bottom: 35px;
+
+    box-shadow:
+        0 8px 30px rgba(20, 35, 60, 0.06);
+
+}
+
+.service-admin-card-header {
+
+    margin-bottom: 25px;
+
+    border-bottom: 1px solid #edf0f5;
+
+    padding-bottom: 18px;
+
+}
+
+.service-admin-card-header h2 {
+
+    margin: 0;
+
+    font-size: 22px;
+
+}
+
+
+/* ================================================================================================
+   FORM
+================================================================================================ */
+
+.service-admin-form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+
+}
+
+.form-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 20px;
+
+}
+
+.form-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+}
+
+.form-group label {
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    color: #29344a;
+
+}
+
+.form-group input,
+.form-group textarea {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 13px 14px;
+
+    border:
+        1px solid #dfe4ec;
+
+    border-radius: 8px;
+
+    outline: none;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    transition: 0.2s;
+
+}
+
+.form-group textarea {
+
+    resize: vertical;
+
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+
+    border-color: #d9a02b;
+
+    box-shadow:
+        0 0 0 3px rgba(217, 160, 43, 0.10);
+
+}
+
+.form-group small {
+
+    color: #8993a5;
+
+    font-size: 11px;
+
+}
+
+
+/* ================================================================================================
+   FORM BUTTONS
+================================================================================================ */
+
+.service-form-buttons {
+
+    display: flex;
+
+    gap: 12px;
+
+    margin-top: 5px;
+
+}
+
+.save-service-btn,
+.cancel-service-btn {
+
+    border: none;
+
+    padding: 13px 22px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: 700;
+
+    transition: 0.25s;
+
+}
+
+.save-service-btn {
+
+    background: #dca329;
+
+    color: #111c31;
+
+}
+
+.save-service-btn:hover {
+
+    background: #c89019;
+
+    transform: translateY(-2px);
+
+}
+
+.cancel-service-btn {
+
+    background: #edf0f5;
+
+    color: #455064;
+
+}
+
+.cancel-service-btn:hover {
+
+    background: #dfe4ec;
+
+}
+
+
+/* ================================================================================================
+   SERVICES LIST
+================================================================================================ */
+
+.services-list-section {
+
+    background: white;
+
+    border-radius: 14px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 8px 30px rgba(20, 35, 60, 0.06);
+
+}
+
+.services-list-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 25px;
+
+}
+
+.services-list-header h2 {
+
+    margin: 0;
+
+    font-size: 22px;
+
+}
+
+.services-list-header span {
+
+    padding: 7px 12px;
+
+    border-radius: 20px;
+
+    background: #f1f4f8;
+
+    color: #667085;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+}
+
+
+/* ================================================================================================
+   TABLE
+================================================================================================ */
+
+.admin-services-table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+}
+
+.admin-services-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 800px;
+
+}
+
+.admin-services-table th {
+
+    padding: 14px;
+
+    text-align: left;
+
+    background: #f7f8fa;
+
+    color: #657085;
+
+    font-size: 12px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+
+}
+
+.admin-services-table td {
+
+    padding: 17px 14px;
+
+    border-bottom:
+        1px solid #edf0f4;
+
+    color: #505b6e;
+
+    font-size: 13px;
+
+}
+
+.admin-service-name {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+.admin-service-name span {
+
+    width: 35px;
+
+    height: 35px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 8px;
+
+    background: #fff7e5;
+
+    font-size: 18px;
+
+}
+
+.admin-service-name strong {
+
+    color: #1b2436;
+
+}
+
+
+/* ================================================================================================
+   TECHNOLOGY TAGS
+================================================================================================ */
+
+.technology-tags {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+
+}
+
+.technology-tags span {
+
+    padding: 4px 7px;
+
+    border-radius: 5px;
+
+    background: #eef2f7;
+
+    color: #526074;
+
+    font-size: 10px;
+
+}
+
+
+/* ================================================================================================
+   ACTIONS
+================================================================================================ */
+
+.service-action-buttons {
+
+    display: flex;
+
+    gap: 7px;
+
+}
+
+.edit-service-btn,
+.delete-service-btn {
+
+    border: none;
+
+    padding: 7px 12px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+}
+
+.edit-service-btn {
+
+    background: #fff4d8;
+
+    color: #9b6900;
+
+}
+
+.delete-service-btn {
+
+    background: #ffeded;
+
+    color: #c33c3c;
+
+}
+
+
+/* ================================================================================================
+   LOADING
+================================================================================================ */
+
+.services-loading {
+
+    padding: 40px;
+
+    text-align: center;
+
+    color: #7c8798;
+
+}
+
+
+/* ================================================================================================
+   TABLET
+================================================================================================ */
+
+@media (max-width: 900px) {
+
+    .admin-services-page {
+
+        padding: 25px;
+
+    }
+
+}
+
+
+/* ================================================================================================
+   MOBILE
+================================================================================================ */
+
+@media (max-width: 650px) {
+
+    .admin-services-page {
+
+        padding: 20px 15px;
+
+    }
+
+    .admin-services-header h1 {
+
+        font-size: 25px;
+
+    }
+
+    .service-admin-card,
+    .services-list-section {
+
+        padding: 20px;
+
+    }
+
+    .form-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .services-list-header {
+
+        align-items: flex-start;
+
+        gap: 10px;
+
+    }
+
+    .service-form-buttons {
+
+        flex-direction: column;
+
+    }
+
+    .save-service-btn,
+    .cancel-service-btn {
+
+        width: 100%;
+
+    }
+
+}

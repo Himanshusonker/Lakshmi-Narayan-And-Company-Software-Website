@@ -1,0 +1,258 @@
+.admin-testimonials-page {
+    min-height: 100vh;
+    padding: 40px;
+    background: #f5f7fb;
+}
+
+
+/* HEADER */
+
+.admin-testimonials-header {
+    margin-bottom: 30px;
+}
+
+.admin-testimonials-header span {
+    color: #c58b18;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.admin-testimonials-header h1 {
+    margin: 8px 0;
+    color: #07142f;
+    font-size: 32px;
+}
+
+
+/* FORM */
+
+.testimonial-form {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.06);
+    margin-bottom: 40px;
+}
+
+.testimonial-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.testimonial-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.testimonial-form-group.full {
+    grid-column: 1 / -1;
+}
+
+.testimonial-form-group label {
+    color: #07142f;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.testimonial-form-group input,
+.testimonial-form-group textarea,
+.testimonial-form-group select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border: 1px solid #dce1e8;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+}
+
+.testimonial-form-group input:focus,
+.testimonial-form-group textarea:focus,
+.testimonial-form-group select:focus {
+    border-color: #f5b942;
+}
+
+.testimonial-form-group textarea {
+    resize: vertical;
+}
+
+
+/* PUBLISH */
+
+.testimonial-publish {
+    display: flex;
+    align-items: center;
+}
+
+.testimonial-publish label {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 14px;
+    color: #07142f;
+}
+
+
+/* BUTTONS */
+
+.testimonial-form-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.testimonial-form-buttons button {
+    border: none;
+    background: #07142f;
+    color: white;
+    padding: 13px 22px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.testimonial-form-buttons button:hover {
+    background: #102653;
+}
+
+.testimonial-form-buttons .testimonial-cancel {
+    background: #777;
+}
+
+
+/* LIST */
+
+.testimonial-list-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.testimonial-list-heading h2 {
+    color: #07142f;
+}
+
+.testimonial-list-heading span {
+    color: #777;
+}
+
+
+/* ROW */
+
+.testimonial-admin-row {
+    display: grid;
+    grid-template-columns: 70px 1fr 100px 160px;
+    align-items: center;
+    gap: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+
+.testimonial-client-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #07142f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f5b942;
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.testimonial-client-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.testimonial-admin-info h3 {
+    margin: 0 0 3px;
+    color: #07142f;
+}
+
+.testimonial-admin-info > span {
+    font-size: 13px;
+    color: #777;
+}
+
+.testimonial-admin-info p {
+    margin: 8px 0;
+    color: #555;
+    line-height: 1.5;
+}
+
+.testimonial-stars {
+    color: #f5b942;
+    letter-spacing: 2px;
+}
+
+
+.testimonial-status {
+    color: #16803c;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+.testimonial-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.testimonial-actions button {
+    border: none;
+    background: #07142f;
+    color: white;
+    padding: 9px 13px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.testimonial-actions .testimonial-delete {
+    background: #c62828;
+}
+
+.testimonial-actions button:hover {
+    opacity: 0.85;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 800px) {
+
+    .admin-testimonials-page {
+        padding: 20px;
+    }
+
+    .testimonial-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .testimonial-form-group.full {
+        grid-column: auto;
+    }
+
+    .testimonial-admin-row {
+        grid-template-columns: 60px 1fr;
+    }
+
+    .testimonial-status {
+        grid-column: 2;
+    }
+
+    .testimonial-actions {
+        grid-column: 1 / -1;
+    }
+}

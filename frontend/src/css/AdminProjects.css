@@ -1,0 +1,239 @@
+.admin-projects-page {
+    padding: 40px;
+    background: #f5f7fb;
+    min-height: 100vh;
+}
+
+.admin-projects-header {
+    margin-bottom: 30px;
+}
+
+.admin-projects-header span {
+    color: #c58b18;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.admin-projects-header h1 {
+    margin: 8px 0 0;
+    color: #07142f;
+    font-size: 32px;
+}
+
+
+/* FORM */
+
+.project-form {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 14px;
+    margin-bottom: 40px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.06);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #07142f;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #dce1e8;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #f5b942;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.checkbox-group {
+    justify-content: center;
+}
+
+.checkbox-group label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.checkbox-group input {
+    width: auto;
+}
+
+
+/* BUTTONS */
+
+.project-form-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.project-form-buttons button {
+    border: none;
+    padding: 13px 22px;
+    border-radius: 7px;
+    background: #07142f;
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.project-form-buttons button:hover {
+    background: #102653;
+}
+
+.project-form-buttons .cancel-button {
+    background: #777;
+}
+
+.project-form-buttons .cancel-button:hover {
+    background: #555;
+}
+
+
+/* LIST */
+
+.admin-list-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.admin-list-heading h2 {
+    color: #07142f;
+}
+
+.admin-list-heading span {
+    color: #777;
+}
+
+
+/* ROW */
+
+.admin-project-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 120px 180px;
+    align-items: center;
+    gap: 20px;
+    padding: 18px;
+    background: #ffffff;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.admin-project-row img {
+    width: 100px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.admin-project-info span {
+    font-size: 11px;
+    color: #c58b18;
+    font-weight: 700;
+}
+
+.admin-project-info h3 {
+    margin: 5px 0;
+    color: #07142f;
+}
+
+.admin-project-info p {
+    margin: 0;
+    color: #777;
+}
+
+.admin-project-status {
+    color: #16803c;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.admin-project-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.admin-project-actions button {
+    border: none;
+    padding: 9px 13px;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #07142f;
+    color: white;
+}
+
+.admin-project-actions .delete-button {
+    background: #c62828;
+}
+
+.admin-project-actions button:hover {
+    opacity: 0.85;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 800px) {
+
+    .admin-projects-page {
+        padding: 20px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full {
+        grid-column: auto;
+    }
+
+    .admin-project-row {
+        grid-template-columns: 80px 1fr;
+    }
+
+    .admin-project-row img {
+        width: 80px;
+        height: 60px;
+    }
+
+    .admin-project-status {
+        grid-column: 2;
+    }
+
+    .admin-project-actions {
+        grid-column: 1 / -1;
+    }
+}
