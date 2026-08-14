@@ -27,7 +27,11 @@ app.use(bodyparser.urlencoded({extended:true}));
 app.use(bodyparser.json());
 app.use(
     cors({
-        origin: "http://localhost:5173",
+        origin:[
+            "http://localhost:5173",
+            "https://lakshminarayanandco.com",
+            "https://www.lakshminarayanandco.com"
+        ],
         credentials: true
     })
 );
