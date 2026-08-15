@@ -51,11 +51,17 @@ const Contact=()=>{
 
                 setSuccess("Thank you! Your message has been sent successfully. We will contact you soon.");
                 setFormData({ name: "",  email: "", phone: "", subject: "", message: "" });
+            } else {
+
+               setError(response.data.message || "Unable to send your message.");
             }
 
         } catch (error) {
 
             console.log("Contact API Error:", error);
+            console.log("Status:", error.response?.status);
+            console.log("Response Data:", error.response?.data);
+            console.log("Response URL:", error.config?.url);
 
             setError(error.response?.data?.message || "Unable to send your message. Please try again.");
 

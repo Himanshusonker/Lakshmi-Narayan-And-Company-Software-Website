@@ -3,10 +3,20 @@ import axios from "axios";
 
 const Home=()=>{
 
-    const [homeData, setHomeData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+    const [homeData, setHomeData]= useState(null);
+    const [loading, setLoading]= useState(true);
+    const [error, setError]= useState("");
+    const [contactForm, setContactForm]= useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: ""
+});
 
+    const [contactSubmitting, setContactSubmitting] = useState(false);
+    const [contactSuccess, setContactSuccess] = useState("");
+    const [contactError, setContactError] = useState("");
 
 
     // ==============================================================================
@@ -31,6 +41,53 @@ const Home=()=>{
 
         finally {setLoading(false);}
     };
+
+
+    const handleContactChange=(e)=> {
+
+    const { name, value }= e.target;
+
+    setContactForm((prev)=> ({...prev, [name]: value}));
+
+};
+
+
+    const handleContactSubmit=async(e)=> {
+
+    e.preventDefault();
+
+    try {
+
+        setContactSubmitting(true);
+        setContactSuccess("");
+        setContactError("");
+
+        const response= await axios.post(`${import.meta.env.VITE_LAKSHMI_NARAYAN_AND_COMPANY_SW_W_API_URL}/contact`, contactForm);
+
+        if (response.data.success) {
+
+            setContactSuccess("Thank you! Your requirement has been sent successfully.");
+
+            setContactForm({name: "", email: "", phone: "", subject: "", message: ""});
+
+        } else {
+
+            setContactError(response.data.message || "Unable to send your requirement.");
+
+        }
+
+    } catch (error) {
+
+        console.log("Home Contact Error:", error.response?.data || error.message);
+
+        setContactError(error.response?.data?.message || "Unable to send your requirement. Please try again.");
+
+    } finally {
+
+        setContactSubmitting(false);
+
+    }
+};
 
 
     useEffect(()=>{
@@ -389,6 +446,156 @@ const Home=()=>{
 
         </div>
     );
-};
 
+
+{/* ======================================== CONTACT FORM ======================================= */}
+
+        <section className="home-contact-section">
+            <div className="home-contact-container">
+
+
+                                        {/* LEFT CONTENT */}
+
+                <div className="home-contact-content">
+                
+                    <span className="home-contact-small-title">
+                        GET IN TOUCH
+                    </span>
+
+                    <h2>
+                        Let's Discuss
+                        <span> Your Project</span>
+                    </h2>
+
+                    <p>
+                        Have a project idea, business requirement or
+                        software development need? Tell us about it.
+                        Our team will get back to you shortly.
+                    </p>
+
+                    <div className="home-contact-points">
+
+                        <div>
+                            <span>✓</span>
+                            <p>Free Project Consultation</p>
+                        </div>
+
+                        <div>
+                            <span>✓</span>
+                            <p>Quick Response</p>
+                        </div>
+
+                        <div>
+                            <span>✓</span>
+                            <p>Professional Development Support</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                                        {/* CONTACT FORM */}
+
+                <div className="home-contact-form">
+
+                    <form onSubmit={handleContactSubmit}>
+
+                        <div className="home-form-row">
+
+                            <div className="home-form-group">
+
+                                <label>
+                                    Name
+                                </label>
+
+                                <input type="text" name="name" value={contactForm.name} onChange={handleContactChange} placeholder="Enter your name" required/>
+
+                            </div>
+
+
+                            <div className="home-form-group">
+
+                                <label>
+                                    Email
+                                </label>
+
+                                <input type="email" name="email" value={contactForm.email} onChange={handleContactChange} placeholder="Enter your email" required/>
+
+                            </div>
+
+                        </div>
+
+
+                        <div className="home-form-row">
+
+                            <div className="home-form-group">
+
+                                <label>
+                                    Phone
+                                </label>
+
+                                <input type="tel" name="phone" value={contactForm.phone} onChange={handleContactChange} placeholder="Enter your phone number" required/>
+
+                            </div>
+
+
+                            <div className="home-form-group">
+
+                                <label>
+                                    Subject
+                                </label>
+
+                                <input type="text" name="subject" value={contactForm.subject} onChange={handleContactChange} placeholder="Project subject" required/>
+
+                            </div>
+
+                        </div>
+
+
+                        <div className="home-form-group">
+
+                            <label>
+                                Your Requirement
+                            </label>
+
+                            <textarea name="message" value={contactForm.message} onChange={handleContactChange} rows="6" placeholder="Tell us about your project or requirement..." required>
+
+                            </textarea>
+
+                        </div>
+
+                        {contactSuccess && (
+                            <div className="home-contact-success">
+                                {contactSuccess}
+                            </div>
+                        )}
+
+                        {contactError && (
+                            <div className="home-contact-error">
+                                {contactError}
+                            </div>
+                        )}
+
+
+                        <button type="submit" className="home-contact-submit" disabled={contactSubmitting}>
+
+                            {contactSubmitting ? "Sending..." : "Send Requirement" }
+
+                            {!contactSubmitting && (
+                                        <span>
+                                            →
+                                        </span>
+                            )}
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+};
 export default Home;

@@ -8,23 +8,22 @@ const verifyWhatsAppWebhook = (req, res) => {
     const token = req.query["hub.verify_token"];
     const challenge = req.query["hub.challenge"];
 
-    console.log("WhatsApp Verification Request:");
-    console.log("Mode:", req.query["hub.mode"]);
-    console.log("Token:", req.query["hub.verify_token"]);
-    console.log("Challenge:", req.query["hub.challenge"]);
+    // console.log("WhatsApp Verification Request:");
+    // console.log("Mode:", req.query["hub.mode"]);
+    // console.log("Token:", req.query["hub.verify_token"]);
+    // console.log("Challenge:", req.query["hub.challenge"]);
 
     if (
-        mode === "subscribe" &&
-        token === process.env.WHATSAPP_VERIFY_TOKEN
+        mode === "subscribe" && token === process.env.WHATSAPP_VERIFY_TOKEN
     ) {
 
-        console.log("WhatsApp Webhook Verified");
+        // console.log("WhatsApp Webhook Verified");
 
         return res.status(200).send(challenge);
 
     }
 
-    console.log("WhatsApp Webhook Verification Failed");
+    // console.log("WhatsApp Webhook Verification Failed");
 
     return res.sendStatus(403);
 };
@@ -40,7 +39,7 @@ const handleWhatsAppWebhook = (req, res) => {
 
         const body= req.body;
 
-        console.log("WhatsApp Webhook Received:", JSON.stringify(req.body, null, 2));
+        // console.log("WhatsApp Webhook Received:", JSON.stringify(req.body, null, 2));
 
         // ====================================================
         // WHATSAPP MESSAGE STATUS
@@ -53,17 +52,19 @@ const handleWhatsAppWebhook = (req, res) => {
 
             statuses.forEach((status) => {
 
-                console.log("====================================");
-                console.log("WhatsApp Message Status");
-                console.log("Message ID:", status.id);
-                console.log("Status:", status.status);
-                console.log("Recipient:", status.recipient_id);
+                // console.log("====================================");
+                // console.log("WhatsApp Message Status");
+                // console.log("Message ID:", status.id);
+                // console.log("Status:", status.status);
+                // console.log("Recipient:", status.recipient_id);
 
-                if (status.timestamp) {
-                    console.log("Timestamp:",
-                    new Date(Number(status.timestamp) * 1000).toISOString()
-                    );
-                }
+                console.log(`WhatsApp message status: ${status.status}`);
+
+                // if (status.timestamp) {
+                //     console.log("Timestamp:",
+                //     new Date(Number(status.timestamp) * 1000).toISOString()
+                //     );
+                // }
 
                 if (status.errors) {
                     console.log("WhatsApp Delivery Error:", JSON.stringify(status.errors, null, 2));
@@ -83,21 +84,26 @@ const handleWhatsAppWebhook = (req, res) => {
 
             messages.forEach((msg) => {
 
-                console.log("====================================");
-                console.log("Incoming WhatsApp Message");
-                console.log("From:", msg.from);
-                console.log("Message ID:", msg.id);
-                console.log("Message Type:", msg.type);
+                // console.log("====================================");
+                // console.log("Incoming WhatsApp Message");
+                // console.log("From:", msg.from);
+                // console.log("Message ID:", msg.id);
+                // console.log("Message Type:", msg.type);
 
-                if (msg.text?.body) {
-                    console.log("Message:", msg.text.body);
-                }
+                console.log(`WhatsApp incoming message type: ${msg.type}`);
 
-                console.log("====================================");
+                // if (msg.text?.body) {
+                //     console.log("Message:", msg.text.body);
+                // }
+
+                // console.log("====================================");
             });
         }
 
-        // Meta ko immediately 200 response
+    // ====================================================
+    // META RESPONSE
+    // ====================================================
+    
         return res.sendStatus(200);
 
     } catch (error) {
@@ -107,9 +113,7 @@ const handleWhatsAppWebhook = (req, res) => {
         return res.sendStatus(500);
     }
 };
-
-
-module.exports = {
-    verifyWhatsAppWebhook,
-    handleWhatsAppWebhook
+module.exports={
+            verifyWhatsAppWebhook,
+            handleWhatsAppWebhook
 };
