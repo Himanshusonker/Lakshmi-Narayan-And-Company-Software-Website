@@ -54,7 +54,7 @@ app.use("/projects", projectRouter);
 
 app.use("/testimonials", testimonialRoutes);
 
-app.use("/contact", contactRouter);
+app.use("/api/contact", contactRouter);
 
 app.use("/api/whatsapp", whatsappRoute);
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import adminAxios from "../api/adminAxios";
 
 const AdminMessages=()=>{
@@ -19,7 +20,7 @@ const AdminMessages=()=>{
             setLoading(true);
             setError("");
 
-            const response = await adminAxios.get("/contact");
+            const response = await axios.get(`${import.meta.env.VITE_LAKSHMI_NARAYAN_AND_COMPANY_SW_W_API_URL}/api/contact`);
 
             if (response.data.success) {
 
@@ -69,7 +70,7 @@ const AdminMessages=()=>{
 
         try {
 
-            const response= await adminAxios.delete(`/contact/${id}`);
+            const response= await adminAxios.delete(`/api/contact/${id}`);
 
             if (response.data.success) {
 
@@ -101,7 +102,7 @@ const AdminMessages=()=>{
 
         try {
 
-            const response= await adminAxios.put(`/contact/${id}`,
+            const response= await adminAxios.put(`/api/contact/${id}`,
             {
                 status: "Read"
             });
@@ -416,7 +417,7 @@ const AdminMessages=()=>{
                                     View Message
                                 </button>
 
-                                {!message.status !== "Read" && (
+                                {message.status !== "Read" && (
 
                                     <button type="button" className="message-read-btn" onClick={()=>handleMarkAsRead(message._id)}>
                                         Mark as Read
@@ -537,7 +538,7 @@ const AdminMessages=()=>{
 
                         <div className="admin-message-modal-footer">
 
-                            {!selectedMessage.status !== "Read" && (
+                            {selectedMessage.status !== "Read" && (
 
                                 <button type="button" className="message-read-btn" onClick={()=>handleMarkAsRead(selectedMessage._id)}>
                                     Mark as Read

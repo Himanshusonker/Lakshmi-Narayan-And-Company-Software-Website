@@ -45,7 +45,7 @@ const Contact=()=>{
             setError("");
 
 
-            const response = await axios.post(`${import.meta.env.VITE_LAKSHMI_NARAYAN_AND_COMPANY_SW_W_API_URL}/contact`, formData);
+            const response = await axios.post(`${import.meta.env.VITE_LAKSHMI_NARAYAN_AND_COMPANY_SW_W_API_URL}/api/contact`, formData);
 
             if (response.data.success) {
 

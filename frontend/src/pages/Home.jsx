@@ -62,7 +62,7 @@ const Home=()=>{
         setContactSuccess("");
         setContactError("");
 
-        const response= await axios.post(`${import.meta.env.VITE_LAKSHMI_NARAYAN_AND_COMPANY_SW_W_API_URL}/contact`, contactForm);
+        const response= await axios.post(`${import.meta.env.VITE_LAKSHMI_NARAYAN_AND_COMPANY_SW_W_API_URL}/api/contact`, contactForm);
 
         if (response.data.success) {
 
@@ -188,7 +188,7 @@ const Home=()=>{
             </section>
 
 {/* ============================================================================================== */}
-            {/* ABOUT SECTION */}
+                                        {/* ABOUT SECTION */}
 {/* ============================================================================================== */}
 
             <section className="about-section">

@@ -15,7 +15,7 @@ router.post("/", createContactMessage);
 // ADMIN
 // ============================================================
 
-router.get("/", adminAuth, getContactMessages);
+router.get("/", getContactMessages);
 
 router.put("/:id", adminAuth, updateContactStatus);
 
