@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Home=()=>{
@@ -218,7 +219,7 @@ const Home=()=>{
             </section>
 
 {/* ============================================================================================== */}
-            {/* SERVICES */}
+                                            {/* SERVICES */}    
 {/* ============================================================================================== */}
 
             <section className="services-section">
@@ -251,9 +252,9 @@ const Home=()=>{
                                     {service.description}
                                 </p>
 
-                                <a href={service.link} >
+                                <Link to={service.link}>
                                     Learn More →
-                                </a>
+                                </Link>
                             </div>
                         )
                     )}
