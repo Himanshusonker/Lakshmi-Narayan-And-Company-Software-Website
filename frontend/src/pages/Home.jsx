@@ -444,20 +444,14 @@ const Home=()=>{
                 </div>
             </section>
 
-        </div>
-    );
-
 
 {/* ======================================== CONTACT FORM ======================================= */}
 
         <section className="home-contact-section">
             <div className="home-contact-container">
 
-
-                                        {/* LEFT CONTENT */}
-
                 <div className="home-contact-content">
-                
+
                     <span className="home-contact-small-title">
                         GET IN TOUCH
                     </span>
@@ -495,8 +489,6 @@ const Home=()=>{
                 </div>
 
 
-                                        {/* CONTACT FORM */}
-
                 <div className="home-contact-form">
 
                     <form onSubmit={handleContactSubmit}>
@@ -504,64 +496,40 @@ const Home=()=>{
                         <div className="home-form-row">
 
                             <div className="home-form-group">
-
-                                <label>
-                                    Name
-                                </label>
+                                <label>Name</label>
 
                                 <input type="text" name="name" value={contactForm.name} onChange={handleContactChange} placeholder="Enter your name" required/>
-
                             </div>
 
-
                             <div className="home-form-group">
-
-                                <label>
-                                    Email
-                                </label>
+                                <label>Email</label>
 
                                 <input type="email" name="email" value={contactForm.email} onChange={handleContactChange} placeholder="Enter your email" required/>
-
                             </div>
 
                         </div>
-
 
                         <div className="home-form-row">
 
                             <div className="home-form-group">
-
-                                <label>
-                                    Phone
-                                </label>
+                                <label>Phone</label>
 
                                 <input type="tel" name="phone" value={contactForm.phone} onChange={handleContactChange} placeholder="Enter your phone number" required/>
-
                             </div>
 
-
                             <div className="home-form-group">
-
-                                <label>
-                                    Subject
-                                </label>
+                                <label>Subject</label>
 
                                 <input type="text" name="subject" value={contactForm.subject} onChange={handleContactChange} placeholder="Project subject" required/>
-
                             </div>
 
                         </div>
 
-
                         <div className="home-form-group">
 
-                            <label>
-                                Your Requirement
-                            </label>
+                            <label>Your Requirement</label>
 
-                            <textarea name="message" value={contactForm.message} onChange={handleContactChange} rows="6" placeholder="Tell us about your project or requirement..." required>
-
-                            </textarea>
+                            <textarea name="message" value={contactForm.message} onChange={handleContactChange} rows="6" placeholder="Tell us about your project or requirement..." required/>
 
                         </div>
 
@@ -577,26 +545,23 @@ const Home=()=>{
                             </div>
                         )}
 
-
                         <button type="submit" className="home-contact-submit" disabled={contactSubmitting}>
 
                             {contactSubmitting ? "Sending..." : "Send Requirement" }
 
                             {!contactSubmitting && (
-                                        <span>
-                                            →
-                                        </span>
+                                <span>→</span>
                             )}
-
                         </button>
 
-          
                     </form>
 
                 </div>
 
             </div>
-
         </section>
+
+    </div>
+    );
 };
 export default Home;
