@@ -80,6 +80,7 @@ const handleWhatsAppWebhook = (req, res) => {
 
         const messages= body?.entry?.[0]?.changes?.[0]?.value?.messages;
 
+        
         if (messages && messages.length > 0) {
 
             messages.forEach((msg) => {
