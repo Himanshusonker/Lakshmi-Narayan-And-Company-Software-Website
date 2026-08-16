@@ -18,6 +18,13 @@ import "./css/Contact.css";
 import "./css/GetQuote.css";
 import "./css/AdminLeads.css";
 import "./css/AdminMessages.css";
+import "./css/blog.css";
+import "./css/faq.css";
+import "./css/blog-detail.css";
+import "./css/pricing.css";
+import "./css/technologies.css";
+import "./css/seo.css";
+import "./css/security.css";
 import store from './productStore.jsx';
 import { Provider } from "react-redux";
 ReactDOM.createRoot(document.getElementById('root')).render(

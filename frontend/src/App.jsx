@@ -16,6 +16,14 @@ import Contact from "./pages/Contact";
 import GetQuote from "./pages/GetQuote";
 import AdminLeads from "./admin/AdminLeads";
 import AdminMessages from "./admin/AdminMessages";
+import Blog from "./pages/Blog";
+import FAQ from "./pages/FAQ";
+import BlogDetail from "./pages/BlogDetail";
+import Pricing from "./pages/Pricing";
+import Technologies from "./pages/Technologies";
+import SEO from "./pages/SEO";
+import Security from "./pages/Security";
+
 
 
 
@@ -42,6 +50,13 @@ const App=()=>{
                 <Route path="/get-quote" element={<GetQuote/>}/>
                 <Route path="/admin/leads" element={<AdminLeads/>}/>
                 <Route path="/admin/messages" element={<AdminMessages/>}/>
+                <Route path="/blog" element={<Blog/>}/>
+                <Route path="/blog/:slug" element={<BlogDetail/>}/>
+                <Route path="/faq" element={<FAQ/>}/>
+                <Route path="/pricing" element={<Pricing/>}/>
+                <Route path="/technologies" element={<Technologies/>}/>
+                <Route path="/seo" element={<SEO/>}/>
+                <Route path="/security" element={<Security/>}/>
 
                 </Route>
             </Routes>

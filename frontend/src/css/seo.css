@@ -1,0 +1,284 @@
+.seo-page {
+  width: 100%;
+  overflow: hidden;
+  background: #ffffff;
+  color: #172033;
+}
+
+.seo-container {
+  width: min(1180px, 92%);
+  margin: auto;
+}
+
+/* HERO */
+
+.seo-hero {
+  min-height: 620px;
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  background:
+    linear-gradient(
+      120deg,
+      rgba(8, 18, 45, 0.96),
+      rgba(20, 55, 110, 0.88)
+    ),
+    url("https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?auto=format&fit=crop&w=1800&q=85");
+
+  background-size: cover;
+  background-position: center;
+}
+
+.seo-hero-content {
+  width: min(900px, 92%);
+  margin: auto;
+  position: relative;
+  z-index: 2;
+  color: white;
+}
+
+.seo-badge {
+  display: inline-block;
+  padding: 9px 18px;
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 30px;
+  font-size: 13px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.seo-hero h1 {
+  font-size: clamp(40px, 6vw, 72px);
+  line-height: 1.08;
+  margin: 0 0 25px;
+}
+
+.seo-hero h1 span {
+  display: block;
+  color: #62d5ff;
+}
+
+.seo-hero p {
+  max-width: 720px;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #e1e8f5;
+}
+
+.seo-hero-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 35px;
+  flex-wrap: wrap;
+}
+
+.seo-primary-btn,
+.seo-secondary-btn,
+.seo-cta-btn {
+  padding: 14px 26px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.seo-primary-btn {
+  background: #62d5ff;
+  color: #08152f;
+}
+
+.seo-secondary-btn {
+  border: 1px solid rgba(255,255,255,.4);
+  color: white;
+}
+
+/* SECTIONS */
+
+.seo-intro,
+.seo-services,
+.seo-process {
+  padding: 100px 0;
+}
+
+.seo-section-heading {
+  max-width: 780px;
+  margin-bottom: 55px;
+}
+
+.seo-section-heading.center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.seo-section-heading span {
+  color: #1688c9;
+  font-size: 13px;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+.seo-section-heading h2 {
+  font-size: clamp(32px, 4vw, 50px);
+  margin: 15px 0;
+  line-height: 1.2;
+}
+
+.seo-section-heading h2 strong {
+  color: #1688c9;
+}
+
+.seo-section-heading p {
+  color: #657084;
+  line-height: 1.8;
+}
+
+/* FEATURE */
+
+.seo-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.seo-feature-card {
+  padding: 32px 25px;
+  border-radius: 16px;
+  background: #f5f8fc;
+  border: 1px solid #e5ebf3;
+  transition: .3s;
+}
+
+.seo-feature-card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 18px 40px rgba(22, 50, 90, .1);
+}
+
+.seo-icon {
+  font-size: 35px;
+  margin-bottom: 20px;
+}
+
+.seo-feature-card h3 {
+  font-size: 20px;
+}
+
+.seo-feature-card p,
+.seo-service-card p,
+.seo-process-card p {
+  color: #687386;
+  line-height: 1.7;
+}
+
+/* SERVICES */
+
+.seo-services {
+  background: #f6f9fd;
+}
+
+.seo-services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.seo-service-card {
+  background: white;
+  padding: 35px;
+  border-radius: 16px;
+  border: 1px solid #e6edf5;
+}
+
+.seo-service-card > span {
+  color: #1688c9;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.seo-service-card h3 {
+  margin-top: 15px;
+}
+
+/* PROCESS */
+
+.seo-process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.seo-process-card {
+  text-align: center;
+  padding: 25px;
+}
+
+.seo-process-card > div {
+  width: 65px;
+  height: 65px;
+  display: grid;
+  place-items: center;
+  margin: auto;
+  border-radius: 50%;
+  background: #e9f7ff;
+  color: #1688c9;
+  font-weight: 800;
+}
+
+/* CTA */
+
+.seo-cta {
+  padding: 90px 0;
+  background: #091a36;
+  color: white;
+  text-align: center;
+}
+
+.seo-cta h2 {
+  font-size: clamp(32px, 4vw, 52px);
+}
+
+.seo-cta h2 span {
+  color: #62d5ff;
+}
+
+.seo-cta p {
+  color: #c8d4e8;
+  margin-bottom: 30px;
+}
+
+.seo-cta-btn {
+  display: inline-block;
+  background: #62d5ff;
+  color: #07152c;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+  .seo-feature-grid,
+  .seo-process-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .seo-services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .seo-hero {
+    min-height: 560px;
+  }
+
+  .seo-feature-grid,
+  .seo-services-grid,
+  .seo-process-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .seo-intro,
+  .seo-services,
+  .seo-process {
+    padding: 70px 0;
+  }
+}
