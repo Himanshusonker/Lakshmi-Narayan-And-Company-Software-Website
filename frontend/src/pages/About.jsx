@@ -128,7 +128,7 @@ const About=()=>{
 
                         {aboutData.hero?.image && (
 
-                            <img src={aboutData.hero.image} alt="Lakshmi Narayan And Company" />
+                            <img src={aboutData.hero.image} alt="Lakshmi Narayan And Company" loading="eager" decoding="async" />
                         )}
 
                     </div>
@@ -143,7 +143,7 @@ const About=()=>{
 
                         {aboutData.company?.image && (
 
-                            <img src={aboutData.company.image} alt="Our Company" />
+                            <img src={aboutData.company.image} alt="Our Company" loading="lazy" decoding="async" />
 
                         )}
 
