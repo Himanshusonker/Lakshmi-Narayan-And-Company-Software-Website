@@ -25,6 +25,7 @@ import "./css/pricing.css";
 import "./css/technologies.css";
 import "./css/seo.css";
 import "./css/security.css";
+import "./css/LegalPages.css";
 import store from './productStore.jsx';
 import { Provider } from "react-redux";
 ReactDOM.createRoot(document.getElementById('root')).render(

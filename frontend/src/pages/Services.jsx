@@ -20,7 +20,7 @@ const Services = () => {
             setLoading(true);
             setError("");
 
-            const response= await axios.get(`${import.meta.env.VITE_LAKSHMI_NARAYAN_AND_COMPANY_SW_W_API_URL}/services`);
+            const response= await axios.get(`${import.meta.env.VITE_LAKSHMI_NARAYAN_AND_COMPANY_SW_W_API_URL}/api/services`);
 
             if (response.data.success) {
 

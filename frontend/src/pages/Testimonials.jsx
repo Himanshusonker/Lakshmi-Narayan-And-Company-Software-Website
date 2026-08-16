@@ -20,7 +20,7 @@ const Testimonials = () => {
             setLoading(true);
             setError("");
 
-            const response = await axios.get(`${import.meta.env.VITE_LAKSHMI_NARAYAN_AND_COMPANY_SW_W_API_URL}/testimonials`);
+            const response = await axios.get(`${import.meta.env.VITE_LAKSHMI_NARAYAN_AND_COMPANY_SW_W_API_URL}/api/testimonials`);
 
             if (response.data.success) {
 

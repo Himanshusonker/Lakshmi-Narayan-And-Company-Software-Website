@@ -44,15 +44,15 @@ const PORT=process.env.PORT       ||       7070
 
 app.use("/home", HomeRouter);
 
-app.use("/services", serviceRouter);
+app.use("/api/services", serviceRouter);
 
 app.use("/admin", adminRouter);
 
-app.use("/about", aboutRouter);
+app.use("/api/about", aboutRouter);
 
-app.use("/projects", projectRouter);
+app.use("/api/projects", projectRouter);
 
-app.use("/testimonials", testimonialRoutes);
+app.use("/api/testimonials", testimonialRoutes);
 
 app.use("/api/contact", contactRouter);
 

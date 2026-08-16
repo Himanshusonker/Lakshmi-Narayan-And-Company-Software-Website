@@ -19,7 +19,7 @@ const Projects=()=>{
             setLoading(true);
             setError("");
 
-            const response= await axios.get(`${import.meta.env.VITE_LAKSHMI_NARAYAN_AND_COMPANY_SW_W_API_URL}/projects`);
+            const response= await axios.get(`${import.meta.env.VITE_LAKSHMI_NARAYAN_AND_COMPANY_SW_W_API_URL}/api/projects`);
 
             if (response.data.success) {
 

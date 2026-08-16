@@ -23,6 +23,8 @@ import Pricing from "./pages/Pricing";
 import Technologies from "./pages/Technologies";
 import SEO from "./pages/SEO";
 import Security from "./pages/Security";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Terms from "./pages/Terms";
 
 
 
@@ -57,6 +59,8 @@ const App=()=>{
                 <Route path="/technologies" element={<Technologies/>}/>
                 <Route path="/seo" element={<SEO/>}/>
                 <Route path="/security" element={<Security/>}/>
+                <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
+                <Route path="/terms" element={<Terms/>}/>
 
                 </Route>
             </Routes>
