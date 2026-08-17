@@ -22,7 +22,7 @@ const ServiceDetail = () => {
             setLoading(true);
             setError("");
 
-            const response= await axios.get(`${import.meta.env.VITE_LAKSHMI_NARAYAN_AND_COMPANY_SW_W_API_URL}/services/${slug}`);
+            const response= await axios.get(`${import.meta.env.VITE_LAKSHMI_NARAYAN_AND_COMPANY_SW_W_API_URL}/api/services/${slug}`);
 
             if (response.data.success) {
 
