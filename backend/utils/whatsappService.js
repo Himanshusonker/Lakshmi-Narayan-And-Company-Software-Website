@@ -34,18 +34,19 @@ const sendWhatsAppMessage=async({to, message})=>{
             }
         );
 
-        // console.log("WhatsApp Message Sent:", response.data);
+        console.log("WhatsApp Response Status:", response.status);
+        console.log("WhatsApp Message Sent:", response.data);
 
         return {success: true, data: response.data};
 
     } catch (error) {
 
+        console.log("WhatsApp API Status:", error.response?.status);
         console.log("WhatsApp API Error:", error.response?.data || error.message);
-
-        // console.log("WhatsApp API Error:", {
-        //     status: error.response?.status,
-        //     data: error.response?.data
-        // });
+        console.log("WhatsApp API Error:", {
+            status: error.response?.status,
+            data: error.response?.data
+        });
 
   
         return {success: false, error: error.response?.data || error.message};
