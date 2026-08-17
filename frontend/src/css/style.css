@@ -602,6 +602,11 @@ main {
 
     }
 
+    .mobile-cta span:last-child{
+
+        margin-top: -2px;
+    }
+
 }
 
 
