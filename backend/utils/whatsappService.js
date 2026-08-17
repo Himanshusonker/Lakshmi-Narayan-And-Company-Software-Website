@@ -4,12 +4,12 @@ const sendWhatsAppMessage=async({to, message})=>{
 
     try {
 
-        // console.log("WhatsApp Debug:", {
-        // apiVersion: process.env.WHATSAPP_API_VERSION,
-        // phoneNumberId: process.env.WHATSAPP_PHONE_NUMBER_ID,
-        // recipient: to,
-        // tokenPresent: Boolean(process.env.WHATSAPP_ACCESS_TOKEN)
-        // });
+        console.log("WhatsApp Debug:", {
+        apiVersion: process.env.WHATSAPP_API_VERSION,
+        phoneNumberId: process.env.WHATSAPP_PHONE_NUMBER_ID,
+        recipient: to,
+        tokenPresent: Boolean(process.env.WHATSAPP_ACCESS_TOKEN)
+        });
 
         const response = await axios.post(`https://graph.facebook.com/${process.env.WHATSAPP_API_VERSION}/${process.env.WHATSAPP_PHONE_NUMBER_ID}/messages`,
             {
