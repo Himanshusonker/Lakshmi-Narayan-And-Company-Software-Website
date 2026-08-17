@@ -158,6 +158,30 @@ const Navbar=()=>{
 
                 </NavLink>
 
+                <NavLink to="/blog" onClick={closeMenu} className={({ isActive })=> isActive ? "mobile-nav-link active": "mobile-nav-link"}>
+
+                    <span>
+                        Blog
+                    </span>
+
+                    <span>
+                        →
+                    </span>
+
+                </NavLink>
+
+                <NavLink to="/faq" onClick={closeMenu} className={({ isActive })=> isActive ? "mobile-nav-link active": "mobile-nav-link"}>
+
+                    <span>
+                        FAQ
+                    </span>
+
+                    <span>
+                        →
+                    </span>
+
+                </NavLink>
+
                 <NavLink to="/contact" onClick={closeMenu} className={({ isActive })=> isActive ? "mobile-nav-link active": "mobile-nav-link"}>
 
                     <span>
