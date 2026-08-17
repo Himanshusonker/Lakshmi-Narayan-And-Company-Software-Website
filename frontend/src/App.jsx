@@ -25,7 +25,7 @@ import SEO from "./pages/SEO";
 import Security from "./pages/Security";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Terms from "./pages/Terms";
-
+import WhatsAppButton from "./component/WhatsAppButton";
 
 
 
@@ -64,6 +64,7 @@ const App=()=>{
 
                 </Route>
             </Routes>
+            <WhatsAppButton />
         </BrowserRouter>
     </>
   );
