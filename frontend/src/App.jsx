@@ -26,6 +26,8 @@ import Security from "./pages/Security";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Terms from "./pages/Terms";
 import WhatsAppButton from "./component/WhatsAppButton";
+import ClientRegister from "./pages/ClientRegister";
+import ClientLogin from "./pages/ClientLogin";
 
 
 
@@ -61,6 +63,8 @@ const App=()=>{
                 <Route path="/security" element={<Security/>}/>
                 <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
                 <Route path="/terms" element={<Terms/>}/>
+                <Route path="/client/register" element={<ClientRegister/>}/>
+                <Route path="/client/login" element={<ClientLogin/>}/>
 
                 </Route>
             </Routes>
