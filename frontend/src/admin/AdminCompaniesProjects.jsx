@@ -39,7 +39,7 @@ const AdminCompaniesProjects = () => {
 
         try {
 
-            const response =await adminAxios.get("/admin/projects");
+            const response =await adminAxios.get("/api/admin/projects");
 
             if (response.data.success) {
 
@@ -231,11 +231,11 @@ const AdminCompaniesProjects = () => {
 
             if (editingProject) {
 
-                response=await adminAxios.put(`/admin/projects/${editingProject._id}`, payload);
+                response=await adminAxios.put(`/api/admin/projects/${editingProject._id}`, payload);
 
             } else {
 
-                response =await adminAxios.post("/admin/projects", payload);
+                response =await adminAxios.post("/api/admin/projects", payload);
 
             }
 
@@ -272,7 +272,7 @@ const AdminCompaniesProjects = () => {
 
         try {
 
-            const response=await adminAxios.delete(`/admin/projects/${id}`);
+            const response=await adminAxios.delete(`/api/admin/projects/${id}`);
 
             if (response.data.success) 
             {
