@@ -11,7 +11,8 @@ const clientAuth=(req, res, next)=>{
         const authHeader= req.headers.authorization;
 
 
-        if (!authHeader) {
+        if (!authHeader) 
+        {
 
             return res.status(401).json({success: false, message: "Authorization token required"});
 
@@ -66,6 +67,23 @@ const clientAuth=(req, res, next)=>{
         // ------------------------------------------------------
 
         req.client = decoded;
+
+        // ======================================================
+        // CHECK COMPANY ID
+        // ======================================================
+
+        if (!req.client.companyId) {
+
+            return res.status(401).json({
+
+                success: false,
+
+                message:"Company information missing from token"
+
+            });
+
+        }
+
         next();
 
     } catch (error) {

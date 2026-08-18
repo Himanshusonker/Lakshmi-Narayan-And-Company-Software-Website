@@ -88,6 +88,7 @@ const clientRegister = async (req, res) => {
 
             client: {
                 id: client._id,
+                companyId: client._id,
                 companyName: client.companyName,
                 contactPerson: client.contactPerson,
                 email: client.email,
@@ -185,6 +186,7 @@ const clientLogin = async (req, res) => {
         const token= jwt.sign(
             {
                 clientId: client._id.toString(),
+                companyId: client._id.toString(),
                 email: client.email,
                 role: "client"
             },
@@ -205,6 +207,8 @@ const clientLogin = async (req, res) => {
             client: {
 
                 id: client._id,
+
+                companyId:client._id,
 
                 companyName: client.companyName,
 

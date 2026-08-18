@@ -77,7 +77,7 @@ const AdminDashboard=()=>{
                 <nav className="admin-navigation">
 
                     <p className="admin-menu-title">
-                        
+
                         MAIN MENU
 
                     </p>
@@ -142,6 +142,16 @@ const AdminDashboard=()=>{
 
                         Companies
 
+                    </Link>
+
+                    <Link to="/admin/companiesprojects" onClick={() => setSidebarOpen(false)}>
+                        
+                        <span>
+                            📁
+                        </span>
+    
+                        Projects
+                    
                     </Link>
 
                     <Link to="/admin/leads" onClick={() => setSidebarOpen(false)}>

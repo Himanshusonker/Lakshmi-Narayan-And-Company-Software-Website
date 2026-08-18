@@ -30,6 +30,8 @@ import "./css/WhatsAppButton.css";
 import "./css/ClientRegister.css";
 import "./css/ClientLogin.css";
 import "./css/AdminCompanies.css";
+import "./css/AdminCompaniesProjects.css";
+import "./css/ClientDashboard.css";
 import store from './productStore.jsx';
 import { Provider } from "react-redux";
 ReactDOM.createRoot(document.getElementById('root')).render(

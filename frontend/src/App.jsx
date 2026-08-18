@@ -29,6 +29,8 @@ import WhatsAppButton from "./component/WhatsAppButton";
 import ClientRegister from "./pages/ClientRegister";
 import ClientLogin from "./pages/ClientLogin";
 import AdminCompanies from "./admin/AdminCompanies";
+import AdminCompaniesProjects from "./admin/AdminCompaniesProjects";
+import ClientDashboard from "./pages/ClientDashboard";
 
 
 
@@ -67,6 +69,8 @@ const App=()=>{
                 <Route path="/client/register" element={<ClientRegister/>}/>
                 <Route path="/client/login" element={<ClientLogin/>}/>
                 <Route path="/admin/companies" element={<AdminCompanies/>}/>
+                <Route path="/admin/companiesprojects" element={<AdminCompaniesProjects/>}/>
+                <Route path="/client/dashboard" element={<ClientDashboard/>}/>
 
                 </Route>
             </Routes>

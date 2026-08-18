@@ -1,0 +1,352 @@
+.admin-projects-page {
+    padding: 30px;
+    min-height: 100vh;
+    background: #f5f7fb;
+}
+
+
+/* =========================================
+HEADER
+========================================= */
+
+.admin-projects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.admin-projects-header span {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.admin-projects-header h1 {
+    margin: 7px 0;
+    font-size: 30px;
+}
+
+.admin-projects-header p {
+    margin: 0;
+    color: #6b7280;
+}
+
+.admin-create-project-btn {
+    border: none;
+    background: #111827;
+    color: white;
+    padding: 13px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+
+/* =========================================
+SEARCH
+========================================= */
+
+.admin-project-search {
+    background: white;
+    padding: 18px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.admin-project-search input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    outline: none;
+}
+
+
+/* =========================================
+TABLE
+========================================= */
+
+.admin-project-table-wrapper {
+    background: white;
+    border-radius: 12px;
+    overflow-x: auto;
+}
+
+.admin-project-table {
+    width: 100%;
+    min-width: 1100px;
+    border-collapse: collapse;
+}
+
+.admin-project-table th {
+    background: #f8fafc;
+    padding: 15px;
+    text-align: left;
+    font-size: 13px;
+}
+
+.admin-project-table td {
+    padding: 15px;
+    border-top: 1px solid #edf0f4;
+    font-size: 13px;
+}
+
+.admin-project-table td small {
+    display: block;
+    margin-top: 4px;
+    color: #6b7280;
+}
+
+.admin-no-project {
+    text-align: center;
+    padding: 40px !important;
+    color: #6b7280;
+}
+
+
+/* =========================================
+PROGRESS
+========================================= */
+
+.project-progress {
+    width: 120px;
+}
+
+.project-progress > div:first-child {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.project-progress-bar {
+    height: 7px;
+    background: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.project-progress-bar div {
+    height: 100%;
+    background: #111827;
+}
+
+
+/* =========================================
+STATUS
+========================================= */
+
+.project-status {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.project-status.not-started {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.project-status.in-progress {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.project-status.on-hold {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.project-status.completed {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.project-status.cancelled {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+
+/* =========================================
+ACTIONS
+========================================= */
+
+.project-actions {
+    display: flex;
+    gap: 7px;
+}
+
+.project-actions button {
+    border: none;
+    padding: 7px 11px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.project-actions button:first-child {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.project-actions button:last-child {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+
+/* =========================================
+MODAL
+========================================= */
+
+.project-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 9999;
+}
+
+.project-modal {
+    width: 100%;
+    max-width: 850px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.project-modal-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.project-modal-header span {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.project-modal-header h2 {
+    margin: 5px 0 0;
+}
+
+.project-modal-header button {
+    border: none;
+    background: transparent;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+
+/* =========================================
+FORM
+========================================= */
+
+.project-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.project-form-grid label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.project-form-grid input,
+.project-form-grid select,
+.project-form-grid textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    outline: none;
+    font-size: 14px;
+}
+
+.project-form-full {
+    grid-column: 1 / -1;
+}
+
+
+/* =========================================
+MODAL ACTIONS
+========================================= */
+
+.project-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.project-modal-actions button {
+    border: none;
+    padding: 11px 18px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.project-modal-actions button:first-child {
+    background: #e5e7eb;
+}
+
+.project-modal-actions button:last-child {
+    background: #111827;
+    color: white;
+}
+
+
+/* =========================================
+LOADING
+========================================= */
+
+.admin-projects-loading {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+
+/* =========================================
+RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .admin-projects-page {
+        padding: 20px 15px;
+    }
+
+    .admin-projects-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .project-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .project-form-full {
+        grid-column: auto;
+    }
+
+}
