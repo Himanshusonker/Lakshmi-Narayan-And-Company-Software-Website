@@ -64,7 +64,7 @@ const AdminCompaniesProjects = () => {
 
         try {
 
-            const response =await adminAxios.get("/admin/companies");
+            const response =await adminAxios.get("/api/admin/companies");
 
             if (response.data.success) {
 
