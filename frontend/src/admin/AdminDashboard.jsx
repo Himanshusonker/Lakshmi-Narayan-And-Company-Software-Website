@@ -150,7 +150,7 @@ const AdminDashboard=()=>{
                             📁
                         </span>
     
-                        Projects
+                        Companies Projects
                     
                     </Link>
 
