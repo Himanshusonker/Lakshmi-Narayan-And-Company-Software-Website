@@ -77,7 +77,9 @@ const AdminDashboard=()=>{
                 <nav className="admin-navigation">
 
                     <p className="admin-menu-title">
+                        
                         MAIN MENU
+
                     </p>
 
                     <Link to="/admin/dashboard" onClick={()=> setSidebarOpen(false)}>
@@ -87,6 +89,7 @@ const AdminDashboard=()=>{
                         </span>
 
                         Dashboard
+
                     </Link>
 
 
@@ -97,6 +100,7 @@ const AdminDashboard=()=>{
                         </span>
 
                         Services
+
                     </Link>
 
                     <Link to="/admin/projects" onClick={()=> setSidebarOpen(false)}>
@@ -106,6 +110,7 @@ const AdminDashboard=()=>{
                         </span>
 
                         Projects
+
                     </Link>
 
 
@@ -116,6 +121,7 @@ const AdminDashboard=()=>{
                         </span>
 
                         Testimonials
+
                     </Link>
 
                     <Link to="/admin/home" onClick={()=> setSidebarOpen(false)}>
@@ -125,15 +131,17 @@ const AdminDashboard=()=>{
                         </span>
 
                         Home Page
+
                     </Link>
 
-                    <Link to="/admin/messages" onClick={()=> setSidebarOpen(false)}>
-
+                    <Link to="/admin/companies" onClick={() => setSidebarOpen(false)}>
+                
                         <span>
-                            ✉
+                            🏢
                         </span>
 
-                        Contact Messages
+                        Companies
+
                     </Link>
 
                     <Link to="/admin/leads" onClick={() => setSidebarOpen(false)}>
@@ -143,6 +151,16 @@ const AdminDashboard=()=>{
                         </span>
 
                         Get Quote Leads
+
+                    </Link>
+
+                    <Link to="/admin/messages" onClick={()=> setSidebarOpen(false)}>
+
+                        <span>
+                            ✉
+                        </span>
+
+                        Contact Messages
 
                     </Link>
 

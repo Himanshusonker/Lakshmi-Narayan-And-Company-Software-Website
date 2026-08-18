@@ -23,6 +23,8 @@ const whatsappRoute= require("./Routes/whatsappRoute");
 
 const clientAuthRouter= require("./Routes/clientAuthRouter");
 
+const adminCompanyRouter = require("./Routes/adminCompanyRouter");
+
 const cors=require('cors');
 const bodyparser=require('body-parser')
 app.use(bodyparser.urlencoded({extended:true}));
@@ -63,6 +65,8 @@ app.use("/api/whatsapp", whatsappRoute);
 app.use("/leads", leadRouter);
 
 app.use("/api/client-auth", clientAuthRouter);
+
+app.use("/api/admin/companies", adminCompanyRouter);
 
 app.get("/", (req, res) => {
     res.json({

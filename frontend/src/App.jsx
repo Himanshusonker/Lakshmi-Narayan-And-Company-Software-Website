@@ -28,6 +28,7 @@ import Terms from "./pages/Terms";
 import WhatsAppButton from "./component/WhatsAppButton";
 import ClientRegister from "./pages/ClientRegister";
 import ClientLogin from "./pages/ClientLogin";
+import AdminCompanies from "./admin/AdminCompanies";
 
 
 
@@ -65,6 +66,7 @@ const App=()=>{
                 <Route path="/terms" element={<Terms/>}/>
                 <Route path="/client/register" element={<ClientRegister/>}/>
                 <Route path="/client/login" element={<ClientLogin/>}/>
+                <Route path="/admin/companies" element={<AdminCompanies/>}/>
 
                 </Route>
             </Routes>
