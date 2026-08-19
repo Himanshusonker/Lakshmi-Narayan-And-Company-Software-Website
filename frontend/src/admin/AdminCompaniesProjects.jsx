@@ -247,6 +247,7 @@ const AdminCompaniesProjects = () => {
             );
 
         const cloudinaryResult= await cloudinaryResponse.json();
+        console.log("Cloudinary Result:", cloudinaryResult);
 
         if (!cloudinaryResult.secure_url) {
 
@@ -262,7 +263,9 @@ const AdminCompaniesProjects = () => {
                     name: documentName,
                     url: cloudinaryResult.secure_url,
                     originalName: documentFile.name,
-                    fileType: documentFile.type
+                    publicId: cloudinaryResult.public_id || "",
+                    fileType: documentFile.type,
+                    fileSize: documentFile.size || 0
                 }
             );
 
@@ -277,7 +280,10 @@ const AdminCompaniesProjects = () => {
                             name: documentName,
                             url: cloudinaryResult.secure_url,
                             originalName: documentFile.name,
-                            fileType: documentFile.type
+                            publicId: cloudinaryResult.public_id || "",
+                            fileType: documentFile.type,
+                            fileSize: documentFile.size || 0,
+                            uploadedAt: new Date()
                         }
                     ]
 
