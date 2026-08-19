@@ -360,11 +360,96 @@ const updateProjectProgress = async (req, res) => {
         return res.status(500).json({success: false, message: "Failed to update project progress"});
     }
 };
+
+
+// ======================================================
+// ADD PROJECT DOCUMENT
+// ======================================================
+
+const addProjectDocument = async (req, res) => {
+
+    try {
+
+        const {name, url, publicId, fileType, fileSize} = req.body;
+
+        if (!name || !url) {
+
+            return res.status(400).json({success: false, message: "Document name and URL are required"});
+
+        }
+
+
+        const project=await ClientProject.findById(req.params.id);
+
+        if (!project) {
+
+            return res.status(404).json({success: false, message: "Project not found"});
+
+        }
+
+        project.documents.push({name, url, publicId: publicId || "", fileType: fileType || "", fileSize: Number(fileSize) || 0, uploadedAt: new Date()});
+
+        await project.save();
+
+        return res.status(201).json({success: true, message: "Project document added successfully", project});
+
+    } catch (error) {
+
+        console.error("Add Project Document Error:", error);
+
+        return res.status(500).json({success: false, message: "Failed to add project document"});
+
+    }
+
+};
+
+
+// ======================================================
+// DELETE PROJECT DOCUMENT
+// ======================================================
+
+const deleteProjectDocument = async (req, res) => {
+
+    try {
+
+        const project= await ClientProject.findById(req.params.id);
+
+        if (!project) {
+
+            return res.status(404).json({success: false, message: "Project not found"});
+
+        }
+
+        const document=project.documents.id(req.params.documentId);
+
+        if (!document) {
+
+            return res.status(404).json({success: false, message: "Document not found"});
+
+        }
+
+        document.deleteOne();
+
+        await project.save();
+
+        return res.status(200).json({success: true, message: "Project document deleted successfully", project});
+
+    } catch (error) {
+
+        console.error("Delete Project Document Error:", error);
+
+        return res.status(500).json({success: false, message: "Failed to delete project document"});
+
+    }
+
+};
 module.exports={
             getAllProjects,
             getProjectById,
             createProject,
             updateProject,
             deleteProject,
-            updateProjectProgress
+            updateProjectProgress,
+            addProjectDocument,
+            deleteProjectDocument
 };

@@ -767,7 +767,7 @@ const ClientDashboard = () => {
 
                                         <div className="client-project-card-footer">
 
-                                            {
+                                            {/* {
                                                 project.projectUrl ? (
 
                                                     <a href={project.projectUrl} target="_blank" rel="noreferrer">
@@ -781,7 +781,11 @@ const ClientDashboard = () => {
                                                     </span>
 
                                                 )
-                                            }
+                                            } */}
+
+                                            <button type="button" onClick={()=>navigate(`/client/projects/${project._id}`)} className="client-view-project-btn">
+                                                View Project →
+                                            </button>
 
                                             <span>
 

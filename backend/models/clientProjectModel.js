@@ -1,5 +1,44 @@
 const mongoose = require("mongoose");
 
+const projectDocumentSchema = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+            required: true,
+            trim: true
+        },
+
+        url: {
+            type: String,
+            required: true,
+            trim: true
+        },
+
+        publicId: {
+            type: String,
+            default: ""
+        },
+
+        fileType: {
+            type: String,
+            default: ""
+        },
+
+        fileSize: {
+            type: Number,
+            default: 0
+        },
+
+        uploadedAt: {
+            type: Date,
+            default: Date.now
+        }
+    },
+    {
+        _id: true
+    }
+);
+
 const clientProjectSchema=new mongoose.Schema(
     {
         company: {
@@ -90,6 +129,15 @@ const clientProjectSchema=new mongoose.Schema(
             default: ""
         },
 
+        // ==================================================
+        // PROJECT DOCUMENTS
+        // ==================================================
+
+        documents: {
+            type: [projectDocumentSchema],
+            default: []
+        },
+
         isActive: {
             type: Boolean,
             default: true
@@ -108,7 +156,8 @@ clientProjectSchema.pre("save", function (next) {
 
     this.remainingPages = Math.max(
         0,
-        this.totalPages - this.completedPages
+        Number(this.totalPages || 0) - Number(this.completedPages || 0)
+        // this.totalPages - this.completedPages
     );
 
     next();

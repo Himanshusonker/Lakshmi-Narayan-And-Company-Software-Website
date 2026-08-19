@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const {getClientProjects, getClientProjectById}= require("../controllers/clientProjectController");
+const {getClientProjects, getClientProjectById, getClientProjectDocuments}= require("../controllers/clientProjectController");
 
 const clientAuth= require("../middleware/clientAuth");
 
@@ -17,5 +17,12 @@ router.get("/", clientAuth, getClientProjects);
 // ======================================================
 
 router.get("/:id", clientAuth, getClientProjectById);
+
+
+// ======================================================
+// PROJECT DOCUMENTS
+// ======================================================
+
+router.get("/projects/:id/documents", clientAuth, getClientProjectDocuments);
 
 module.exports=router;

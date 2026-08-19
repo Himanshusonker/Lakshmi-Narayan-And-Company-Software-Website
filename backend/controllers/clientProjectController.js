@@ -47,6 +47,12 @@ const getClientProjectById = async (req, res) => {
 
         const companyId=req.client.companyId;
 
+        if (!companyId) {
+
+            return res.status(400).json({success: false, message: "Company information not found"});
+
+        }
+
 // ==============================================
 // PROJECT + COMPANY ID BOTH CHECK
 // ==============================================
@@ -69,7 +75,74 @@ const getClientProjectById = async (req, res) => {
         return res.status(500).json({success: false, message:"Failed to fetch project"});
     }
 };
+
+
+// ======================================================
+// GET PROJECT DOCUMENTS
+// ======================================================
+
+const getClientProjectDocuments = async (req, res) => {
+
+    try {
+
+        const companyId = req.client.companyId;
+
+
+        const project = await ClientProject.findOne({
+
+            _id: req.params.id,
+
+            company: companyId,
+
+            isActive: true
+
+        });
+
+
+        if (!project) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                message: "Project not found or access denied"
+
+            });
+
+        }
+
+
+        return res.status(200).json({
+
+            success: true,
+
+            count: project.documents.length,
+
+            documents: project.documents
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Client Project Documents Error:",
+            error
+        );
+
+
+        return res.status(500).json({
+
+            success: false,
+
+            message: "Failed to fetch project documents"
+
+        });
+
+    }
+
+};
 module.exports={
             getClientProjects,
-            getClientProjectById
+            getClientProjectById,
+            getClientProjectDocuments
 };
