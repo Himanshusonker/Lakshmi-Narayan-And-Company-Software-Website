@@ -873,3 +873,244 @@
     }
 
 }
+
+
+/* =========================================================
+   CLIENT SERVICE / WORK REQUEST
+========================================================= */
+
+.client-work-request-section {
+    width: 100%;
+    margin: 30px 0;
+}
+
+.client-work-request-card {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding: 25px 28px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.client-work-request-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.09);
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.client-work-request-icon {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #111827;
+    color: #ffffff;
+
+    border-radius: 14px;
+
+    font-size: 30px;
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.client-work-request-content {
+    flex: 1;
+}
+
+.client-work-request-content span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+
+    color: #6b7280;
+}
+
+.client-work-request-content h2 {
+    margin: 0 0 6px;
+
+    font-size: 22px;
+    font-weight: 700;
+
+    color: #111827;
+}
+
+.client-work-request-content p {
+    margin: 0;
+
+    font-size: 14px;
+    line-height: 1.6;
+
+    color: #6b7280;
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.client-work-request-btn {
+    border: none;
+    outline: none;
+
+    padding: 13px 22px;
+
+    border-radius: 10px;
+
+    background: #111827;
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    transition: all 0.3s ease;
+}
+
+.client-work-request-btn:hover {
+    background: #000000;
+    transform: translateX(3px);
+}
+
+.client-work-request-btn:active {
+    transform: translateX(1px);
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .client-work-request-section {
+        margin: 25px 0;
+    }
+
+    .client-work-request-card {
+        padding: 22px;
+        gap: 18px;
+    }
+
+    .client-work-request-icon {
+        width: 50px;
+        height: 50px;
+        min-width: 50px;
+
+        font-size: 26px;
+    }
+
+    .client-work-request-content h2 {
+        font-size: 19px;
+    }
+
+    .client-work-request-content p {
+        font-size: 13px;
+    }
+
+    .client-work-request-btn {
+        padding: 11px 16px;
+        font-size: 13px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .client-work-request-section {
+        margin: 20px 0;
+    }
+
+    .client-work-request-card {
+        flex-direction: column;
+        align-items: flex-start;
+
+        padding: 22px 18px;
+
+        gap: 15px;
+    }
+
+    .client-work-request-icon {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+
+        border-radius: 12px;
+
+        font-size: 25px;
+    }
+
+    .client-work-request-content {
+        width: 100%;
+    }
+
+    .client-work-request-content span {
+        font-size: 10px;
+    }
+
+    .client-work-request-content h2 {
+        font-size: 18px;
+    }
+
+    .client-work-request-content p {
+        font-size: 13px;
+    }
+
+    .client-work-request-btn {
+        width: 100%;
+        text-align: center;
+
+        padding: 13px 16px;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .client-work-request-card {
+        padding: 18px 15px;
+    }
+
+    .client-work-request-content h2 {
+        font-size: 17px;
+    }
+
+    .client-work-request-content p {
+        font-size: 12px;
+    }
+
+    .client-work-request-btn {
+        font-size: 13px;
+    }
+}

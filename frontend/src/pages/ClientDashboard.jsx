@@ -482,6 +482,41 @@ const ClientDashboard = () => {
                 </section>
 
 
+{/* ======================================= SERVICE / WORK REQUEST ===================================== */}
+
+                    <section className="client-work-request-section">
+
+                        <div className="client-work-request-card">
+
+                            <div className="client-work-request-icon">
+                                +
+                            </div>
+
+                            <div className="client-work-request-content">
+
+                                <span>
+                                    CLIENT SERVICES
+                                </span>
+
+                                <h2>
+                                    Need a New Service?
+                                </h2>
+
+                                <p>
+                                    Submit a new requirement or request a service from our team.
+                                </p>
+
+                            </div>
+
+                            <button type="button" onClick={() => navigate("/client/work-request")} className="client-work-request-btn">
+                                New Service Request →
+                            </button>
+
+                        </div>
+
+                    </section>
+
+
 {/* ======================================= PROJECT SECTION ===================================== */}
 
                 <section className="client-project-section">

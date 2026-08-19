@@ -37,6 +37,8 @@ const ClientWorkRequest = () => {
 
             const response=await axios.get(`${API_URL}/api/services`);
 
+            console.log("SERVICES API RESPONSE:", response.data);
+
             if (response.data.success) {
 
                 setServices(response.data.services || []);
@@ -46,6 +48,7 @@ const ClientWorkRequest = () => {
         } catch (error) {
 
             console.error("Fetch Services Error:", error);
+            console.error("Services Error Response:", error.response?.data);
 
         }
 
