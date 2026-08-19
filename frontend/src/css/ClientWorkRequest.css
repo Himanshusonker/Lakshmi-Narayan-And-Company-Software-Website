@@ -1,0 +1,324 @@
+/* =========================================================
+   CLIENT WORK REQUEST
+========================================================= */
+
+.client-work-request-page {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 35px 25px 60px;
+    box-sizing: border-box;
+    background: #f7f8fc;
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.client-work-request-header {
+    margin-bottom: 30px;
+}
+
+.client-work-request-header span {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #6b7280;
+    margin-bottom: 8px;
+}
+
+.client-work-request-header h1 {
+    margin: 0 0 10px;
+    font-size: 34px;
+    line-height: 1.2;
+    font-weight: 800;
+    color: #111827;
+}
+
+.client-work-request-header p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.client-work-request-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.05);
+}
+
+.client-work-request-card h2 {
+    margin: 0 0 25px;
+    color: #111827;
+    font-size: 21px;
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.client-work-request-card form {
+    width: 100%;
+}
+
+.client-work-request-card .form-group {
+    margin-bottom: 22px;
+}
+
+.client-work-request-card .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #374151;
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.client-work-request-card input,
+.client-work-request-card select,
+.client-work-request-card textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #111827;
+    font-size: 14px;
+    padding: 12px 14px;
+    outline: none;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.client-work-request-card input,
+.client-work-request-card select {
+    min-height: 46px;
+}
+
+.client-work-request-card textarea {
+    resize: vertical;
+    min-height: 140px;
+    line-height: 1.6;
+}
+
+.client-work-request-card input:focus,
+.client-work-request-card select:focus,
+.client-work-request-card textarea:focus {
+    border-color: #111827;
+    box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
+}
+
+.client-work-request-card input::placeholder,
+.client-work-request-card textarea::placeholder {
+    color: #9ca3af;
+}
+
+
+/* =========================================================
+   FILE INPUT
+========================================================= */
+
+.client-work-request-card input[type="file"] {
+    padding: 9px;
+    cursor: pointer;
+    background: #f9fafb;
+}
+
+.client-work-request-card input[type="file"]::file-selector-button {
+    border: none;
+    background: #111827;
+    color: #ffffff;
+    padding: 8px 13px;
+    margin-right: 10px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.client-work-request-card .form-group small {
+    display: block;
+    margin-top: 7px;
+    color: #9ca3af;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
+
+.client-work-request-card form > button {
+    width: 100%;
+    min-height: 48px;
+    border: none;
+    border-radius: 9px;
+    background: #111827;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.client-work-request-card form > button:hover {
+    background: #000000;
+    transform: translateY(-1px);
+}
+
+.client-work-request-card form > button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+
+/* =========================================================
+   REQUEST HISTORY
+========================================================= */
+
+.work-request-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.work-request-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 18px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fafafa;
+    transition: all 0.2s ease;
+}
+
+.work-request-item:hover {
+    background: #ffffff;
+    border-color: #d1d5db;
+    box-shadow: 0 5px 15px rgba(15, 23, 42, 0.05);
+}
+
+.work-request-item > div {
+    min-width: 0;
+    flex: 1;
+}
+
+.work-request-item strong {
+    display: block;
+    color: #111827;
+    font-size: 15px;
+    margin-bottom: 7px;
+}
+
+.work-request-item p {
+    margin: 0 0 8px;
+    color: #6b7280;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.work-request-item small {
+    color: #9ca3af;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   CLIENT STATUS
+========================================================= */
+
+.work-request-status {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 95px;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    white-space: nowrap;
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.work-request-status.pending {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+.work-request-status.approved {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.work-request-status.in-progress {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.work-request-status.completed {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.work-request-status.rejected {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.work-request-status.cancelled {
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .client-work-request-page {
+        padding: 25px 15px 45px;
+    }
+
+    .client-work-request-header h1 {
+        font-size: 27px;
+    }
+
+    .client-work-request-card {
+        padding: 20px 16px;
+        border-radius: 12px;
+    }
+
+    .client-work-request-card h2 {
+        font-size: 19px;
+    }
+
+    .work-request-item {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .work-request-status {
+        align-self: flex-start;
+    }
+    
+}
