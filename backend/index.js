@@ -29,6 +29,10 @@ const adminProjectRouter= require("./Routes/adminProjectRouter");
 
 const clientProjectRouter= require("./Routes/clientProjectRouter");
 
+const clientWorkRequestRouter=require("./Routes/clientWorkRequestRouter");
+
+const adminWorkRequestRouter=require("./Routes/adminWorkRequestRouter");
+
 const cors=require('cors');
 const bodyparser=require('body-parser')
 app.use(bodyparser.urlencoded({extended:true}));
@@ -75,6 +79,10 @@ app.use("/api/admin/companies", adminCompanyRouter);
 app.use("/api/admin/projects", adminProjectRouter);
 
 app.use("/api/client/projects", clientProjectRouter);
+
+app.use("/api/client/work-requests", clientWorkRequestRouter);
+
+app.use("/api/admin/work-requests", adminWorkRequestRouter);
 
 app.get("/", (req, res) => {
     res.json({

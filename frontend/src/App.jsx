@@ -32,6 +32,9 @@ import AdminCompanies from "./admin/AdminCompanies";
 import AdminCompaniesProjects from "./admin/AdminCompaniesProjects";
 import ClientDashboard from "./pages/ClientDashboard";
 import ClientProjectDetails from "./pages/ClientProjectDetails";
+import AdminWorkRequests from "./admin/AdminWorkRequests";
+import ClientWorkRequest from "./pages/ClientWorkRequest";
+
 
 
 
@@ -73,6 +76,8 @@ const App=()=>{
                 <Route path="/admin/companiesprojects" element={<AdminCompaniesProjects/>}/>
                 <Route path="/client/dashboard" element={<ClientDashboard/>}/>
                 <Route path="/client/projects/:id" element={<ClientProjectDetails/>}/>
+                <Route path="/admin/work-requests" element={<AdminWorkRequests/>}/>
+                <Route path="/client/work-requests" element={<ClientWorkRequest/>}/>                
 
                 </Route>
             </Routes>

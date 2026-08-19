@@ -154,6 +154,16 @@ const AdminDashboard=()=>{
                     
                     </Link>
 
+                    <Link to="/admin/work-requests" onClick={() => setSidebarOpen(false)}> 
+     
+                        <span> 
+                            📝 
+                        </span> 
+ 
+                        Service Requests 
+     
+                    </Link>
+
                     <Link to="/admin/leads" onClick={() => setSidebarOpen(false)}>
 
                         <span>
