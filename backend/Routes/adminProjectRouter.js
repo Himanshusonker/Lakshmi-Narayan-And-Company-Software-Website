@@ -52,13 +52,13 @@ router.patch("/:id/progress", adminAuth, updateProjectProgress);
 // ADD PROJECT DOCUMENT
 // ======================================================
 
-router.post("/projects/:id/documents", adminAuth, addProjectDocument);
+router.post("/:id/documents", adminAuth, addProjectDocument);
 
 
 // ======================================================
 // DELETE PROJECT DOCUMENT
 // ======================================================
 
-router.delete("/projects/:id/documents/:documentId", adminAuth, deleteProjectDocument);
+router.delete("/:id/documents/:documentId", adminAuth, deleteProjectDocument);
 
 module.exports=router;

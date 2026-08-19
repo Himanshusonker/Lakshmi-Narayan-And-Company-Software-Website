@@ -8,6 +8,11 @@ const projectDocumentSchema = new mongoose.Schema(
             trim: true
         },
 
+        originalName: {
+            type: String,
+            default: ""
+        },
+
         url: {
             type: String,
             required: true,

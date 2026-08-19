@@ -370,7 +370,7 @@ const addProjectDocument = async (req, res) => {
 
     try {
 
-        const {name, url, publicId, fileType, fileSize} = req.body;
+        const {name, url, publicId, originalName, fileType, fileSize} = req.body;
 
         if (!name || !url) {
 
@@ -387,7 +387,7 @@ const addProjectDocument = async (req, res) => {
 
         }
 
-        project.documents.push({name, url, publicId: publicId || "", fileType: fileType || "", fileSize: Number(fileSize) || 0, uploadedAt: new Date()});
+        project.documents.push({name, url, publicId: publicId || "", originalName: originalName || "", fileType: fileType || "", fileSize: Number(fileSize) || 0, uploadedAt: new Date()});
 
         await project.save();
 
