@@ -217,7 +217,7 @@ const ClientWorkRequest = () => {
 
                 setAttachment(null);
 
-                const fileInput= document.getElementById("workRequestAttachment") ?.value = "";
+                const fileInput = document.getElementById("workRequestAttachment");
 
                 if (fileInput) {
                     fileInput.value = "";
