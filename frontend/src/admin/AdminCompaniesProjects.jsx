@@ -24,12 +24,15 @@ const AdminCompaniesProjects = () => {
         completedPages: 0,
         technologies: "",
         projectUrl: "",
-        notes: ""
+        notes: "",
+        documents: []
 
     };
 
     const [formData, setFormData] =useState(initialForm);
-
+    const [documentName, setDocumentName] = useState("");
+    const [documentFile, setDocumentFile] = useState(null);
+    const [uploadingDocument, setUploadingDocument] = useState(false);
 
     // ======================================================
     // GET PROJECTS
@@ -183,7 +186,9 @@ const AdminCompaniesProjects = () => {
 
             projectUrl:project.projectUrl || "",
 
-            notes:project.notes || ""
+            notes:project.notes || "",
+
+            documents: project.documents || []
 
         });
 
@@ -193,13 +198,169 @@ const AdminCompaniesProjects = () => {
 
 
     // ======================================================
+    // DOCUMENT UPLOAD
+    // ======================================================
+
+    const handleDocumentUpload = async () => {
+
+    try {
+
+        if (!editingProject?._id) {
+
+            alert("Please save the project first.");
+
+            return;
+        }
+
+        if (!documentName.trim()) {
+
+            alert("Please enter document name.");
+
+            return;
+        }
+
+        if (!documentFile) {
+
+            alert("Please select a document.");
+
+            return;
+        }
+
+        setUploadingDocument(true);
+
+
+        // ==========================================
+        // CLOUDINARY UPLOAD
+        // ==========================================
+
+        const cloudinaryData = new FormData();
+
+        cloudinaryData.append("file", documentFile);
+
+        cloudinaryData.append("upload_preset", import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
+
+        const cloudinaryResponse= await fetch(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/auto/upload`,
+                {
+                    method: "POST",
+                    body: cloudinaryData
+                }
+            );
+
+        const cloudinaryResult= await cloudinaryResponse.json();
+
+        if (!cloudinaryResult.secure_url) {
+
+            throw new Error("Cloudinary upload failed");
+        }
+
+        // ==========================================
+        // SAVE DOCUMENT IN PROJECT
+        // ==========================================
+
+        const response=await adminAxios.post(`/api/admin/projects/${editingProject._id}/documents`,
+                {
+                    name: documentName,
+                    url: cloudinaryResult.secure_url,
+                    originalName: documentFile.name,
+                    fileType: documentFile.type
+                }
+            );
+
+        if (response.data.success) {
+
+            alert("Document uploaded successfully.");
+
+            setFormData((prev) => ({...prev, documents:response.data.project?.documents ||
+                    [
+                        ...(prev.documents || []),
+                        {
+                            name: documentName,
+                            url: cloudinaryResult.secure_url,
+                            originalName: documentFile.name,
+                            fileType: documentFile.type
+                        }
+                    ]
+
+            }));
+
+
+            setDocumentName("");
+            setDocumentFile(null);
+
+            const fileInput= document.getElementById("projectDocumentInput");
+
+            if (fileInput) {
+
+                fileInput.value = "";
+
+            }
+
+        }
+
+    } catch (error) {
+
+        console.error("Document Upload Error:", error);
+
+        alert(error.response?.data?.message || error.message || "Document upload failed.");
+
+    } finally {
+
+        setUploadingDocument(false);
+
+    }
+
+};
+
+
+    // ======================================================
+    // DELETE UPLOAD DOCUMENT
+    // ======================================================
+
+
+    const handleDeleteDocument=async(documentId, index)=>{
+
+    try {
+
+        if (!editingProject?._id) {
+
+            return;
+        }
+
+        const confirmDelete=window.confirm("Are you sure you want to delete this document?");
+
+        if (!confirmDelete) {
+
+            return;
+        }
+
+        const response=await adminAxios.delete(`/api/admin/projects/${editingProject._id}/documents/${documentId}`);
+
+        if (response.data.success) {
+
+            setFormData((prev) => ({...prev, documents:response.data.project?.documents || prev.documents.filter((_, i) => i !== index)}));
+
+            alert("Document deleted successfully.");
+
+        }
+
+    } catch (error) {
+
+        console.error("Delete Document Error:", error);
+
+        alert(error.response?.data?.message || "Failed to delete document");
+
+    }
+
+};
+
+
+    // ======================================================
     // SAVE PROJECT
     // ======================================================
 
-    const handleSubmit = async (e) => {
+    const handleSubmit=async(e)=>{
 
         e.preventDefault();
-
 
         if (Number(formData.progress) < 0 || Number(formData.progress) > 100) 
         {
@@ -209,10 +370,9 @@ const AdminCompaniesProjects = () => {
             return;
         }
 
-
         try {
 
-            const payload = {
+            const payload={
 
                 ...formData,
 
@@ -225,7 +385,6 @@ const AdminCompaniesProjects = () => {
                 technologies:formData.technologies.split(",").map((item) =>item.trim()).filter(Boolean)
 
             };
-
 
             let response;
 
@@ -264,7 +423,7 @@ const AdminCompaniesProjects = () => {
     // DELETE
     // ======================================================
 
-    const handleDelete = async (id) => {
+    const handleDelete=async(id) => {
 
         const confirmDelete =window.confirm("Are you sure you want to delete this project?");
 
@@ -415,8 +574,7 @@ const AdminCompaniesProjects = () => {
 
                         ) : (
 
-                            filteredProjects.map(
-                                (project, index) => (
+                            filteredProjects.map((project, index)=>(
 
                                     <tr key={project._id}>
 
@@ -755,6 +913,107 @@ const AdminCompaniesProjects = () => {
                                     <textarea name="notes" value={formData.notes} onChange={handleChange} rows="3"/>
 
                                 </div>
+
+
+                                
+                                    {/* PROJECT DOCUMENTS */}
+
+
+                        {editingProject && (
+
+                            <div className="project-form-full">
+
+                                <div style={{marginTop: "20px", padding: "20px", border: "1px solid #ddd", borderRadius: "10px"}}>
+
+                                    <h3>
+                                        Project Documents
+                                    </h3>
+
+                                    <p>
+                                        Upload documents related to this project.
+                                    </p>
+
+
+                                    {/* DOCUMENT NAME */}
+
+                                    <div style={{ marginBottom: "15px" }}>
+
+                                        <label>
+                                            Document Name
+                                        </label>
+
+                                        <input type="text" placeholder="Project Report / Invoice / Agreement" value={documentName} onChange={(e) => setDocumentName(e.target.value)}/>
+
+                                    </div>
+
+
+                                    {/* FILE */}
+
+                                    <div style={{ marginBottom: "15px" }}>
+
+                                        <label>
+                                            Select Document
+                                        </label>
+
+                                        <input id="projectDocumentInput" type="file" className="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" onChange={(e)=>setDocumentFile(e.target.files[0])}/>
+
+                                    </div>
+
+
+                                    {/* UPLOAD BUTTON */}
+
+                                    <button type="button" onClick={handleDocumentUpload} disabled={uploadingDocument}>
+
+                                        {uploadingDocument ? "Uploading...": "Upload Document"}
+
+                                    </button>
+
+
+                                    {/* EXISTING DOCUMENTS */}
+
+                                    {formData.documents?.length > 0 && (
+
+                                        <div style={{ marginTop: "20px" }}>
+
+                                            <h4>
+                                                Uploaded Documents
+                                            </h4>
+
+                                            {formData.documents.map((doc, index)=>(
+
+                                                    <div key={doc._id || index} style={{display: "flex", justifyContent:"space-between", alignItems:"center", padding: "10px", marginBottom:"8px", border:"1px solid #ddd", borderRadius:"6px"}}>
+
+                                                        <div>
+
+                                                            <strong>
+                                                                {doc.name || doc.originalName || "Document"}
+                                                            </strong>
+
+                                                            <br />
+
+                                                            <a href={doc.url} target="_blank" rel="noopener noreferrer">
+                                                                View Document
+                                                            </a>
+
+                                                        </div>
+
+                                                        <button type="button" onClick={()=>handleDeleteDocument(doc._id, index)}>
+                                                            Delete
+                                                        </button>
+
+                                                    </div>
+                                                )
+                                            )}
+
+                                        </div>
+
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                        )}
 
                             </div>
 
