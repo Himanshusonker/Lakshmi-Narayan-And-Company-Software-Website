@@ -497,7 +497,7 @@ const deleteProjectDocument = async (req, res) => {
 
             if (!resourceType) {
 
-                if (document.fileType === "application/pdf" || document.fileType?.startsWith("image/")) {
+                if (document.fileType?.startsWith("image/")) {
 
                     resourceType = "image";
 
