@@ -241,16 +241,48 @@ const AdminCompaniesProjects = () => {
 
         // PDF / DOC / DOCX / XLS / XLSX => raw
         // JPG / PNG => image
-        const isImage = documentFile.type.startsWith("image/");
+        // const isImage = documentFile.type.startsWith("image/");
 
-        const resourceType = isImage ? "image" : "raw";
+        // const resourceType = isImage ? "image" : "raw";
 
-        const cloudinaryResponse= await fetch(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`,
-                {
-                    method: "POST",
-                    body: cloudinaryData
-                }
-            );
+        // const cloudinaryResponse= await fetch(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`,
+        //         {
+        //             method: "POST",
+        //             body: cloudinaryData
+        //         }
+        //     );
+
+
+        // ==========================================
+        // DETERMINE CLOUDINARY RESOURCE TYPE
+        // ==========================================
+
+        const fileType = documentFile.type;
+
+        let resourceType = "raw";
+
+        // PDF + Images => image
+        if (fileType === "application/pdf" || fileType.startsWith("image/")) {
+            resourceType = "image";
+        }
+
+        // DOC / DOCX / XLS / XLSX => raw
+
+        console.log("Selected File:", documentFile.name);
+        console.log("File Type:", fileType);
+        console.log("Cloudinary Resource Type:", resourceType);
+
+        // ==========================================
+        // CLOUDINARY UPLOAD
+        // ==========================================
+
+        const cloudinaryResponse = await fetch(
+            `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`,
+            {
+                method: "POST",
+                body: cloudinaryData
+            }
+        );
 
         const cloudinaryResult= await cloudinaryResponse.json();
         console.log("Cloudinary Result:", cloudinaryResult);
