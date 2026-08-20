@@ -350,3 +350,212 @@ RESPONSIVE
     }
 
 }
+
+
+/* =========================================================
+   PROJECT DOCUMENTS SECTION
+========================================================= */
+
+.project-form-full > div[style] {
+    background: #fafafa;
+    border: 1px solid #e2e5e9 !important;
+    border-radius: 12px !important;
+    padding: 22px !important;
+}
+
+.project-form-full > div[style] h3 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.project-form-full > div[style] p {
+    margin: 0 0 20px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   DOCUMENT NAME + FILE LABEL
+========================================================= */
+
+.project-form-full > div[style] label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+}
+
+
+/* =========================================================
+   DOCUMENT NAME INPUT
+========================================================= */
+
+.project-form-full > div[style] input[type="text"] {
+    width: 100%;
+    height: 44px;
+    padding: 0 13px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #111827;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.project-form-full > div[style] input[type="text"]:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+
+/* =========================================================
+   CHOOSE FILE
+========================================================= */
+
+.project-form-full > div[style] input[type="file"] {
+    width: 100%;
+    min-height: 44px;
+    padding: 6px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #4b5563;
+    font-size: 14px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+
+/* Chrome / Edge / Safari */
+
+.project-form-full > div[style] input[type="file"]::file-selector-button {
+    margin-right: 12px;
+    padding: 9px 16px;
+    border: none;
+    border-radius: 7px;
+    background: #eef2ff;
+    color: #3730a3;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.project-form-full > div[style] input[type="file"]::file-selector-button:hover {
+    background: #e0e7ff;
+}
+
+
+/* =========================================================
+   UPLOAD DOCUMENT BUTTON
+========================================================= */
+
+.project-form-full > div[style] > button {
+    min-width: 160px;
+    height: 42px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.project-form-full > div[style] > button:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+.project-form-full > div[style] > button:active {
+    transform: translateY(0);
+}
+
+.project-form-full > div[style] > button:disabled {
+    background: #93c5fd;
+    cursor: not-allowed;
+    transform: none;
+}
+
+
+/* =========================================================
+   UPLOADED DOCUMENTS
+========================================================= */
+
+.project-form-full > div[style] h4 {
+    margin: 0 0 12px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #374151;
+}
+
+.project-form-full > div[style] a {
+    display: inline-block;
+    margin-top: 4px;
+    color: #2563eb;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.project-form-full > div[style] a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   DOCUMENT ITEM DELETE BUTTON
+========================================================= */
+
+.project-form-full > div[style] div[style*="justify-content"] button {
+    padding: 7px 13px;
+    border: 1px solid #fecaca;
+    border-radius: 7px;
+    background: #fef2f2;
+    color: #dc2626;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.project-form-full > div[style] div[style*="justify-content"] button:hover {
+    background: #fee2e2;
+    border-color: #fca5a5;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .project-form-full > div[style] {
+        padding: 16px !important;
+    }
+
+    .project-form-full > div[style] input[type="file"] {
+        min-height: auto;
+        padding: 8px;
+    }
+
+    .project-form-full > div[style] input[type="file"]::file-selector-button {
+        margin-right: 8px;
+        padding: 8px 11px;
+        font-size: 12px;
+    }
+
+    .project-form-full > div[style] > button {
+        width: 100%;
+    }
+
+}

@@ -239,7 +239,13 @@ const AdminCompaniesProjects = () => {
 
         cloudinaryData.append("upload_preset", import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
 
-        const cloudinaryResponse= await fetch(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/auto/upload`,
+        // PDF / DOC / DOCX / XLS / XLSX => raw
+        // JPG / PNG => image
+        const isImage = documentFile.type.startsWith("image/");
+
+        const resourceType = isImage ? "image" : "raw";
+
+        const cloudinaryResponse= await fetch(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`,
                 {
                     method: "POST",
                     body: cloudinaryData
@@ -249,9 +255,11 @@ const AdminCompaniesProjects = () => {
         const cloudinaryResult= await cloudinaryResponse.json();
         console.log("Cloudinary Result:", cloudinaryResult);
 
-        if (!cloudinaryResult.secure_url) {
+        if (!cloudinaryResponse.ok || !cloudinaryResult.secure_url) {
+            
+            console.error("Cloudinary Upload Error:", cloudinaryResult);
 
-            throw new Error("Cloudinary upload failed");
+            throw new Error(cloudinaryResult.error?.message || "Cloudinary upload failed");
         }
 
         // ==========================================
