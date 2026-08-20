@@ -13,6 +13,7 @@ const AdminServices = () => {
 
         title: "",
         slug: "",
+        category: "",
         shortDescription: "",
         description: "",
         icon: "",
@@ -36,7 +37,7 @@ const AdminServices = () => {
 
             setLoading(true);
 
-            const response = await adminAxios.get(`/services`);
+            const response = await adminAxios.get(`/api/services`);
 
             if (response.data.success) {
 
@@ -90,29 +91,23 @@ const AdminServices = () => {
 
                 slug: formData.slug,
 
-                shortDescription:
-                    formData.shortDescription,
+                category: formData.category,
 
-                description:
-                    formData.description,
+                shortDescription:formData.shortDescription,
 
-                icon:
-                    formData.icon,
+                description:formData.description,
 
-                image:
-                    formData.image,
+                icon:formData.icon,
 
-                features:
-                    formData.features.split("\n").map(item => item.trim()).filter(Boolean),
+                image:formData.image,
 
-                technologies:
-                    formData.technologies.split(",").map(item => item.trim()).filter(Boolean),
+                features:formData.features.split("\n").map(item => item.trim()).filter(Boolean),
 
-                benefits:
-                    formData.benefits.split("\n").map(item => item.trim()).filter(Boolean),
+                technologies:formData.technologies.split(",").map(item => item.trim()).filter(Boolean),
 
-                process:
-                    formData.process.split("\n").map(item => {
+                benefits:formData.benefits.split("\n").map(item => item.trim()).filter(Boolean),
+
+                process:formData.process.split("\n").map(item => {
 
                 const [step, description]=item.split("|");
 
@@ -122,14 +117,11 @@ const AdminServices = () => {
                 };
                 }).filter(item =>item.step && item.description),
 
-                buttonText:
-                    formData.buttonText,
+                buttonText:formData.buttonText,
 
-                buttonLink:
-                    formData.buttonLink,
+                buttonLink:formData.buttonLink,
 
-                order:
-                    Number(formData.order)
+                order:Number(formData.order)
             };
 
             let response;
@@ -143,7 +135,7 @@ const AdminServices = () => {
 
                 const token=localStorage.getItem("adminToken");
 
-                response = await adminAxios.put(`/services/${editingId}`, serviceData,
+                response = await adminAxios.put(`/api/services/${editingId}`, serviceData,
                     {
                         headers:{
                             Authorization: `Bearer ${token}`
@@ -159,7 +151,7 @@ const AdminServices = () => {
 
             else {
                 const token=localStorage.getItem("adminToken");
-                response = await adminAxios.post(`/services`, serviceData,
+                response = await adminAxios.post(`/api/services`, serviceData,
                     {
                         headers:{
                             Authorization:`Bearer ${token}`
@@ -203,6 +195,9 @@ const AdminServices = () => {
 
             slug:
                 service.slug || "",
+
+            category:
+            service.category || "",
 
             shortDescription:
                 service.shortDescription || "",
@@ -262,7 +257,7 @@ const AdminServices = () => {
 
             const token=localStorage.getItem("adminToken");
 
-            const response = await adminAxios.delete(`/services/${id}`,
+            const response = await adminAxios.delete(`/api/services/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -298,6 +293,7 @@ const AdminServices = () => {
 
             title: "",
             slug: "",
+            category: "",
             shortDescription: "",
             description: "",
             icon: "",
@@ -388,6 +384,19 @@ const AdminServices = () => {
                             </label>
 
                             <input type="text" name="slug" value={formData.slug} onChange={handleChange} placeholder="web-development" required />
+
+                        </div>
+
+                                            {/* Service Category */}
+
+
+                        <div className="form-group">
+
+                            <label>
+                                Service Category
+                            </label>
+
+                            <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder="e.g. Web Development" required/>
 
                         </div>
 
@@ -612,6 +621,10 @@ const AdminServices = () => {
                                     <th>
                                         Service
                                     </th>
+                                    
+                                    <th>
+                                        Category
+                                    </th>
 
                                     <th>
                                         Slug
@@ -653,6 +666,10 @@ const AdminServices = () => {
 
                                             </div>
 
+                                        </td>
+
+                                        <td>
+                                            {service.category || "-"}
                                         </td>
 
                                         <td>

@@ -18,7 +18,21 @@ const ClientWorkRequest = () => {
 
     const [attachment, setAttachment] = useState(null);
 
-    const companyId=localStorage.getItem("companyId");
+    const clientData = localStorage.getItem("clientData");
+
+    let companyId = "";
+
+    if (clientData) {
+        try {
+            const parsedClientData = JSON.parse(clientData);
+
+            companyId=parsedClientData.companyId || parsedClientData.company?._id || parsedClientData._id || "";
+            
+    } catch (error) {
+        console.error("Client Data Parse Error:", error);
+    }
+}
+
 
     // ======================================================
     // API BASE URL
@@ -37,11 +51,14 @@ const ClientWorkRequest = () => {
 
             const response=await axios.get(`${API_URL}/api/services`);
 
-            console.log("SERVICES API RESPONSE:", response.data);
+            // console.log("SERVICES API RESPONSE:", response.data);
 
             if (response.data.success) {
 
-                setServices(response.data.services || []);
+                const serviceList = response.data.data || [];
+                // console.log("SERVICES ARRAY:", serviceList);
+                // setServices(response.data.services || []);
+                setServices(serviceList);
 
             }
 

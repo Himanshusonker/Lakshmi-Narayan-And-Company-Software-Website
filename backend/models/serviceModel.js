@@ -15,6 +15,12 @@ const serviceSchema = new mongoose.Schema(
             trim: true
         },
 
+        category: {
+            type: String,
+            required:true,
+            trim: true
+        },
+
         shortDescription: {
             type: String,
             required: true

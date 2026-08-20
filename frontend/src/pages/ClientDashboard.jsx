@@ -508,7 +508,7 @@ const ClientDashboard = () => {
 
                             </div>
 
-                            <button type="button" onClick={() => navigate("/client/work-request")} className="client-work-request-btn">
+                            <button type="button" onClick={() => navigate("/client/work-requests")} className="client-work-request-btn">
                                 New Service Request →
                             </button>
 

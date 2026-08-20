@@ -1114,3 +1114,104 @@
         font-size: 13px;
     }
 }
+
+
+/* =========================================================
+   CLIENT VIEW PROJECT BUTTON
+   ========================================================= */
+
+.client-view-project-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    padding: 10px 18px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #111827;
+    color: #ffffff;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none;
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        transform 0.2s ease,
+        box-shadow 0.25s ease;
+}
+
+/* Hover */
+
+.client-view-project-btn:hover {
+    background: #2563eb;
+    color: #ffffff;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+}
+
+/* Click */
+
+.client-view-project-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Focus */
+
+.client-view-project-btn:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.25);
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   PROJECT CARD FOOTER
+   ========================================================= */
+
+.client-project-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+
+    margin-top: 20px;
+    padding-top: 18px;
+
+    border-top: 1px solid #e5e7eb;
+}
+
+.client-project-card-footer > span {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .client-project-card-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .client-view-project-btn {
+        width: 100%;
+        padding: 11px 16px;
+    }
+
+    .client-project-card-footer > span {
+        text-align: center;
+    }
+
+}

@@ -55,7 +55,7 @@ const createService=async(req, res)=>{
 
     try {
 
-        const {title, slug, shortDescription, description, icon, image, features, technologies, process, benefits, buttonText, buttonLink, order } = req.body;
+        const {title, slug, category, shortDescription, description, icon, image, features, technologies, process, benefits, buttonText, buttonLink, order } = req.body;
 
         const existingService = await ServiceModel.findOne({ slug: slug });
 
@@ -65,7 +65,7 @@ const createService=async(req, res)=>{
             return res.status(400).json({ success: false, message: "Service with this slug already exists" });
         }
 
-        const service = await ServiceModel.create({title, slug, shortDescription, description, icon, image, features, technologies, process, benefits, buttonText, buttonLink, order });
+        const service = await ServiceModel.create({title, slug, category, shortDescription, description, icon, image, features, technologies, process, benefits, buttonText, buttonLink, order });
 
         res.status(201).json({ success: true, message: "Service created successfully", data: service });
 

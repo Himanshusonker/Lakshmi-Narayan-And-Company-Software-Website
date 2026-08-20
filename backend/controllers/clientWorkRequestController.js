@@ -13,6 +13,8 @@ const createWorkRequest = async (req, res) => {
 
         const {company, service, serviceName, category, requirement, attachments, priority} = req.body;
 
+        // console.log(req.body);
+
         if (!company) {
 
             return res.status(400).json({success: false, message: "Company is required"});
@@ -57,6 +59,14 @@ const createWorkRequest = async (req, res) => {
 
         const serviceData = await Service.findById(service);
 
+        // console.log("hiiiiiiiiiiiiiii");
+        // console.log("========== SERVICE DEBUG ==========");
+        // console.log("Service ID:", service);
+        // console.log("Service Title:", serviceData?.title);
+        // console.log("Service Category:", serviceData?.category);
+        // console.log("Full Service:", serviceData);
+        // console.log("===================================");
+
         if (!serviceData) {
 
             return res.status(404).json({success: false, message: "Service not found"});
@@ -70,11 +80,11 @@ const createWorkRequest = async (req, res) => {
 
         const request= await ClientWorkRequest.create({
 
-            company,
-            service,
-            serviceName:serviceName || serviceData.serviceName || serviceData.title || "",
-            category:category || serviceData.category || "",
-            requirement,
+            company:companyData._id,
+            service:serviceData._id,
+            serviceName:serviceData.title || "",
+            category:serviceData.category || "",
+            requirement:requirement.trim(),
             attachments:Array.isArray(attachments) ? attachments: [],
             priority:priority || "Medium",
             status: "Pending"

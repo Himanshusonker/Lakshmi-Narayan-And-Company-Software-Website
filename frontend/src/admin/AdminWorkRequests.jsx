@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import adminAxios from "../api/adminAxios";
+import { useNavigate } from "react-router-dom";
 
 const AdminWorkRequests = () => {
 
@@ -7,6 +8,7 @@ const AdminWorkRequests = () => {
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [editingRequest, setEditingRequest] =useState(null);
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
 
@@ -118,7 +120,22 @@ const AdminWorkRequests = () => {
 
         try {
 
-            const response=await adminAxios.put(`/api/admin/work-requests/${editingRequest._id}`, formData);
+            const token = localStorage.getItem("adminToken");
+
+            if (!token) {
+                alert("Admin login required.");
+                navigate("/admin/login");
+                return;
+}
+
+            const response=await adminAxios.put(`/api/admin/work-requests/${editingRequest._id}`,
+
+                {
+                    status: formData.status,
+                    priority: formData.priority,
+                    adminNotes: formData.adminNotes
+                }
+            );
 
             if (response.data.success) {
 
