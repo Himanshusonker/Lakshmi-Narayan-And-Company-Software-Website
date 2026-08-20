@@ -30,6 +30,7 @@ const AdminCompaniesProjects = () => {
     };
 
     const [formData, setFormData] =useState(initialForm);
+    const [documentCategory, setDocumentCategory] = useState("");
     const [documentName, setDocumentName] = useState("");
     const [documentFile, setDocumentFile] = useState(null);
     const [uploadingDocument, setUploadingDocument] = useState(false);
@@ -219,6 +220,13 @@ const AdminCompaniesProjects = () => {
             return;
         }
 
+        if (!documentCategory) {
+
+            alert("Please select document category.");
+
+            return;
+        }
+
         if (!documentFile) {
 
             alert("Please select a document.");
@@ -320,6 +328,7 @@ const AdminCompaniesProjects = () => {
         const response=await adminAxios.post(`/api/admin/projects/${editingProject._id}/documents`,
                 {
                     name: documentName,
+                    category: documentCategory,
                     url: cloudinaryResult.secure_url,
                     originalName: documentFile.name,
                     publicId: cloudinaryResult.public_id || "",
@@ -351,6 +360,7 @@ const AdminCompaniesProjects = () => {
 
 
             setDocumentName("");
+            setDocumentCategory("");
             setDocumentFile(null);
 
             const fileInput= document.getElementById("projectDocumentInput");
@@ -1013,6 +1023,62 @@ const AdminCompaniesProjects = () => {
                                     </div>
 
 
+                                    {/* DOCUMENT CATEGORY */}
+
+                                    <div style={{ marginBottom: "15px" }}>
+
+                                        <label>
+                                            Document Category *
+                                        </label>
+
+                                        <select value={documentCategory} onChange={(e) => setDocumentCategory(e.target.value)} required>
+
+                                            <option value="">
+                                                Select Category
+                                            </option>
+
+                                            <option value="Agreement">
+                                                Agreement
+                                            </option>
+
+                                            <option value="Invoice">
+                                                Invoice
+                                            </option>
+
+                                            <option value="Report">
+                                                Report
+                                            </option>
+
+                                            <option value="Proposal">
+                                                Proposal
+                                            </option>
+
+                                            <option value="Requirement">
+                                                Requirement
+                                            </option>
+
+                                            <option value="Design">
+                                                Design
+                                            </option>
+
+                                            <option value="Source Code">
+                                                Source Code
+                                            </option>
+
+                                            <option value="Certificate">
+                                                Certificate
+                                            </option>
+
+                                            <option value="Other">
+                                                Other
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+
+
                                     {/* FILE */}
 
                                     <div style={{ marginBottom: "15px" }}>
@@ -1054,6 +1120,19 @@ const AdminCompaniesProjects = () => {
                                                             <strong>
                                                                 {doc.name || doc.originalName || "Document"}
                                                             </strong>
+
+                                                            <br />
+
+                                                            <span>
+                                                                Category: {doc.category || "Other"}
+                                                            </span>
+
+                                                            <br />
+
+                                                            <span>
+                                                                Uploaded:{" "}
+                                                                {doc.uploadedAt ? new Date(doc.uploadedAt).toLocaleDateString("en-IN") : "N/A"}
+                                                            </span>
 
                                                             <br />
 

@@ -8,6 +8,23 @@ const projectDocumentSchema = new mongoose.Schema(
             trim: true
         },
 
+        category: {
+            type: String,
+            enum: [
+                "Agreement",
+                "Invoice",
+                "Report",
+                "Proposal",
+                "Requirement",
+                "Design",
+                "Source Code",
+                "Certificate",
+                "Other"
+            ],
+            default: "Other",
+            trim: true
+        },
+
         originalName: {
             type: String,
             default: ""

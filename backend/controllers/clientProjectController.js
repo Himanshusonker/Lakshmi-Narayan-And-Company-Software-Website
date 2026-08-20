@@ -87,56 +87,28 @@ const getClientProjectDocuments = async (req, res) => {
 
         const companyId = req.client.companyId;
 
+        if (!companyId) {
+            return res.status(400).json({success: false, message: "Company information not found"});
+        }
 
-        const project = await ClientProject.findOne({
-
-            _id: req.params.id,
-
-            company: companyId,
-
-            isActive: true
-
-        });
-
+        const project = await ClientProject.findOne({_id: req.params.id, company: companyId, isActive: true});
 
         if (!project) {
 
-            return res.status(404).json({
-
-                success: false,
-
-                message: "Project not found or access denied"
-
-            });
+            return res.status(404).json({success: false, message: "Project not found or access denied"});
 
         }
 
+        const documents = project.documents.sort((a, b)=>new Date(b.uploadedAt) - new Date(a.uploadedAt));
 
-        return res.status(200).json({
 
-            success: true,
-
-            count: project.documents.length,
-
-            documents: project.documents
-
-        });
+        return res.status(200).json({success: true, count: project.documents.length, documents});
 
     } catch (error) {
 
-        console.error(
-            "Client Project Documents Error:",
-            error
-        );
+        console.error("Client Project Documents Error:", error);
 
-
-        return res.status(500).json({
-
-            success: false,
-
-            message: "Failed to fetch project documents"
-
-        });
+        return res.status(500).json({success: false, message: "Failed to fetch project documents"});
 
     }
 

@@ -371,11 +371,11 @@ const addProjectDocument = async (req, res) => {
 
     try {
 
-        const {name, url, publicId, originalName, fileType, fileSize, resourceType} = req.body;
+        const {name, url, publicId, originalName, fileType, fileSize, resourceType, category} = req.body;
 
-        if (!name || !url) {
+        if (!name || !category || !url) {
 
-            return res.status(400).json({success: false, message: "Document name and URL are required"});
+            return res.status(400).json({success: false, message: "Document name, category and URL are required"});
 
         }
 
@@ -388,7 +388,7 @@ const addProjectDocument = async (req, res) => {
 
         }
 
-        project.documents.push({name, url, publicId: publicId || "", originalName: originalName || "", fileType: fileType || "", fileSize: Number(fileSize) || 0, resourceType: resourceType || "raw", uploadedAt: new Date()});
+        project.documents.push({name, url, publicId: publicId || "", originalName: originalName || "", fileType: fileType || "", fileSize: Number(fileSize) || 0, resourceType: resourceType || "raw", category: category || "Other", uploadedAt: new Date()});
 
         await project.save();
 
