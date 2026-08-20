@@ -266,12 +266,6 @@ const AdminCompaniesProjects = () => {
             resourceType = "image";
         }
 
-        // DOC / DOCX / XLS / XLSX => raw
-
-        console.log("Selected File:", documentFile.name);
-        console.log("File Type:", fileType);
-        console.log("Cloudinary Resource Type:", resourceType);
-
         // ==========================================
         // CLOUDINARY UPLOAD
         // ==========================================
@@ -303,12 +297,6 @@ const AdminCompaniesProjects = () => {
 
         const responseText = await cloudinaryResponse.text();
 
-        console.log("Cloudinary HTTP Status:", cloudinaryResponse.status);
-        console.log("Cloudinary Response Headers:", [
-            ...cloudinaryResponse.headers.entries()
-        ]);
-        console.log("Cloudinary Raw Response:", responseText);
-
         let cloudinaryResult;
 
         try {
@@ -319,8 +307,6 @@ const AdminCompaniesProjects = () => {
 
         if (!cloudinaryResponse.ok || !cloudinaryResult.secure_url) {
 
-            console.error("Cloudinary Upload Failed:", cloudinaryResult);
-
             throw new Error(cloudinaryResult.error?.message || "Cloudinary upload failed");
         }
 
@@ -330,33 +316,6 @@ const AdminCompaniesProjects = () => {
         // ==========================================
         // SAVE DOCUMENT IN PROJECT
         // ==========================================
-
-
-        console.log("===== DOCUMENT SAVE START =====");
-
-        console.log("Project ID:", editingProject._id);
-
-        console.log("Document Payload:", {
-        name: documentName,
-        url: cloudinaryResult.secure_url,
-        originalName: documentFile.name,
-        publicId: cloudinaryResult.public_id || "",
-        fileType: documentFile.type,
-        fileSize: documentFile.size || 0
-        });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         const response=await adminAxios.post(`/api/admin/projects/${editingProject._id}/documents`,
                 {
@@ -369,21 +328,6 @@ const AdminCompaniesProjects = () => {
                     resourceType: resourceType
                 }
             );
-
-
-
-
-            console.log("===== DOCUMENT SAVE RESPONSE =====");
-            console.log("HTTP Status:", response.status);
-            console.log("Response:", response.data);
-
-
-
-
-
-
-
-
 
         if (response.data.success) {
 

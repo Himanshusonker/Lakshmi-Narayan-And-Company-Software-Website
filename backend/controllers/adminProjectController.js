@@ -507,17 +507,11 @@ const deleteProjectDocument = async (req, res) => {
 
                 }
 
+            } else if (document.fileType === "application/pdf") {
+
+                resourceType = "raw";
+
             }
-
-
-            console.log("===== CLOUDINARY DELETE =====");
-
-            console.log("Public ID:", document.publicId);
-
-            console.log("File Type:", document.fileType);
-
-            console.log("Resource Type:", resourceType);
-
 
             const cloudinaryResult=await cloudinary.uploader.destroy(document.publicId,
                     {
@@ -525,17 +519,11 @@ const deleteProjectDocument = async (req, res) => {
                     }
                 );
 
-
-            console.log("Cloudinary Delete Result:", cloudinaryResult);
-
-
             // ------------------------------------------
             // CLOUDINARY DELETE FAILURE
             // ------------------------------------------
 
             if (cloudinaryResult.result !== "ok" && cloudinaryResult.result !== "not found") {
-
-                console.error("Cloudinary Delete Failed:", cloudinaryResult);
 
                 return res.status(500).json({success: false, message:"Failed to delete document from Cloudinary", cloudinaryResult});
 
