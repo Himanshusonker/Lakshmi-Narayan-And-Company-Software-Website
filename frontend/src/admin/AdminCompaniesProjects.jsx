@@ -276,23 +276,56 @@ const AdminCompaniesProjects = () => {
         // CLOUDINARY UPLOAD
         // ==========================================
 
-        const cloudinaryResponse = await fetch(
-            `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`,
+        // const cloudinaryResponse = await fetch(
+        //     `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`,
+        //     {
+        //         method: "POST",
+        //         body: cloudinaryData
+        //     }
+        // );
+
+        // const cloudinaryResult= await cloudinaryResponse.json();
+        // console.log("Cloudinary Result:", cloudinaryResult);
+
+        // if (!cloudinaryResponse.ok || !cloudinaryResult.secure_url) {
+            
+        //     console.error("Cloudinary Upload Error:", cloudinaryResult);
+
+        //     throw new Error(cloudinaryResult.error?.message || "Cloudinary upload failed");
+        // }
+
+        const cloudinaryResponse = await fetch(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`,
             {
                 method: "POST",
                 body: cloudinaryData
             }
         );
 
-        const cloudinaryResult= await cloudinaryResponse.json();
-        console.log("Cloudinary Result:", cloudinaryResult);
+        const responseText = await cloudinaryResponse.text();
+
+        console.log("Cloudinary HTTP Status:", cloudinaryResponse.status);
+        console.log("Cloudinary Response Headers:", [
+            ...cloudinaryResponse.headers.entries()
+        ]);
+        console.log("Cloudinary Raw Response:", responseText);
+
+        let cloudinaryResult;
+
+        try {
+            cloudinaryResult = JSON.parse(responseText);
+        } catch {
+            throw new Error(`Cloudinary returned invalid response: ${responseText}`);
+        }
 
         if (!cloudinaryResponse.ok || !cloudinaryResult.secure_url) {
-            
-            console.error("Cloudinary Upload Error:", cloudinaryResult);
+
+            console.error("Cloudinary Upload Failed:", cloudinaryResult);
 
             throw new Error(cloudinaryResult.error?.message || "Cloudinary upload failed");
         }
+
+
+
 
         // ==========================================
         // SAVE DOCUMENT IN PROJECT
