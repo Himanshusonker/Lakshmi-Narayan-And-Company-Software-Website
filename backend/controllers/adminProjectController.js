@@ -1,5 +1,6 @@
 const ClientProject=require("../models/clientProjectModel");
 const ClientCompany=require("../models/clientCompanyModel");
+const cloudinary = require("../config/cloudinary");
 
 // ======================================================
 // GET ALL PROJECTS
@@ -408,19 +409,71 @@ const addProjectDocument = async (req, res) => {
 // DELETE PROJECT DOCUMENT
 // ======================================================
 
+// const deleteProjectDocument = async (req, res) => {
+
+//     try {
+
+//         const project= await ClientProject.findById(req.params.id);
+
+//         if (!project) {
+
+//             return res.status(404).json({success: false, message: "Project not found"});
+
+//         }
+
+//         const document=project.documents.id(req.params.documentId);
+
+//         if (!document) {
+
+//             return res.status(404).json({success: false, message: "Document not found"});
+
+//         }
+
+//         if (document.publicId) {
+
+//             await cloudinary.uploader.destroy(document.publicId, {resource_type: document.resourceType || "raw"});
+//         }
+
+//         document.deleteOne();
+
+//         await project.save();
+
+//         return res.status(200).json({success: true, message: "Project document deleted successfully", project});
+
+//     } catch (error) {
+
+//         console.error("Delete Project Document Error:", error);
+
+//         return res.status(500).json({success: false, message: "Failed to delete project document"});
+
+//     }
+
+// };
+
+
+
+// ======================================================
+// DELETE PROJECT DOCUMENT
+// ======================================================
+
 const deleteProjectDocument = async (req, res) => {
 
     try {
 
-        const project= await ClientProject.findById(req.params.id);
+        const project = await ClientProject.findById(req.params.id);
 
         if (!project) {
 
-            return res.status(404).json({success: false, message: "Project not found"});
+            return res.status(404).json({ success: false, message: "Project not found"});
 
         }
 
-        const document=project.documents.id(req.params.documentId);
+
+        // ==============================================
+        // FIND DOCUMENT
+        // ==============================================
+
+        const document = project.documents.id(req.params.documentId);
 
         if (!document) {
 
@@ -428,14 +481,81 @@ const deleteProjectDocument = async (req, res) => {
 
         }
 
+
+        // ==============================================
+        // DELETE FROM CLOUDINARY
+        // ==============================================
+
         if (document.publicId) {
 
-            await cloudinary.uploader.destroy(document.publicId, {resource_type: document.resourceType || "raw"});
+            let resourceType = document.resourceType;
+
+
+            // ------------------------------------------
+            // OLD DOCUMENT FALLBACK
+            // ------------------------------------------
+
+            if (!resourceType) {
+
+                if (document.fileType === "application/pdf" || document.fileType?.startsWith("image/")) {
+
+                    resourceType = "image";
+
+                } else {
+
+                    resourceType = "raw";
+
+                }
+
+            }
+
+
+            console.log("===== CLOUDINARY DELETE =====");
+
+            console.log("Public ID:", document.publicId);
+
+            console.log("File Type:", document.fileType);
+
+            console.log("Resource Type:", resourceType);
+
+
+            const cloudinaryResult=await cloudinary.uploader.destroy(document.publicId,
+                    {
+                        resource_type: resourceType
+                    }
+                );
+
+
+            console.log("Cloudinary Delete Result:", cloudinaryResult);
+
+
+            // ------------------------------------------
+            // CLOUDINARY DELETE FAILURE
+            // ------------------------------------------
+
+            if (cloudinaryResult.result !== "ok" && cloudinaryResult.result !== "not found") {
+
+                console.error("Cloudinary Delete Failed:", cloudinaryResult);
+
+                return res.status(500).json({success: false, message:"Failed to delete document from Cloudinary", cloudinaryResult});
+
+            }
+
         }
+
+
+        // ==============================================
+        // REMOVE DOCUMENT FROM MONGODB
+        // ==============================================
 
         document.deleteOne();
 
         await project.save();
+
+
+        // ==============================================
+        // SUCCESS
+        // ==============================================
 
         return res.status(200).json({success: true, message: "Project document deleted successfully", project});
 
@@ -443,7 +563,7 @@ const deleteProjectDocument = async (req, res) => {
 
         console.error("Delete Project Document Error:", error);
 
-        return res.status(500).json({success: false, message: "Failed to delete project document"});
+        return res.status(500).json({success: false, message:"Failed to delete project document", error:process.env.NODE_ENV === "development" ? error.message: undefined});
 
     }
 
