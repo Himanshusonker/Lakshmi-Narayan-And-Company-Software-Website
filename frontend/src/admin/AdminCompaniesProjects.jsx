@@ -331,6 +331,33 @@ const AdminCompaniesProjects = () => {
         // SAVE DOCUMENT IN PROJECT
         // ==========================================
 
+
+        console.log("===== DOCUMENT SAVE START =====");
+
+        console.log("Project ID:", editingProject._id);
+
+        console.log("Document Payload:", {
+        name: documentName,
+        url: cloudinaryResult.secure_url,
+        originalName: documentFile.name,
+        publicId: cloudinaryResult.public_id || "",
+        fileType: documentFile.type,
+        fileSize: documentFile.size || 0
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         const response=await adminAxios.post(`/api/admin/projects/${editingProject._id}/documents`,
                 {
                     name: documentName,
@@ -338,9 +365,25 @@ const AdminCompaniesProjects = () => {
                     originalName: documentFile.name,
                     publicId: cloudinaryResult.public_id || "",
                     fileType: documentFile.type,
-                    fileSize: documentFile.size || 0
+                    fileSize: documentFile.size || 0,
+                    resourceType: resourceType
                 }
             );
+
+
+
+
+            console.log("===== DOCUMENT SAVE RESPONSE =====");
+            console.log("HTTP Status:", response.status);
+            console.log("Response:", response.data);
+
+
+
+
+
+
+
+
 
         if (response.data.success) {
 

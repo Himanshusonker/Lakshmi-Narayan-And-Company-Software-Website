@@ -370,7 +370,7 @@ const addProjectDocument = async (req, res) => {
 
     try {
 
-        const {name, url, publicId, originalName, fileType, fileSize} = req.body;
+        const {name, url, publicId, originalName, fileType, fileSize, resourceType} = req.body;
 
         if (!name || !url) {
 
@@ -387,7 +387,7 @@ const addProjectDocument = async (req, res) => {
 
         }
 
-        project.documents.push({name, url, publicId: publicId || "", originalName: originalName || "", fileType: fileType || "", fileSize: Number(fileSize) || 0, uploadedAt: new Date()});
+        project.documents.push({name, url, publicId: publicId || "", originalName: originalName || "", fileType: fileType || "", fileSize: Number(fileSize) || 0, resourceType: resourceType || "raw", uploadedAt: new Date()});
 
         await project.save();
 
@@ -426,6 +426,11 @@ const deleteProjectDocument = async (req, res) => {
 
             return res.status(404).json({success: false, message: "Document not found"});
 
+        }
+
+        if (document.publicId) {
+
+            await cloudinary.uploader.destroy(document.publicId, {resource_type: document.resourceType || "raw"});
         }
 
         document.deleteOne();

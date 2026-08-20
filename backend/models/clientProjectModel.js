@@ -34,6 +34,12 @@ const projectDocumentSchema = new mongoose.Schema(
             default: 0
         },
 
+         resourceType: {
+            type: String,
+            enum: ["image", "raw", "video", "auto"],
+            default: "raw"
+        },
+
         uploadedAt: {
             type: Date,
             default: Date.now
