@@ -6,6 +6,14 @@ const crypto = require("crypto");
 const Razorpay = require("razorpay");
 const PDFDocument = require("pdfkit");
 const path = require("path");
+const regularFont = path.join(__dirname, "../fonts/NotoSans-Regular.ttf");
+const boldFont = path.join(__dirname, "../fonts/NotoSans-Bold.ttf");
+const setRegularFont = () => {
+    doc.font(regularFont);
+};
+const setBoldFont = () => {
+    doc.font(boldFont);
+};
 
 // ======================================================
 // RAZORPAY
@@ -741,12 +749,12 @@ const downloadClientInvoicePDF = async (req, res) => {
 
         // Company Name
 
-        doc.font("Helvetica-Bold").fontSize(17).fillColor("#111111").text("LAKSHMI NARAYAN AND COMPANY", left + 12, headerTop + 14, {width: 300});
+        doc.font(boldFont).fontSize(17).fillColor("#111111").text("LAKSHMI NARAYAN AND COMPANY", left + 12, headerTop + 14, {width: 300});
 
 
         // Seller Address
 
-        doc.font("Helvetica").fontSize(10.5).fillColor(textGray).text("76/229, Kuli Bazar",left + 12,headerTop + 40)
+        doc.font(regularFont).fontSize(10.5).fillColor(textGray).text("76/229, Kuli Bazar",left + 12,headerTop + 40)
             .text("Dist: Kanpur Nagar",left + 12, headerTop + 56)
             .text("State: Uttar Pradesh", left + 12, headerTop + 72)
             .text("Country: India", left + 12, headerTop + 88);
@@ -754,7 +762,7 @@ const downloadClientInvoicePDF = async (req, res) => {
 
         // INVOICE heading
 
-        doc.font("Helvetica").fontSize(34).fillColor(blue).text("INVOICE", 365, headerTop + 45,
+        doc.font(regularFont).fontSize(34).fillColor(blue).text("INVOICE", 365, headerTop + 45,
                 {
                     width: 175,
                     align: "right",
@@ -786,11 +794,11 @@ const downloadClientInvoicePDF = async (req, res) => {
         const infoLabelX =left + 12;
         const infoValueX =left + 115;
 
-        doc.font("Helvetica").fontSize(10).fillColor(textGray).text("Invoice#", infoLabelX, infoTop + 15)
+        doc.font(regularFont).fontSize(10).fillColor(textGray).text("Invoice#", infoLabelX, infoTop + 15)
             .text("Invoice Date", infoLabelX, infoTop + 33).text("Terms", infoLabelX, infoTop + 51)
             .text("Due Date", infoLabelX, infoTop + 69);
 
-        doc.font("Helvetica-Bold").fontSize(10).fillColor("#222222").text(invoice.invoiceNumber, infoValueX, infoTop + 15)
+        doc.font(boldFont).fontSize(10).fillColor("#222222").text(invoice.invoiceNumber, infoValueX, infoTop + 15)
             .text(dateFormat(invoice.issueDate), infoValueX, infoTop + 33)
             .text("Due on Receipt", infoValueX, infoTop + 51).text(dateFormat(invoice.dueDate), infoValueX, infoTop + 69);
 
@@ -811,7 +819,7 @@ const downloadClientInvoicePDF = async (req, res) => {
 
         // Header text
 
-        doc.font("Helvetica").fontSize(11).fillColor("#222222").text("Bill To", left + 10, addressTop + 8)
+        doc.font(regularFont).fontSize(11).fillColor("#222222").text("Bill To", left + 10, addressTop + 8)
             .text("Ship To", middleX + 10, addressTop + 8);
 
         // Vertical divider
@@ -828,7 +836,7 @@ const downloadClientInvoicePDF = async (req, res) => {
 
         const clientName =invoice.company?.companyName || "Client";
 
-        doc.font("Helvetica-Bold").fontSize(12).fillColor("#222222").text(clientName, left + 10, addressTop + 48,
+        doc.font(boldFont).fontSize(12).fillColor("#222222").text(clientName, left + 10, addressTop + 48,
                 {
                     width: 195,
                     lineGap: 2
@@ -842,12 +850,12 @@ const downloadClientInvoicePDF = async (req, res) => {
         const clientNameHeight =doc.heightOfString(clientName,
         {
             width: 195,
-            font: "Helvetica-Bold",
+            font: "boldFont",
             fontSize: 12
         }
     );
 
-        doc.font("Helvetica").fontSize(10.5).fillColor(textGray).text(clientAddress, left + 10, addressTop + 55 + clientNameHeight,
+        doc.font(regularFont).fontSize(10.5).fillColor(textGray).text(clientAddress, left + 10, addressTop + 55 + clientNameHeight,
         
         {
             width: 195,
@@ -859,7 +867,7 @@ const downloadClientInvoicePDF = async (req, res) => {
         // SHIP TO
         // ==================================================
 
-        doc.font("Helvetica").fontSize(10.5).fillColor(textGray).text(clientAddress, middleX + 10, addressTop + 48,
+        doc.font(regularFont).fontSize(10.5).fillColor(textGray).text(clientAddress, middleX + 10, addressTop + 48,
                 {
                     width: 210,
                     lineGap: 3
@@ -892,7 +900,7 @@ const downloadClientInvoicePDF = async (req, res) => {
 
         // Header text
 
-        doc.font("Helvetica").fontSize(9.5).fillColor("#FFFFFF").text("#", xNo + 8, tableTop + 9)
+        doc.font(regularFont).fontSize(9.5).fillColor("#FFFFFF").text("#", xNo + 8, tableTop + 9)
             .text("Item & Description", xDescription + 10, tableTop + 9).text("Qty", xQty, tableTop + 9,
                 {
                     width: colQty,
@@ -934,7 +942,7 @@ const downloadClientInvoicePDF = async (req, res) => {
                 const descriptionHeight =doc.heightOfString(description,
                         {
                             width:colDescription - 20,
-                            font:"Helvetica",
+                            font:regularFont,
                             fontSize: 10
                         }
                     );
@@ -954,11 +962,11 @@ const downloadClientInvoicePDF = async (req, res) => {
 
                 // Number
 
-                doc.font("Helvetica").fontSize(9.5).fillColor("#222222").text(String(index + 1), xNo + 10, currentY + 15);
+                doc.font(regularFont).fontSize(9.5).fillColor("#222222").text(String(index + 1), xNo + 10, currentY + 15);
 
                 // Description
 
-                doc.font("Helvetica").fontSize(10).fillColor("#222222").text(description, xDescription + 10, currentY + 14,
+                doc.font(regularFont).fontSize(10).fillColor("#222222").text(description, xDescription + 10, currentY + 14,
                         {
                             width:
                                 colDescription - 20
@@ -967,7 +975,7 @@ const downloadClientInvoicePDF = async (req, res) => {
 
                 // Quantity
 
-                doc.font("Helvetica").fontSize(9.5).text(Number(item.quantity || 0).toFixed(2), xQty, currentY + 15,
+                doc.font(regularFont).fontSize(9.5).text(Number(item.quantity || 0).toFixed(2), xQty, currentY + 15,
                         {
                             width: colQty,
                             align: "center"
@@ -976,7 +984,7 @@ const downloadClientInvoicePDF = async (req, res) => {
 
                 // Rate
 
-                doc.font("Helvetica").fontSize(9.5).text(money(item.rate), xRate + 2, currentY + 15,
+                doc.font(regularFont).fontSize(9.5).text(money(item.rate), xRate + 2, currentY + 15,
                         {
                             width:
                                 colRate - 4,
@@ -986,7 +994,7 @@ const downloadClientInvoicePDF = async (req, res) => {
 
                 // Amount
 
-                doc.font("Helvetica").fontSize(9.5).text(money(item.amount), xAmount + 2, currentY + 15,
+                doc.font(regularFont).fontSize(9.5).text(money(item.amount), xAmount + 2, currentY + 15,
                         {
                             width:
                                 colAmount - 4,
@@ -1007,14 +1015,14 @@ const downloadClientInvoicePDF = async (req, res) => {
 
         drawRect( xRate, currentY, colRate + colAmount, subtotalHeight, null, border);
 
-        doc.font("Helvetica-Bold").fontSize(10).fillColor("#222222").text("Sub Total", xRate - 95, currentY + 10,
+        doc.font("boldFont").fontSize(10).fillColor("#222222").text("Sub Total", xRate - 95, currentY + 10,
                 {
                     width: 90,
                     align: "right"
                 }
             );
 
-        doc.font("Helvetica").fontSize(10).text(money(invoice.subtotal), xAmount + 5, currentY + 10,
+        doc.font(regularFont).fontSize(10).text(money(invoice.subtotal), xAmount + 5, currentY + 10,
                 {
                     width:
                         colAmount - 10,
@@ -1038,7 +1046,7 @@ const downloadClientInvoicePDF = async (req, res) => {
 
         // Left Terms area
 
-        drawRect(left, bottomTop, summaryX - left, bottomHeight, null, border);
+        // drawRect(left, bottomTop, summaryX - left, bottomHeight, null, border);
 
         // Right summary box
 
@@ -1048,15 +1056,15 @@ const downloadClientInvoicePDF = async (req, res) => {
         // THANKS
         // ==================================================
 
-        doc.font("Helvetica").fontSize(10).fillColor(textGray).text("Thanks for choosing us.", left + 10, bottomTop + 35);
+        doc.font(regularFont).fontSize(10).fillColor(textGray).text("Thanks for choosing us.", left + 10, bottomTop + 35);
 
         // ==================================================
         // TERMS & CONDITIONS
         // ==================================================
 
-        doc.font("Helvetica-Bold").fontSize(12).fillColor("#222222").text("Terms & Conditions", left + 10, bottomTop + 90);
+        doc.font(boldFont).fontSize(12).fillColor("#222222").text("Terms & Conditions", left + 10, bottomTop + 90);
 
-        doc.font("Helvetica").fontSize(9.5).fillColor(textGray).text("Full payment is due upon receipt of this invoice.", left + 10, bottomTop + 113,
+        doc.font(regularFont).fontSize(9.5).fillColor(textGray).text("Full payment is due upon receipt of this invoice.", left + 10, bottomTop + 113,
                 {
                     width:summaryX - left - 20
                 }
@@ -1074,9 +1082,9 @@ const downloadClientInvoicePDF = async (req, res) => {
         // TAX
         // ==================================================
 
-        doc.font("Helvetica-Bold").fontSize(10).fillColor("#222222").text("Tax Rate", summaryX + 10, bottomTop + 20);
+        doc.font(boldFont).fontSize(10).fillColor("#222222").text("Tax Rate", summaryX + 10, bottomTop + 20);
 
-        doc.font("Helvetica-Bold").fontSize(10).text(`${Number(invoice.taxPercentage || 0)
+        doc.font(boldFont).fontSize(10).text(`${Number(invoice.taxPercentage || 0)
             .toFixed(2)}%`, summaryX + 80, bottomTop + 20,
                 {
                     width:summaryWidth - 90,
@@ -1088,9 +1096,9 @@ const downloadClientInvoicePDF = async (req, res) => {
         // TOTAL
         // ==================================================
 
-        doc.font("Helvetica-Bold").fontSize(11).text("Total", summaryX + 10, bottomTop + 48);
+        doc.font(boldFont).fontSize(11).text("Total", summaryX + 10, bottomTop + 48);
 
-        doc.font("Helvetica-Bold").fontSize(11).text(money(invoice.totalAmount), summaryX + 80, bottomTop + 48,
+        doc.font(boldFont).fontSize(11).text(money(invoice.totalAmount), summaryX + 80, bottomTop + 48,
                 {
                     width:summaryWidth - 90,
                     align: "right"
@@ -1101,9 +1109,9 @@ const downloadClientInvoicePDF = async (req, res) => {
         // BALANCE DUE
         // ==================================================
 
-        doc.font("Helvetica-Bold").fontSize(11).text("Balance Due", summaryX + 10, bottomTop + 78);
+        doc.font(boldFont).fontSize(11).text("Balance Due", summaryX + 10, bottomTop + 78);
 
-        doc.font("Helvetica-Bold").fontSize(11).text(money(invoice.dueAmount), summaryX + 80, bottomTop + 78,
+        doc.font(boldFont).fontSize(11).text(money(invoice.dueAmount), summaryX + 80, bottomTop + 78,
                 {
                     width:summaryWidth - 90,
                     align: "right"
@@ -1114,7 +1122,7 @@ const downloadClientInvoicePDF = async (req, res) => {
         // FOOTER
         // ==================================================
 
-        doc.font("Helvetica").fontSize(8).fillColor(textGray).text("Lakshmi Narayan And Company", left, pageHeight - 55,
+        doc.font(regularFont).fontSize(8).fillColor(textGray).text("Lakshmi Narayan And Company", left, pageHeight - 55,
                 {
                     width: contentWidth,
                     align: "center"
