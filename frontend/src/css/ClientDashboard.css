@@ -1215,3 +1215,96 @@
     }
 
 }
+
+
+/* =========================================================
+   CLIENT DASHBOARD - INVOICES & PAYMENTS BUTTON
+========================================================= */
+
+.client-invoice-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 18px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #111827;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    line-height: 1;
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+/* Hover */
+
+.client-invoice-btn:hover {
+    background: #111827;
+    color: #ffffff;
+    border-color: #111827;
+
+    box-shadow: 0 5px 14px rgba(17, 24, 39, 0.15);
+
+    transform: translateY(-1px);
+}
+
+
+/* Active */
+
+.client-invoice-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+
+/* Focus */
+
+.client-invoice-btn:focus-visible {
+    outline: 3px solid rgba(17, 24, 39, 0.15);
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .client-invoice-btn {
+        width: 100%;
+        padding: 11px 16px;
+        font-size: 13px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .client-invoice-btn {
+        padding: 10px 14px;
+        font-size: 12px;
+        border-radius: 7px;
+    }
+
+}

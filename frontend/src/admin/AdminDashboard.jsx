@@ -154,6 +154,16 @@ const AdminDashboard=()=>{
                     
                     </Link>
 
+                    <Link to="/admin/invoices" onClick={() => setSidebarOpen(false)}>
+
+                        <span>
+                            💳
+                        </span>
+
+                        Invoices & Payments
+                        
+                    </Link>
+
                     <Link to="/admin/work-requests" onClick={() => setSidebarOpen(false)}> 
      
                         <span> 

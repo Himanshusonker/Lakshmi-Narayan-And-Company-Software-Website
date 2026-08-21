@@ -33,6 +33,8 @@ const clientWorkRequestRouter=require("./Routes/clientWorkRequestRouter");
 
 const adminWorkRequestRouter=require("./Routes/adminWorkRequestRouter");
 
+const clientInvoicePaymentRouter=require("./Routes/clientInvoiceRouter");
+
 const cors=require('cors');
 const bodyparser=require('body-parser')
 app.use(bodyparser.urlencoded({extended:true}));
@@ -83,6 +85,10 @@ app.use("/api/client/projects", clientProjectRouter);
 app.use("/api/client/work-requests", clientWorkRequestRouter);
 
 app.use("/api/admin/work-requests", adminWorkRequestRouter);
+
+// app.use("/api", clientInvoiceRoutes);
+
+app.use("/api", clientInvoicePaymentRouter);
 
 app.get("/", (req, res) => {
     res.json({

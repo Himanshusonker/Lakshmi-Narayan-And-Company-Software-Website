@@ -34,6 +34,9 @@ import ClientDashboard from "./pages/ClientDashboard";
 import ClientProjectDetails from "./pages/ClientProjectDetails";
 import AdminWorkRequests from "./admin/AdminWorkRequests";
 import ClientWorkRequest from "./pages/ClientWorkRequest";
+import ClientInvoices from "./pages/ClientInvoices";
+import ClientInvoiceDetails from "./pages/ClientInvoiceDetails";
+import AdminInvoices from "./admin/AdminInvoices";
 
 
 
@@ -77,7 +80,10 @@ const App=()=>{
                 <Route path="/client/dashboard" element={<ClientDashboard/>}/>
                 <Route path="/client/projects/:id" element={<ClientProjectDetails/>}/>
                 <Route path="/admin/work-requests" element={<AdminWorkRequests/>}/>
-                <Route path="/client/work-requests" element={<ClientWorkRequest/>}/>                
+                <Route path="/client/work-requests" element={<ClientWorkRequest/>}/>
+                <Route path="/client/invoices" element={<ClientInvoices/>}/>
+                <Route path="/client/invoices/:id" element={<ClientInvoiceDetails/>}/>
+                <Route path="/admin/invoices" element={<AdminInvoices/>}/>
 
                 </Route>
             </Routes>

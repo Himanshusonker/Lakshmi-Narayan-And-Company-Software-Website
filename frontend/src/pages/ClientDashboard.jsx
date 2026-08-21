@@ -272,6 +272,10 @@ const ClientDashboard = () => {
 
                     </div>
 
+                    <button type="button" className="client-invoice-btn" onClick={() => navigate("/client/invoices")}>
+                        Invoices & Payments
+                    </button>
+
                     <button className="client-logout-btn" onClick={handleLogout}>
                         Logout
                     </button>
