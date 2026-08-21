@@ -281,15 +281,18 @@ const AdminInvoices = () => {
 
                 discount:Number(formData.discount),
 
-                items:formData.items.map(item => ({
+                items: formData.items.map(item => {
 
-                            description:item.description,
+                    const quantity = Number(item.quantity) || 0;
+                    const rate = Number(item.rate) || 0;
 
-                            quantity:Number(item.quantity),
-
-                            rate:Number(item.rate)
-                        })
-                    )
+                    return {
+                        description: item.description,
+                        quantity,
+                        rate,
+                        amount: quantity * rate
+                    };
+                })
             };
 
             let response;
@@ -504,14 +507,6 @@ const AdminInvoices = () => {
                 <div className="admin-invoice-modal-overlay">
 
                     <div className="admin-invoice-modal">
-
-                        {/* <div>
-
-                            <h2>
-                                {editingInvoice ? "Edit Invoice": "Create Invoice"}
-                            </h2>
-
-                        </div> */}
 
                         <div className="admin-invoice-modal-header">
 
