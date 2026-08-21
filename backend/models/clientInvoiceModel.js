@@ -107,6 +107,12 @@ const clientInvoiceSchema = new mongoose.Schema(
             trim: true
         },
 
+        clientAddress: {
+            type: String,
+            required: true,
+            trim: true
+        },
+
         items: {
             type: [invoiceItemSchema],
             default: []
@@ -130,11 +136,11 @@ const clientInvoiceSchema = new mongoose.Schema(
             min: 0
         },
 
-        discount: {
-            type: Number,
-            default: 0,
-            min: 0
-        },
+        // discount: {
+        //     type: Number,
+        //     default: 0,
+        //     min: 0
+        // },
 
         totalAmount: {
             type: Number,
@@ -224,7 +230,11 @@ clientInvoiceSchema.pre("save", function (next) {
 
     this.taxAmount= (subtotal * taxPercentage) / 100;
 
-    this.totalAmount= Math.max(0, subtotal + this.taxAmount - Number(this.discount || 0));
+    // ==================================================
+    // DISCOUNT CALCULATION CODE COMMENT HAI
+    // ==================================================
+
+    // this.totalAmount= Math.max(0, subtotal + this.taxAmount - Number(this.discount || 0));
 
     this.paidAmount= Math.max(0, Number(this.paidAmount || 0));
 

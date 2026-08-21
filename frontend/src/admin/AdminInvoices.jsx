@@ -20,7 +20,8 @@ const AdminInvoices = () => {
         invoiceNumber: "",
         title: "",
         description: "",
-
+        clientAddress: "",
+        
         items: [
             {
                 description: "",
@@ -30,9 +31,11 @@ const AdminInvoices = () => {
         ],
 
         taxPercentage: 18,
-        discount: 0,
+        // discount: 0,
 
-        issueDate:new Date().toISOString().substring(0, 10), dueDate: "", notes: ""
+        issueDate:new Date().toISOString().substring(0, 10),
+        dueDate: "",
+        notes: ""
 
     };
 
@@ -237,6 +240,8 @@ const AdminInvoices = () => {
 
             description:invoice.description || "",
 
+            clientAddress: invoice.clientAddress || "",
+
             items:invoice.items?.map(item => ({
 
                         description:item.description,
@@ -248,7 +253,7 @@ const AdminInvoices = () => {
 
             taxPercentage:invoice.taxPercentage || 0,
 
-            discount:invoice.discount || 0,
+            // discount:invoice.discount || 0,
 
             issueDate:invoice.issueDate ?.substring(0, 10) || "",
 
@@ -279,7 +284,7 @@ const AdminInvoices = () => {
 
                 taxPercentage:Number(formData.taxPercentage),
 
-                discount:Number(formData.discount),
+                // discount:Number(formData.discount),
 
                 items: formData.items.map(item => {
 
@@ -535,6 +540,14 @@ const AdminInvoices = () => {
                                 <option value="">
                                     Select Company
                                 </option>
+                            
+                            <label>
+                            
+                                Client Address *
+
+                            </label>
+
+                                <textarea name="clientAddress" value={formData.clientAddress} onChange={handleChange} placeholder="Enter client billing address" rows="4" required/>
 
                                 {companies.map(company => (
 
@@ -628,11 +641,11 @@ const AdminInvoices = () => {
 
                             <input type="number" min="0" name="taxPercentage" value={formData.taxPercentage} onChange={handleChange}/>
 
-                            <label>
+                            {/* <label>
                                 Discount
                             </label>
 
-                            <input type="number" min="0" name="discount" value={formData.discount} onChange={handleChange}/>
+                            <input type="number" min="0" name="discount" value={formData.discount} onChange={handleChange}/> */}
 
                             <label>
                                 Description
