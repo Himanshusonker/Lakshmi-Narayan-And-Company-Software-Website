@@ -540,14 +540,6 @@ const AdminInvoices = () => {
                                 <option value="">
                                     Select Company
                                 </option>
-                            
-                            <label>
-                            
-                                Client Address *
-
-                            </label>
-
-                                <textarea name="clientAddress" value={formData.clientAddress} onChange={handleChange} placeholder="Enter client billing address" rows="4" required/>
 
                                 {companies.map(company => (
 
@@ -558,6 +550,14 @@ const AdminInvoices = () => {
                                 )}
 
                             </select>
+
+                            <label>
+                            
+                                Client Address *
+
+                            </label>
+
+                                <textarea name="clientAddress" value={formData.clientAddress} onChange={handleChange} placeholder="Enter client billing address" rows="4" required/>
 
                             <label>
                                 Project
