@@ -236,6 +236,8 @@ clientInvoiceSchema.pre("save", function (next) {
 
     // this.totalAmount= Math.max(0, subtotal + this.taxAmount - Number(this.discount || 0));
 
+    this.totalAmount= Math.max(0, subtotal + this.taxAmount);
+
     this.paidAmount= Math.max(0, Number(this.paidAmount || 0));
 
     this.dueAmount = Math.max(0, this.totalAmount - this.paidAmount);

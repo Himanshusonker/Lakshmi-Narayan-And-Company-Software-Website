@@ -749,15 +749,16 @@ const downloadClientInvoicePDF = async (req, res) => {
         doc.font("Helvetica").fontSize(10.5).fillColor(textGray).text("76/229, Kuli Bazar",left + 12,headerTop + 40)
             .text("Dist: Kanpur Nagar",left + 12, headerTop + 56)
             .text("State: Uttar Pradesh", left + 12, headerTop + 72)
-            .text("City: India", left + 12, headerTop + 88);
+            .text("Country: India", left + 12, headerTop + 88);
 
 
         // INVOICE heading
 
-        doc.font("Helvetica").fontSize(38).fillColor(blue).text("INVOICE", 400, headerTop + 45,
+        doc.font("Helvetica").fontSize(34).fillColor(blue).text("INVOICE", 365, headerTop + 45,
                 {
-                    width: 145,
-                    align: "right"
+                    width: 175,
+                    align: "right",
+                    lineBreak: false
                 }
             );
 
@@ -829,7 +830,8 @@ const downloadClientInvoicePDF = async (req, res) => {
 
         doc.font("Helvetica-Bold").fontSize(12).fillColor("#222222").text(clientName, left + 10, addressTop + 48,
                 {
-                    width: 210
+                    width: 195,
+                    lineGap: 2
                 }
             );
 
@@ -837,11 +839,20 @@ const downloadClientInvoicePDF = async (req, res) => {
 
         const clientAddress =invoice.clientAddress || "";
 
-        doc.font("Helvetica").fontSize(10.5).fillColor(textGray).text(clientAddress, left + 10, addressTop + 68,
-                {
-                    width: 210,
-                    lineGap: 3
-                }
+        const clientNameHeight =doc.heightOfString(clientName,
+        {
+            width: 195,
+            font: "Helvetica-Bold",
+            fontSize: 12
+        }
+    );
+
+        doc.font("Helvetica").fontSize(10.5).fillColor(textGray).text(clientAddress, left + 10, addressTop + 55 + clientNameHeight,
+        
+        {
+            width: 195,
+            lineGap: 3
+        }
             );
 
         // ==================================================
