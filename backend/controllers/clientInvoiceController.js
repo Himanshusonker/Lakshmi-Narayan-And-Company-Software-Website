@@ -5,6 +5,7 @@ const ClientProject = require("../models/clientProjectModel");
 const crypto = require("crypto");
 const Razorpay = require("razorpay");
 const PDFDocument = require("pdfkit");
+const path = require("path");
 
 // ======================================================
 // RAZORPAY
@@ -521,6 +522,8 @@ const downloadClientInvoicePDF = async (req, res) => {
         }
 
         const doc=new PDFDocument({margin: 50});
+
+        doc.font(path.join(__dirname, "../fonts/NotoSans-Regular.ttf"));
 
         res.setHeader("Content-Type", "application/pdf");
 
