@@ -177,6 +177,14 @@ const AdminInvoices = () => {
 
     const addItem = () => {
 
+        if (formData.items.length >= 3) {
+
+        alert("Only 3 items can be added to one invoice.");
+
+        return;
+
+        }
+        
         setFormData(prev => ({...prev,
             items: 
             [

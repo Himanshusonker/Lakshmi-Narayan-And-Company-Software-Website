@@ -1037,7 +1037,7 @@ const downloadClientInvoicePDF = async (req, res) => {
         // ==================================================
 
         const bottomTop =currentY;
-        const bottomHeight = 175;
+        // const bottomHeight = 175;
 
         // Left side
 
@@ -1050,29 +1050,33 @@ const downloadClientInvoicePDF = async (req, res) => {
 
         // Right summary box
 
-        drawRect(summaryX, bottomTop, summaryWidth, 110, lightBlue, border);
+        drawRect(summaryX, bottomTop, summaryWidth, 105, lightBlue, border);
 
         // ==================================================
         // THANKS
         // ==================================================
 
-        doc.font(regularFont).fontSize(10).fillColor(textGray).text("Thanks for choosing us.", left + 10, bottomTop + 35);
+        doc.font(regularFont).fontSize(10).fillColor(textGray).text("Thanks for choosing us.", left + 10, bottomTop + 22,
+        {
+            width: summaryX - left - 20
+        }
+        );
 
         // ==================================================
         // TERMS & CONDITIONS
         // ==================================================
 
-        doc.font(boldFont).fontSize(12).fillColor("#222222").text("Terms & Conditions", left + 10, bottomTop + 90);
+        doc.font(boldFont).fontSize(11).fillColor("#222222").text("Terms & Conditions", left + 10, bottomTop + 48);
 
-        doc.font(regularFont).fontSize(9.5).fillColor(textGray).text("Full payment is due upon receipt of this invoice.", left + 10, bottomTop + 113,
+        doc.font(regularFont).fontSize(8.8).fillColor(textGray).text("Full payment is due upon receipt of this invoice.", left + 10, bottomTop + 67,
                 {
                     width:summaryX - left - 20
                 }
-            ).text("Late payments may incur additional charges or", left + 10, bottomTop + 128,
+            ).text("Late payments may incur additional charges or", left + 10, bottomTop + 81,
                 {
                     width:summaryX - left - 20
                 }
-            ).text("interest as per the applicable laws.", left + 10, bottomTop + 143,
+            ).text("interest as per the applicable laws.", left + 10, bottomTop + 95,
                 {
                     width:summaryX - left - 20
                 }
@@ -1082,12 +1086,12 @@ const downloadClientInvoicePDF = async (req, res) => {
         // TAX
         // ==================================================
 
-        doc.font(boldFont).fontSize(10).fillColor("#222222").text("Tax Rate", summaryX + 10, bottomTop + 20);
+        doc.font(boldFont).fontSize(9.5).fillColor("#222222").text("Tax Rate", summaryX + 10, bottomTop + 16);
 
-        doc.font(boldFont).fontSize(10).text(`${Number(invoice.taxPercentage || 0)
-            .toFixed(2)}%`, summaryX + 80, bottomTop + 20,
+        doc.font(boldFont).fontSize(9.5).text(`${Number(invoice.taxPercentage || 0)
+            .toFixed(2)}%`, summaryX + 75, bottomTop + 16,
                 {
-                    width:summaryWidth - 90,
+                    width:summaryWidth - 85,
                     align: "right"
                 }
             );
@@ -1096,11 +1100,11 @@ const downloadClientInvoicePDF = async (req, res) => {
         // TOTAL
         // ==================================================
 
-        doc.font(boldFont).fontSize(11).text("Total", summaryX + 10, bottomTop + 48);
+        doc.font(boldFont).fontSize(10.5).text("Total", summaryX + 10, bottomTop + 43);
 
-        doc.font(boldFont).fontSize(11).text(money(invoice.totalAmount), summaryX + 80, bottomTop + 48,
+        doc.font(boldFont).fontSize(10.5).text(money(invoice.totalAmount), summaryX + 75, bottomTop + 43,
                 {
-                    width:summaryWidth - 90,
+                    width:summaryWidth - 85,
                     align: "right"
                 }
             );
@@ -1109,11 +1113,11 @@ const downloadClientInvoicePDF = async (req, res) => {
         // BALANCE DUE
         // ==================================================
 
-        doc.font(boldFont).fontSize(11).text("Balance Due", summaryX + 10, bottomTop + 78);
+        doc.font(boldFont).fontSize(10.5).text("Balance Due", summaryX + 10, bottomTop + 70);
 
-        doc.font(boldFont).fontSize(11).text(money(invoice.dueAmount), summaryX + 80, bottomTop + 78,
+        doc.font(boldFont).fontSize(10.5).text(money(invoice.dueAmount), summaryX + 75, bottomTop + 70,
                 {
-                    width:summaryWidth - 90,
+                    width:summaryWidth - 85,
                     align: "right"
                 }
             );
@@ -1122,12 +1126,12 @@ const downloadClientInvoicePDF = async (req, res) => {
         // FOOTER
         // ==================================================
 
-        doc.font(regularFont).fontSize(8).fillColor(textGray).text("Lakshmi Narayan And Company", left, pageHeight - 55,
-                {
-                    width: contentWidth,
-                    align: "center"
-                }
-            );
+        doc.font(regularFont).fontSize(8).fillColor(textGray).text("Lakshmi Narayan And Company", left, bottomTop + 123,
+        {
+            width: contentWidth,
+            align: "center"
+        }
+        );
 
         doc.end();
 
