@@ -307,11 +307,15 @@ const deleteInvoice=async(req, res)=>{
             return res.status(404).json({success: false, message: "Invoice not found"});
         }
 
-        invoice.isActive = false;
+        // invoice.isActive = false;
 
-        await invoice.save();
+        // await invoice.save();
 
-        return res.status(200).json({success: true, message:"Invoice deleted successfully"});
+        // return res.status(200).json({success: true, message:"Invoice deleted successfully"});
+
+        await ClientInvoice.findByIdAndDelete(req.params.id);
+
+        return res.status(200).json({success: true, message: "Invoice permanently deleted successfully"});
 
     } catch (error) {
 
@@ -683,9 +687,9 @@ const downloadClientInvoicePDF = async (req, res) => {
 
         const blue = "#173F91";
         const lightBlue = "#B8D0F5";
-        const lightGray = "#F2F3F5";
+        const lightGray = "#E5E7EB";
         const border = "#222222";
-        const textGray = "#777777";
+        const textGray = "#444444";
 
 
         // ==================================================
@@ -836,7 +840,7 @@ const downloadClientInvoicePDF = async (req, res) => {
 
         const clientName =invoice.company?.companyName || "Client";
 
-        doc.font(boldFont).fontSize(12).fillColor("#222222").text(clientName, left + 10, addressTop + 48,
+        doc.font(boldFont).fontSize(10).fillColor("#222222").text(clientName, left + 10, addressTop + 48,
                 {
                     width: 195,
                     lineGap: 2
@@ -851,7 +855,7 @@ const downloadClientInvoicePDF = async (req, res) => {
         {
             width: 195,
             font: boldFont,
-            fontSize: 12
+            fontSize: 10
         }
     );
 
