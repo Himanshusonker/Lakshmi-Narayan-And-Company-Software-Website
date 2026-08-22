@@ -755,7 +755,7 @@ const downloadClientInvoicePDF = async (req, res) => {
         // Seller Address
 
         doc.font(regularFont).fontSize(10.5).fillColor(textGray).text("76/229, Kuli Bazar",left + 12,headerTop + 40)
-            .text("Dist: Kanpur Nagar",left + 12, headerTop + 56)
+            .text("District: Kanpur Nagar",left + 12, headerTop + 56)
             .text("State: Uttar Pradesh", left + 12, headerTop + 72)
             .text("Country: India", left + 12, headerTop + 88);
 
@@ -850,7 +850,7 @@ const downloadClientInvoicePDF = async (req, res) => {
         const clientNameHeight =doc.heightOfString(clientName,
         {
             width: 195,
-            font: "boldFont",
+            font: boldFont,
             fontSize: 12
         }
     );
@@ -1015,7 +1015,7 @@ const downloadClientInvoicePDF = async (req, res) => {
 
         drawRect( xRate, currentY, colRate + colAmount, subtotalHeight, null, border);
 
-        doc.font("boldFont").fontSize(10).fillColor("#222222").text("Sub Total", xRate - 95, currentY + 10,
+        doc.font(boldFont).fontSize(10).fillColor("#222222").text("Sub Total", xRate - 95, currentY + 10,
                 {
                     width: 90,
                     align: "right"
