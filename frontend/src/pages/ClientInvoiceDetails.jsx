@@ -555,7 +555,7 @@ const ClientInvoiceDetails=()=>{
 
             )}
 
-            {invoice.payments?.length > 0 && (
+            {/* {invoice.payments?.length > 0 && (
 
                 <div className="client-invoice-payments">
 
@@ -564,7 +564,7 @@ const ClientInvoiceDetails=()=>{
                     </h2>
 
                     {invoice.payments.filter(payment=>payment.status === "Paid").map(payment=>(
-
+                    {(Array.isArray(invoice.payments) ? invoice.payments : []).filter(payment => payment.status === "Paid").map(payment => (
                                 <div key={payment._id}>
 
                                     <strong>
@@ -584,6 +584,40 @@ const ClientInvoiceDetails=()=>{
                                 </div>
                             )
                         )}
+
+                </div>
+            )} */}
+
+
+            {Array.isArray(invoice.paymentHistory) && invoice.paymentHistory.some(payment => payment.status === "Paid") && (
+
+                <div className="client-invoice-payments">
+
+                    <h2>
+                        Payment History
+                    </h2>
+
+                    {invoice.paymentHistory.filter(payment => payment.status === "Paid").map(payment => (
+
+                            <div key={payment._id}>
+
+                                <strong>
+                                    {formatAmount(payment.amount)}
+                                </strong>
+
+                                <span>
+                                    Paid on{" "}
+                                    {formatDate(payment.paidAt)}
+                                </span>
+
+                                <small>
+                                    Payment ID:{" "}
+                                    {payment.razorpayPaymentId}
+                                </small>
+
+                            </div>
+                        )
+                    )}
 
                 </div>
             )}

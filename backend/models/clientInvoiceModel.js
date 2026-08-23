@@ -189,7 +189,7 @@ const clientInvoiceSchema = new mongoose.Schema(
             trim: true
         },
 
-        payments: {
+        paymentHistory: {
             type: [paymentSchema],
             default: []
         },

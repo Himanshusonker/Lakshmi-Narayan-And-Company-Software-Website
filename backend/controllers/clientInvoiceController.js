@@ -436,7 +436,7 @@ const createInvoicePaymentOrder=async(req, res)=>{
 
             });
 
-        invoice.payments.push({razorpayOrderId:razorpayOrder.id, amount:invoice.dueAmount, status: "Created"});
+        invoice.paymentHistory.push({razorpayOrderId:razorpayOrder.id, amount:invoice.dueAmount, status: "Created"});
 
         await invoice.save();
 
@@ -468,7 +468,7 @@ const verifyInvoicePayment=async(req, res)=>{
             return res.status(400).json({success: false, message:"Payment verification data is incomplete"});
         }
 
-        const invoice=await ClientInvoice.findOne({company: companyId, "payments.razorpayOrderId":razorpay_order_id, isActive: true});
+        const invoice=await ClientInvoice.findOne({company: companyId, "paymentHistory.razorpayOrderId":razorpay_order_id, isActive: true});
 
         if (!invoice) {
 
@@ -482,7 +482,7 @@ const verifyInvoicePayment=async(req, res)=>{
             return res.status(400).json({success: false, message:"Invalid payment signature"});
         }
 
-        const payment=invoice.payments.find(item=>item.razorpayOrderId === razorpay_order_id);
+        const payment=invoice.paymentHistory.find(item=>item.razorpayOrderId === razorpay_order_id);
 
         if (!payment) {
 
@@ -761,7 +761,8 @@ const downloadClientInvoicePDF = async (req, res) => {
         doc.font(regularFont).fontSize(10.5).fillColor(textGray).text("76/229, Kuli Bazar",left + 12,headerTop + 40)
             .text("District: Kanpur Nagar",left + 12, headerTop + 56)
             .text("State: Uttar Pradesh", left + 12, headerTop + 72)
-            .text("Country: India", left + 12, headerTop + 88);
+            .text("Country: India", left + 12, headerTop + 88)
+            .text("Contact: 9335187678", left + 12, headerTop + 104);
 
 
         // INVOICE heading
@@ -840,7 +841,7 @@ const downloadClientInvoicePDF = async (req, res) => {
 
         const clientName =invoice.company?.companyName || "Client";
 
-        doc.font(boldFont).fontSize(10).fillColor("#222222").text(clientName, left + 10, addressTop + 48,
+        doc.font(boldFont).fontSize(11).fillColor("#222222").text(clientName, left + 10, addressTop + 48,
                 {
                     width: 195,
                     lineGap: 2
@@ -855,7 +856,7 @@ const downloadClientInvoicePDF = async (req, res) => {
         {
             width: 195,
             font: boldFont,
-            fontSize: 10
+            fontSize: 11
         }
     );
 
@@ -1130,10 +1131,13 @@ const downloadClientInvoicePDF = async (req, res) => {
         // FOOTER
         // ==================================================
 
-        doc.font(regularFont).fontSize(8).fillColor(textGray).text("Lakshmi Narayan And Company", left, bottomTop + 123,
+        const footerY = pageHeight - 55;
+
+        doc.font(regularFont).fontSize(8).fillColor(textGray).text("Lakshmi Narayan And Company", left, footerY,
         {
             width: contentWidth,
-            align: "center"
+            align: "center",
+            lineBreak: false
         }
         );
 
