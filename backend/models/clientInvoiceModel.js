@@ -8,6 +8,12 @@ const invoiceItemSchema= new mongoose.Schema(
             trim: true
         },
 
+        hsnSac: {
+            type: String,
+            default: "",
+            trim: true
+        },
+
         quantity: {
             type: Number,
             default: 1,
@@ -91,7 +97,6 @@ const clientInvoiceSchema = new mongoose.Schema(
         invoiceNumber: {
             type: String,
             required: true,
-            unique: true,
             trim: true
         },
 
@@ -111,6 +116,96 @@ const clientInvoiceSchema = new mongoose.Schema(
             type: String,
             required: true,
             trim: true
+        },
+
+
+        // ==================================================
+        // GST INVOICE DETAILS
+        // ==================================================
+
+        invoiceType: {
+            type: String,
+            enum: ["Invoice", "GST Invoice"],
+            default: "Invoice"
+        },
+
+        sellerGSTIN: {
+            type: String,
+            default: "",
+            trim: true,
+            uppercase: true
+        },
+
+        buyerGSTIN: {
+            type: String,
+            default: "",
+            trim: true,
+            uppercase: true
+        },
+
+        clientState: {
+        type: String,
+        default: "",
+        trim: true
+        },
+
+        clientStateCode: {
+            type: String,
+            default: "",
+            trim: true
+        },
+
+        placeOfSupply: {
+            type: String,
+            default: "",
+            trim: true
+        },
+
+        reverseCharge: {
+            type: Boolean,
+            default: false
+        },
+
+        cgstPercentage: {
+            type: Number,
+            default: 0,
+            min: 0
+        },
+
+        cgstAmount: {
+            type: Number,
+            default: 0,
+            min: 0
+        },
+
+        sgstPercentage: {
+            type: Number,
+            default: 0,
+            min: 0
+        },
+
+        sgstAmount: {
+            type: Number,
+            default: 0,
+            min: 0
+        },
+
+        igstPercentage: {
+            type: Number,
+            default: 0,
+            min: 0
+        },
+
+        igstAmount: {
+            type: Number,
+            default: 0,
+            min: 0
+        },
+
+        gstType: {
+            type: String,
+            enum: ["CGST_SGST", "IGST"],
+            default: "CGST_SGST"
         },
 
         items: {
@@ -211,36 +306,119 @@ const clientInvoiceSchema = new mongoose.Schema(
 
 clientInvoiceSchema.pre("save", function (next) {
 
+    // ==================================================
+    // ITEM AMOUNT + SUBTOTAL
+    // ==================================================
+
     const subtotal = this.items.reduce((total, item) => {
 
-            const quantity = Number(item.quantity || 0);
-            const rate = Number(item.rate || 0);
+        const quantity = Number(item.quantity || 0);
+        const rate = Number(item.rate || 0);
 
-            item.amount = quantity * rate;
+        item.amount = quantity * rate;
 
-            return total + item.amount;
+        return total + item.amount;
 
-        },
-        0
-    );
+    }, 0);
 
     this.subtotal = subtotal;
 
-    const taxPercentage = Number(this.taxPercentage || 0);
-
-    this.taxAmount= (subtotal * taxPercentage) / 100;
 
     // ==================================================
-    // DISCOUNT CALCULATION CODE COMMENT HAI
+    // TAX / GST CALCULATION
     // ==================================================
 
-    // this.totalAmount= Math.max(0, subtotal + this.taxAmount - Number(this.discount || 0));
+    if (this.invoiceType === "GST Invoice") {
 
-    this.totalAmount= Math.max(0, subtotal + this.taxAmount);
+        if (this.gstType === "IGST") {
 
-    this.paidAmount= Math.max(0, Number(this.paidAmount || 0));
+            // ==========================================
+            // IGST
+            // ==========================================
 
-    this.dueAmount = Math.max(0, this.totalAmount - this.paidAmount);
+            const igstPercentage = Number(this.igstPercentage || 0);
+
+            this.cgstPercentage = 0;
+            this.cgstAmount = 0;
+
+            this.sgstPercentage = 0;
+            this.sgstAmount = 0;
+
+            this.igstPercentage = igstPercentage;
+
+            this.igstAmount =(subtotal * igstPercentage) / 100;
+
+            this.taxAmount =this.igstAmount;
+
+        } else {
+
+            // ==========================================
+            // CGST + SGST
+            // ==========================================
+
+            const cgstPercentage = Number(this.cgstPercentage || 0);
+
+            const sgstPercentage = Number(this.sgstPercentage || 0);
+
+            this.cgstPercentage = cgstPercentage;
+
+            this.cgstAmount =(subtotal * cgstPercentage) / 100;
+
+            this.sgstPercentage = sgstPercentage;
+
+            this.sgstAmount =(subtotal * sgstPercentage) / 100;
+
+            this.igstPercentage = 0;
+            this.igstAmount = 0;
+
+            this.taxAmount =this.cgstAmount + this.sgstAmount;
+        }
+
+    } else {
+
+        // ==============================================
+        // NORMAL INVOICE
+        // ==============================================
+
+        const taxPercentage =Number(this.taxPercentage || 0);
+
+        this.taxAmount =(subtotal * taxPercentage) / 100;
+
+        this.cgstPercentage = 0;
+        this.cgstAmount = 0;
+
+        this.sgstPercentage = 0;
+        this.sgstAmount = 0;
+
+        this.igstPercentage = 0;
+        this.igstAmount = 0;
+    }
+
+
+    // ==================================================
+    // TOTAL
+    // ==================================================
+
+    this.totalAmount =Math.max(0, subtotal + this.taxAmount);
+
+
+    // ==================================================
+    // PAID AMOUNT
+    // ==================================================
+
+    this.paidAmount =Math.max(0, Number(this.paidAmount || 0));
+
+
+    // ==================================================
+    // DUE AMOUNT
+    // ==================================================
+
+    this.dueAmount =Math.max( 0, this.totalAmount - this.paidAmount);
+
+
+    // ==================================================
+    // STATUS
+    // ==================================================
 
     if (this.status !== "Draft" && this.status !== "Cancelled") {
 
@@ -252,7 +430,9 @@ clientInvoiceSchema.pre("save", function (next) {
 
             this.status = "Partially Paid";
 
-        } else if (this.dueDate && new Date(this.dueDate) < new Date()) {
+        } else if (
+            this.dueDate && new Date(this.dueDate) < new Date()
+        ) {
 
             this.status = "Overdue";
 

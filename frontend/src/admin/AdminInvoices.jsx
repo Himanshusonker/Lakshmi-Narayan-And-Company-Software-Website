@@ -4,6 +4,7 @@ import adminAxios from "../api/adminAxios";
 const AdminInvoices = () => {
 
     const [invoices, setInvoices] = useState([]);
+    const [invoiceType, setInvoiceType] = useState(null);
     const [companies, setCompanies] = useState([]);
     const [projects, setProjects] = useState([]);
 
@@ -13,6 +14,8 @@ const AdminInvoices = () => {
 
     const [editingInvoice, setEditingInvoice] =useState(null);
 
+    const [searchTerm, setSearchTerm] = useState("");
+
     const initialForm = {
 
         company: "",
@@ -21,10 +24,22 @@ const AdminInvoices = () => {
         title: "",
         description: "",
         clientAddress: "",
-        
+        invoiceType: "Invoice",
+        clientState: "",
+        clientStateCode: "",
+        sellerGSTIN: "",
+        buyerGSTIN: "",
+        placeOfSupply: "",
+        reverseCharge: false,
+        hsnSac: "",
+        cgstPercentage: 9,
+        sgstPercentage: 9,
+        igstPercentage: 0,
+        gstType: "CGST_SGST",
         items: [
             {
                 description: "",
+                hsnSac: "",
                 quantity: 1,
                 rate: 0
             }
@@ -41,6 +56,31 @@ const AdminInvoices = () => {
 
     const [formData, setFormData] =useState(initialForm);
 
+
+        // ==================================================
+        // SEARCH + NORMAL / GST FILTER
+        // ==================================================
+
+        const filteredInvoices = invoices.filter((invoice) => {
+
+            const search = searchTerm.toLowerCase().trim();
+
+            if (!search) {
+                return true;
+            }
+
+            return (
+                invoice.invoiceNumber?.toLowerCase().includes(search) ||
+                invoice.company?.companyName?.toLowerCase().includes(search) ||
+                invoice.project?.projectName?.toLowerCase().includes(search) ||
+                invoice.status?.toLowerCase().includes(search)
+            );
+
+        });
+
+        const normalInvoices = filteredInvoices.filter(invoice => invoice.invoiceType !== "GST Invoice");
+
+        const gstInvoices = filteredInvoices.filter(invoice => invoice.invoiceType === "GST Invoice");
 
     // ==================================================
     // FETCH INVOICES
@@ -192,6 +232,7 @@ const AdminInvoices = () => {
 
                 {
                     description: "",
+                    hsnSac: "",
                     quantity: 1,
                     rate: 0
                 }
@@ -221,7 +262,9 @@ const AdminInvoices = () => {
 
         setEditingInvoice(null);
 
-        setFormData(initialForm);
+        setInvoiceType("Invoice");
+
+        setFormData({...initialForm, invoiceType: "Invoice"});
 
         setShowModal(true);
 
@@ -235,6 +278,8 @@ const AdminInvoices = () => {
     const handleEdit = (invoice) => {
 
         setEditingInvoice(invoice);
+
+        setInvoiceType(invoice.invoiceType || "Invoice");
 
         setFormData({
 
@@ -250,14 +295,41 @@ const AdminInvoices = () => {
 
             clientAddress: invoice.clientAddress || "",
 
-            items:invoice.items?.map(item => ({
+            clientState: invoice.clientState || "",
 
-                        description:item.description,
+            clientStateCode: invoice.clientStateCode || "",
 
-                        quantity:item.quantity,
+            gstType: invoice.gstType || "CGST_SGST",
 
-                        rate:item.rate
-                    })) || [],
+            sellerGSTIN: invoice.sellerGSTIN || "",
+            
+            buyerGSTIN: invoice.buyerGSTIN || "",
+
+            placeOfSupply: invoice.placeOfSupply || "",
+            
+            reverseCharge: invoice.reverseCharge || false,
+            
+            hsnSac: invoice.hsnSac || invoice.items?.[0]?.hsnSac || "",
+            
+            cgstPercentage: invoice.cgstPercentage ?? 9,
+            
+            sgstPercentage: invoice.sgstPercentage ?? 9,
+            
+            igstPercentage: invoice.igstPercentage ?? 0,
+            
+            invoiceType: invoice.invoiceType || "Invoice",
+
+            items: invoice.items?.map(item => ({
+                
+                description: item.description || "",
+                
+                hsnSac: item.hsnSac || "",
+                
+                quantity: item.quantity || 1,
+                
+                rate: item.rate || 0
+            
+            })) || [],
 
             taxPercentage:invoice.taxPercentage || 0,
 
@@ -292,6 +364,14 @@ const AdminInvoices = () => {
 
                 taxPercentage:Number(formData.taxPercentage),
 
+                cgstPercentage: Number(formData.cgstPercentage) || 0,
+
+                sgstPercentage: Number(formData.sgstPercentage) || 0,
+
+                igstPercentage: Number(formData.igstPercentage) || 0,
+
+                reverseCharge: Boolean(formData.reverseCharge),
+
                 // discount:Number(formData.discount),
 
                 items: formData.items.map(item => {
@@ -301,6 +381,7 @@ const AdminInvoices = () => {
 
                     return {
                         description: item.description,
+                        hsnSac: item.hsnSac || "",
                         quantity,
                         rate,
                         amount: quantity * rate
@@ -316,7 +397,7 @@ const AdminInvoices = () => {
 
             } else {
 
-                response= await adminAxios.post("/api/admin/invoices", payload);
+                        response= await adminAxios.post("/api/admin/invoices", payload);
 
             }
 
@@ -339,6 +420,93 @@ const AdminInvoices = () => {
             console.error("Invoice Save Error:", error);
 
             alert(error.response?.data?.message || "Failed to save invoice");
+
+        }
+
+    };
+
+
+    // ==================================================
+    // DOWNLOAD NORMAL INVOICE
+    // ==================================================
+
+    const handleDownloadInvoice = async (id, invoiceNumber) => {
+
+        try {
+
+            const response =await adminAxios.get(`/api/admin/invoices/${id}/pdf`,
+                    {
+                        responseType: "blob"
+                    }
+                );
+
+            const blob = new Blob(
+                [response.data],
+                {
+                    type: "application/pdf"
+                }
+            );
+
+            const url =window.URL.createObjectURL(blob);
+
+            const link=document.createElement("a");
+
+            link.href = url;
+
+            link.download=`${invoiceNumber}.pdf`;
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            link.remove();
+
+            window.URL.revokeObjectURL(url);
+
+        } catch (error) {
+
+            console.error("Normal Invoice Download Error:", error);
+
+            alert("Failed to download invoice");
+
+        }
+
+    };
+
+
+    // ==================================================
+    // DOWNLOAD GST INVOICE
+    // ==================================================
+
+    const handleDownloadGSTInvoice= async (id, invoiceNumber) => {
+
+        try {
+
+            const response= await adminAxios.get(`/api/admin/invoices/${id}/gst-invoice`, {responseType: "blob"});
+
+            const blob = new Blob([response.data], {type: "application/pdf"});
+
+            const url=window.URL.createObjectURL(blob);
+
+            const link=document.createElement("a");
+
+            link.href=url;
+
+            link.download=`${invoiceNumber}-GST-Invoice.pdf`;
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            link.remove();
+
+            window.URL.revokeObjectURL(url);
+
+        } catch (error) {
+
+            console.error("GST Invoice Download Error:", error);
+
+            alert("Failed to download GST Invoice");
 
         }
 
@@ -391,6 +559,30 @@ const AdminInvoices = () => {
 
             <div className="admin-invoices-header">
 
+                {/* {!invoiceType && (
+
+                    <div className="invoice-type-selector">
+
+                        <p>
+                            Select Invoice Type
+                        </p>
+
+                        <div className="invoice-type-buttons">
+
+                            <button type="button" onClick={() => {setInvoiceType("Invoice"); setFormData(prev => ({...prev, invoiceType: "Invoice"}));}}>
+                                Invoice
+                            </button>
+
+                            <button type="button" onClick={() => {setInvoiceType("GST Invoice"); setFormData(prev => ({...prev, invoiceType: "GST Invoice"}));}}>
+                                GST Invoice
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                )} */}
+
                 <div>
 
                     <span>
@@ -415,103 +607,232 @@ const AdminInvoices = () => {
 
             </div>
 
-            <div className="admin-invoice-table-wrapper">
+            <div className="admin-invoice-search">
 
-                <table>
+                <input type="text" placeholder="Search Invoice Number, Company, Project..." value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value);}}/>
 
-                    <thead>
+            </div>
 
-                        <tr>
+                    {/* =====================================================
+                                        NORMAL INVOICES
+                    ===================================================== */}
 
-                            <th>
-                                Invoice
-                            </th>
+            <div className="admin-invoice-section">
 
-                            <th>
-                                Company
-                            </th>
+                <div className="admin-invoice-section-header">
+                    <div>
+                        <span>REGULAR BILLING</span>
+                        <h2>Normal Invoices</h2>
+                    </div>
 
-                            <th>
-                                Project
-                            </th>
+                    <strong>
+                        {normalInvoices.length} Invoice {normalInvoices.length !== 1 ? "s" : ""}
+                    </strong>
+                </div>
 
-                            <th>
-                                Amount
-                            </th>
 
-                            <th>
-                                Due
-                            </th>
+                <div className="admin-invoice-table-wrapper invoice-scroll-box">
 
-                            <th>
-                                Due Date
-                            </th>
+                    <table>
 
-                            <th>
-                                Status
-                            </th>
+                        <thead>
+                            <tr>
+                                <th>Invoice</th>
+                                <th>Company</th>
+                                <th>Project</th>
+                                <th>Amount</th>
+                                <th>Due</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
 
-                            <th>
-                                Actions
-                            </th>
+                        <tbody>
 
-                        </tr>
+                            {normalInvoices.length > 0 ? (
 
-                    </thead>
+                                normalInvoices.map(invoice => (
 
-                    <tbody>
+                                    <tr key={invoice._id}>
 
-                        {invoices.map(invoice => (
+                                        <td>
+                                            {invoice.invoiceNumber}
+                                        </td>
 
-                                <tr key={invoice._id}>
+                                        <td>
+                                            {invoice.company?.companyName}
+                                        </td>
 
-                                    <td>
-                                        {invoice.invoiceNumber}
+                                        <td>
+                                            {invoice.project?.projectName || "General"}
+                                        </td>
+
+                                        <td>
+                                            ₹ {Number(invoice.totalAmount).toLocaleString("en-IN")}
+                                        </td>
+
+                                        <td>
+                                            ₹ {Number(invoice.dueAmount).toLocaleString("en-IN")}
+                                        </td>
+
+                                        <td>
+                                            {new Date(invoice.dueDate).toLocaleDateString("en-IN")}
+                                        </td>
+
+                                        <td>
+                                            {invoice.status}
+                                        </td>
+
+                                        <td>
+
+                                            <button onClick={() =>handleDownloadInvoice(invoice._id, invoice.invoiceNumber)}>
+                                                Invoice
+                                            </button>
+
+                                            <button onClick={() => handleEdit(invoice)}>
+                                                Edit
+                                            </button>
+
+                                            <button onClick={() => handleDelete(invoice._id)}>
+                                                Delete
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+
+                                ))
+
+                                ) : (
+
+                                <tr>
+                                    <td colSpan="8" className="admin-invoice-empty">
+                                        No Normal Invoice Found
                                     </td>
-
-                                    <td>
-                                        {invoice.company ?.companyName}
-                                    </td>
-
-                                    <td>
-                                        {invoice.project ?.projectName || "General"}
-                                    </td>
-
-                                    <td>
-                                        ₹ {Number(invoice.totalAmount).toLocaleString("en-IN")}
-                                    </td>
-
-                                    <td>
-                                        ₹ {Number(invoice.dueAmount).toLocaleString("en-IN")}
-                                    </td>
-
-                                    <td>
-                                        {new Date(invoice.dueDate).toLocaleDateString("en-IN")}
-                                    </td>
-
-                                    <td>
-                                        {invoice.status}
-                                    </td>
-
-                                    <td>
-
-                                        <button onClick={() =>handleEdit(invoice)}>
-                                            Edit
-                                        </button>
-
-                                        <button onClick={() =>handleDelete(invoice._id)}>
-                                            Delete
-                                        </button>
-
-                                    </td>
-
                                 </tr>
-                            )
-                        )}
 
-                    </tbody>
+                            )}
 
-                </table>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+            </div>
+
+
+                        {/* =====================================================
+                                                GST INVOICES
+                        ===================================================== */}
+
+            <div className="admin-invoice-section gst-invoice-list-section">
+
+                <div className="admin-invoice-section-header">
+
+                    <div>
+                        <span>GST BILLING</span>
+                        <h2>GST Invoices</h2>
+                    </div>
+
+                    <strong>
+                        {gstInvoices.length} GST Invoice {gstInvoices.length !== 1 ? "s" : ""}
+                    </strong>
+
+                </div>
+
+
+                <div className="admin-invoice-table-wrapper invoice-scroll-box">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Invoice</th>
+                                <th>Company</th>
+                                <th>Project</th>
+                                <th>Amount</th>
+                                <th>Due</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {gstInvoices.length > 0 ? (
+
+                                gstInvoices.map(invoice => (
+
+                                    <tr key={invoice._id}>
+
+                                        <td>
+                                            {invoice.invoiceNumber}
+                                        </td>
+
+                                        <td>
+                                            {invoice.company?.companyName}
+                                        </td>
+
+                                        <td>
+                                            {invoice.project?.projectName || "General"}
+                                        </td>
+
+                                        <td>
+                                            ₹ {Number(invoice.totalAmount).toLocaleString("en-IN")}
+                                        </td>
+
+                                        <td>
+                                            ₹ {Number(invoice.dueAmount).toLocaleString("en-IN")}
+                                        </td>
+
+                                        <td>
+                                            {new Date(invoice.dueDate).toLocaleDateString("en-IN")}
+                                        </td>
+
+                                        <td>
+                                            {invoice.status}
+                                        </td>
+
+                                        <td>
+
+                                            <button onClick={() =>handleDownloadGSTInvoice(invoice._id, invoice.invoiceNumber)}>
+                                                GST Invoice
+                                            </button>
+
+                                            <button onClick={() => handleEdit(invoice)}>
+                                                Edit
+                                            </button>
+
+                                            <button onClick={() => handleDelete(invoice._id)}>
+                                                Delete
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+
+                                ))
+
+                            ) : (
+
+                                <tr>
+                                    <td colSpan="8" className="admin-invoice-empty">
+                                        No GST Invoice Found
+                                    </td>
+                                </tr>
+
+                            )}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
 
             </div>
 
@@ -538,6 +859,20 @@ const AdminInvoices = () => {
                         </div>
 
                         <form onSubmit={handleSubmit}>
+
+                            <div className="invoice-type-selector">
+                                <label>Invoice Type *</label>
+
+                                <select value={invoiceType || "Invoice"} onChange={(e) => { const type = e.target.value; setInvoiceType(type); setFormData(prev => ({...prev, invoiceType: type}));}}>
+                                    <option value="Invoice">
+                                        Invoice
+                                    </option>
+
+                                    <option value="GST Invoice">
+                                        GST Invoice
+                                    </option>
+                                </select>
+                            </div>
 
                             <label>
                                 Company *
@@ -566,6 +901,124 @@ const AdminInvoices = () => {
                             </label>
 
                                 <textarea name="clientAddress" value={formData.clientAddress} onChange={handleChange} placeholder="Enter client billing address" rows="4" required/>
+
+                            {/* =====================================================
+                                                GST ONLY FIELDS
+                            ===================================================== */}
+
+                            {invoiceType === "GST Invoice" && (
+
+                            <>
+
+                            <label>
+                                Client State *
+                            </label>
+
+                            <input name="clientState" value={formData.clientState} onChange={handleChange} placeholder="e.g. Madhya Pradesh" required/>
+
+                            <label>
+                                Client State Code *
+                            </label>
+
+                            <input name="clientStateCode" value={formData.clientStateCode} onChange={handleChange} placeholder="e.g. 23" maxLength="2" required/>
+
+                            <label>
+                                GST Type
+                            </label>
+
+                            <select name="gstType" value={formData.gstType} onChange={handleChange}>
+
+                                <option value="CGST_SGST">
+                                    CGST + SGST
+                                </option>
+
+                                <option value="IGST">
+                                    IGST
+                                </option>
+
+                            </select>
+
+                            </>
+
+                            )}
+
+                        {/* =====================================================
+                                        GST INVOICE DETAILS
+                        ===================================================== */}
+
+                            {invoiceType === "GST Invoice" && (
+
+                            <div className="gst-invoice-section">
+
+                                <h3>
+                                    GST Invoice Details
+                                </h3>
+
+                                <label>
+                                    Seller GSTIN *
+                                </label>
+
+                                <input name="sellerGSTIN" value={formData.sellerGSTIN} onChange={handleChange} placeholder="Enter Seller GSTIN" maxLength="15" required/>
+
+                                <label>
+                                    Buyer GSTIN *
+                                </label>
+
+                                <input name="buyerGSTIN" value={formData.buyerGSTIN} onChange={handleChange} placeholder="Enter Client GSTIN" maxLength="15" required/>
+
+                                <label>
+                                    Place of Supply
+                                </label>
+
+                                <input name="placeOfSupply" value={formData.placeOfSupply} onChange={handleChange} placeholder="e.g. Madhya Pradesh" required/>
+
+                                <label>
+                                    HSN / SAC Code *
+                                </label>
+
+                                <input name="hsnSac" value={formData.hsnSac} onChange={handleChange} placeholder="Enter HSN / SAC Code" required/>
+
+                                <label>
+                                    Reverse Charge
+                                </label>
+
+                                <select name="reverseCharge" value={formData.reverseCharge ? "Yes" : "No"} onChange={(e) =>setFormData(prev => ({...prev, reverseCharge: e.target.value === "Yes"}))}>
+
+                                    <option value="No">
+                                        No
+                                    </option>
+
+                                    <option value="Yes">
+                                        Yes
+                                    </option>
+
+                                </select>
+
+                                <h4>
+                                    GST Tax Breakdown
+                                </h4>
+
+                                <label>
+                                    CGST %
+                                </label>
+
+                                <input type="number" min="0" name="cgstPercentage" value={formData.cgstPercentage} onChange={handleChange}/>
+
+                                <label>
+                                    SGST %
+                                </label>
+
+                                <input type="number" min="0" name="sgstPercentage" value={formData.sgstPercentage} onChange={handleChange}/>
+
+                                <label>
+                                    IGST %
+                                </label>
+
+                                <input type="number" min="0" name="igstPercentage" value={formData.igstPercentage} onChange={handleChange}/>
+
+                            </div>
+
+                        )}
 
                             <label>
                                 Project
@@ -623,6 +1076,12 @@ const AdminInvoices = () => {
 
                                         <input placeholder="Description" value={item.description} onChange={e =>handleItemChange(index, "description", e.target.value)} required/>
 
+                                        {invoiceType === "GST Invoice" && (
+
+                                        <input placeholder="HSN / SAC" value={item.hsnSac || ""} onChange={e => handleItemChange(index, "hsnSac", e.target.value)} required/>
+
+                                        )}
+
                                         <input type="number" min="1" placeholder="Qty" value={item.quantity} onChange={e =>handleItemChange(index, "quantity", e.target.value)}/>
 
                                         <input type="number" min="0" placeholder="Rate" value={item.rate} onChange={e =>handleItemChange(index, "rate", e.target.value)}/>
@@ -643,11 +1102,18 @@ const AdminInvoices = () => {
                                 + Add Item
                             </button>
 
+                            {invoiceType !== "GST Invoice" && (
+                            
+                            <>
+
                             <label>
                                 Tax %
                             </label>
 
                             <input type="number" min="0" name="taxPercentage" value={formData.taxPercentage} onChange={handleChange}/>
+
+                            </>
+                            )}
 
                             {/* <label>
                                 Discount

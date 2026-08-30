@@ -102,7 +102,7 @@
 
 .admin-invoice-table-wrapper table {
     width: 100%;
-    min-width: 1050px;
+    min-width: 1150px;
     border-collapse: collapse;
 }
 
@@ -216,37 +216,77 @@
 
 
 /* =========================================================
-   ACTIONS
+   ACTIONS - FIXED ALIGNMENT
 ========================================================= */
 
 .admin-invoice-table-wrapper td:last-child {
     white-space: nowrap;
+    min-width: 250px;
+    width: 250px;
 }
 
+/* सभी action buttons की fixed width */
 .admin-invoice-table-wrapper td:last-child button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+
+    width: 90px;
+    min-width: 90px;
+    height: 34px;
+
+    padding: 0;
+    margin: 0 6px 0 0;
+
     border: none;
     outline: none;
-    padding: 8px 13px;
-    margin-right: 7px;
     border-radius: 7px;
+
     font-size: 12px;
     font-weight: 600;
+
     cursor: pointer;
+    white-space: nowrap;
+
+    box-sizing: border-box;
+
     transition: all 0.2s ease;
 }
 
+/* Invoice / GST Invoice */
 .admin-invoice-table-wrapper td:last-child button:first-child {
     background: #eff6ff;
     color: #2563eb;
 }
 
+/* Edit */
+.admin-invoice-table-wrapper td:last-child button:nth-child(2) {
+    width: 60px;
+    min-width: 60px;
+
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+/* Delete */
+.admin-invoice-table-wrapper td:last-child button:last-child {
+    width: 65px;
+    min-width: 65px;
+
+    margin-right: 0;
+
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+/* Hover */
 .admin-invoice-table-wrapper td:last-child button:first-child:hover {
     background: #dbeafe;
 }
 
-.admin-invoice-table-wrapper td:last-child button:last-child {
-    background: #fef2f2;
-    color: #dc2626;
+.admin-invoice-table-wrapper td:last-child button:nth-child(2):hover {
+    background: #dcfce7;
 }
 
 .admin-invoice-table-wrapper td:last-child button:last-child:hover {
@@ -686,7 +726,7 @@
     }
 
     .admin-invoice-table-wrapper table {
-        min-width: 950px;
+        min-width: 1150px;
     }
 
     .admin-invoice-table-wrapper th {
@@ -859,4 +899,257 @@
     color: #111827;
     border-color: #d1d5db;
     transform: rotate(90deg);
+}
+
+/* =========================================================
+   INVOICE SEARCH
+========================================================= */
+
+.admin-invoice-search {
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.admin-invoice-search input {
+    width: 100%;
+    height: 48px;
+    box-sizing: border-box;
+
+    padding: 0 16px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+
+    background: #ffffff;
+    color: #111827;
+
+    font-size: 14px;
+    outline: none;
+
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+
+    transition: all 0.2s ease;
+}
+
+.admin-invoice-search input::placeholder {
+    color: #9ca3af;
+}
+
+.admin-invoice-search input:focus {
+    border-color: #111827;
+    box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
+}
+
+
+/* =========================================================
+   INVOICE SECTION
+========================================================= */
+
+.admin-invoice-section {
+    width: 100%;
+    margin-bottom: 45px;
+}
+
+.admin-invoice-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.admin-invoice-section-header span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #6b7280;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 1.3px;
+}
+
+.admin-invoice-section-header h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.admin-invoice-section-header strong {
+    padding: 7px 12px;
+
+    border-radius: 20px;
+
+    background: #f3f4f6;
+    color: #4b5563;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   TABLE SCROLL AREA
+========================================================= */
+
+.admin-invoice-section .admin-invoice-table-wrapper {
+    max-height: 305px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.admin-invoice-section .admin-invoice-table-wrapper thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #f8fafc;
+}
+
+
+/* =========================================================
+   LOAD MORE
+========================================================= */
+
+.admin-invoice-load-more {
+    display: block;
+
+    margin: 14px auto 0;
+
+    padding: 9px 18px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #374151;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.admin-invoice-load-more:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.admin-invoice-empty {
+    padding: 35px !important;
+
+    text-align: center !important;
+
+    color: #9ca3af !important;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   GST SECTION
+========================================================= */
+
+.gst-invoice-list-section {
+    margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+
+    .admin-invoice-search {
+        margin-bottom: 20px;
+    }
+
+    .admin-invoice-section {
+        margin-bottom: 35px;
+    }
+
+    .admin-invoice-section-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .admin-invoice-section-header h2 {
+        font-size: 19px;
+    }
+
+    .admin-invoice-section .admin-invoice-table-wrapper {
+        max-height: 300px;
+    }
+
+    .admin-invoice-load-more {
+        width: 100%;
+    }
+
+}
+
+
+/* =====================================================
+   INVOICE SCROLL BOX
+===================================================== */
+
+.invoice-scroll-box {
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: auto;
+    border: 1px solid #ddd;
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.invoice-scroll-box table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+
+/* =====================================================
+   STICKY HEADER
+===================================================== */
+
+.invoice-scroll-box thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #ffffff;
+}
+
+
+/* =====================================================
+   SCROLLBAR
+===================================================== */
+
+.invoice-scroll-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.invoice-scroll-box::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.invoice-scroll-box::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.invoice-scroll-box::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

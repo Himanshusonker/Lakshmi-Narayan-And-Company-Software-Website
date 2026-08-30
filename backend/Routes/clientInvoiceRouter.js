@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const {getAllInvoices, getInvoiceById, createInvoice, updateInvoice, deleteInvoice, getClientInvoices, getClientInvoiceById, createInvoicePaymentOrder, verifyInvoicePayment, downloadClientInvoicePDF}=require("../controllers/clientInvoiceController");
+const {getAllInvoices, getInvoiceById, createInvoice, updateInvoice, deleteInvoice, getClientInvoices, getClientInvoiceById, createInvoicePaymentOrder, verifyInvoicePayment, downloadClientInvoicePDF, downloadClientGSTInvoicePDF}=require("../controllers/clientInvoiceController");
 
 // ======================================================
 // MIDDLEWARE
@@ -25,6 +25,8 @@ router.post("/admin/invoices", adminAuth, createInvoice);
 router.put("/admin/invoices/:id", adminAuth, updateInvoice);
 
 router.delete("/admin/invoices/:id", adminAuth, deleteInvoice);
+
+router.get("/admin/invoices/:id/gst-invoice", adminAuth, downloadClientGSTInvoicePDF);
 
 
 // ======================================================

@@ -87,7 +87,7 @@ const createInvoice= async(req, res)=>{
     try {
 
         // const {company, project, invoiceNumber, title, description, items, taxPercentage, discount, issueDate, dueDate, notes}=req.body;
-        const {company, project, invoiceNumber, title, description, clientAddress, items, taxPercentage, issueDate, dueDate, notes}=req.body;
+        const {company, project, invoiceNumber, title, description, clientAddress, clientState, clientStateCode, gstType, items, taxPercentage, invoiceType, sellerGSTIN, buyerGSTIN, placeOfSupply, reverseCharge, hsnSac, cgstPercentage, sgstPercentage, igstPercentage, issueDate, dueDate, notes, status}=req.body;
 
         if (!company || !invoiceNumber || !title || !dueDate || !clientAddress) {
 
@@ -126,18 +126,44 @@ const createInvoice= async(req, res)=>{
             }
         }
 
+        // ==================================================
+        // INVOICE TYPE
+        // ==================================================
+
+        const finalInvoiceType =invoiceType === "GST Invoice" ? "GST Invoice" : "Invoice";
+
+
+        // ==================================================
+        // GENERATE INVOICE NUMBER
+        // NORMAL AND GST HAVE SEPARATE SERIAL
+        // ==================================================
+
+        const currentYear = new Date().getFullYear();
+
+        const lastInvoice = await ClientInvoice.findOne({invoiceType: finalInvoiceType, invoiceNumber: {$regex: `^INV-${currentYear}-`}}).sort({ createdAt: -1 });
+
+        let nextNumber = 1;
+
+        if (lastInvoice?.invoiceNumber) {
+
+            const match = lastInvoice.invoiceNumber.match(new RegExp(`^INV-${currentYear}-(\\d+)$`));
+
+            if (match) {
+                nextNumber = Number(match[1]) + 1;
+            }
+        }
+
+        const generatedInvoiceNumber =`INV-${currentYear}-${String(nextNumber).padStart(3, "0")}`;
 
         // ==================================================
         // CHECK DUPLICATE INVOICE
         // ==================================================
 
-        const existingInvoice=await ClientInvoice.findOne({invoiceNumber});
+        const existingInvoice = await ClientInvoice.findOne({invoiceType: finalInvoiceType, invoiceNumber: generatedInvoiceNumber});
 
         if (existingInvoice) {
-
-            return res.status(400).json({success: false, message:"Invoice number already exists"});
+            return res.status(400).json({success: false, message: "Invoice number already exists"});
         }
-
 
         // ==================================================
         // CREATE
@@ -149,7 +175,7 @@ const createInvoice= async(req, res)=>{
 
                 project:project || null,
 
-                invoiceNumber,
+                invoiceNumber:generatedInvoiceNumber,
 
                 title,
 
@@ -157,11 +183,43 @@ const createInvoice= async(req, res)=>{
 
                 clientAddress: clientAddress.trim(),
 
+                clientState: clientState || "",
+
+                clientStateCode: clientStateCode || "",
+
+                invoiceType: finalInvoiceType,
+
                 items:Array.isArray(items) ? items : [],
 
                 taxPercentage:Number(taxPercentage || 0),
 
                 // discount:Number(discount || 0),
+
+                // ==========================================
+                // GST FIELDS
+                // ==========================================
+
+                sellerGSTIN:invoiceType === "GST Invoice" ? (sellerGSTIN || "").trim().toUpperCase(): "",
+
+                buyerGSTIN:invoiceType === "GST Invoice" ? (buyerGSTIN || "").trim().toUpperCase(): "",
+
+                placeOfSupply:invoiceType === "GST Invoice" ? (placeOfSupply || "").trim(): "",
+
+                gstType: gstType || "CGST_SGST",
+
+                reverseCharge:invoiceType === "GST Invoice" ? Boolean(reverseCharge): false,
+
+                hsnSac:invoiceType === "GST Invoice" ? (hsnSac || "").trim(): "",
+
+                cgstPercentage:invoiceType === "GST Invoice" ? Number(cgstPercentage || 0) : 0,
+
+                sgstPercentage:invoiceType === "GST Invoice" ? Number(sgstPercentage || 0) : 0,
+
+                igstPercentage:invoiceType === "GST Invoice" ? Number(igstPercentage || 0) : 0,
+
+                // ==========================================
+                // DATES
+                // ==========================================
 
                 issueDate:issueDate || new Date(),
 
@@ -182,6 +240,12 @@ const createInvoice= async(req, res)=>{
     } catch (error) {
 
         console.error("Create Invoice Error:", error);
+
+        if (error.keyPattern?.invoiceNumber) {
+
+        return res.status(409).json({success: false, message: `Invoice number "${error.keyValue?.invoiceNumber}" already exists`});
+
+    }
 
         if (error.code === 11000) {
 
@@ -209,7 +273,7 @@ const updateInvoice=async(req, res)=>{
         }
 
         // const {company, project, invoiceNumber, title, description, items, taxPercentage, discount, issueDate, dueDate, notes, status}=req.body;
-        const {company, project, invoiceNumber, title, description, clientAddress, items, taxPercentage, issueDate, dueDate, notes, status}=req.body;
+        const {company, project, invoiceNumber, title, description, clientAddress, clientState, clientStateCode, gstType, items, taxPercentage, invoiceType, sellerGSTIN, buyerGSTIN, placeOfSupply, reverseCharge, hsnSac, cgstPercentage, sgstPercentage, igstPercentage, issueDate, dueDate, notes, status}=req.body;
 
         if (company !== undefined) {
 
@@ -242,6 +306,43 @@ const updateInvoice=async(req, res)=>{
             }
         }
 
+        if (invoiceType !== undefined) {
+
+            invoice.invoiceType = invoiceType;
+
+            if (invoiceType === "GST Invoice") {
+
+                invoice.sellerGSTIN =(sellerGSTIN || "").trim().toUpperCase();
+
+                invoice.buyerGSTIN =(buyerGSTIN || "").trim().toUpperCase();
+
+                invoice.placeOfSupply =(placeOfSupply || "").trim();
+
+                invoice.reverseCharge =Boolean(reverseCharge);
+
+                invoice.hsnSac =(hsnSac || "").trim();
+
+                invoice.cgstPercentage =Number(cgstPercentage || 0);
+
+                invoice.sgstPercentage =Number(sgstPercentage || 0);
+
+                invoice.igstPercentage=Number(igstPercentage || 0);
+
+            } else {
+
+                invoice.sellerGSTIN = "";
+                invoice.buyerGSTIN = "";
+                invoice.placeOfSupply = "";
+                invoice.reverseCharge = false;
+                invoice.hsnSac = "";
+                invoice.cgstPercentage = 0;
+                invoice.sgstPercentage = 0;
+                invoice.igstPercentage = 0;
+                invoice.gstType = "CGST_SGST";
+
+            }
+        }
+
         if (invoiceNumber !== undefined)
             invoice.invoiceNumber= invoiceNumber;
 
@@ -254,6 +355,18 @@ const updateInvoice=async(req, res)=>{
         if (clientAddress !== undefined) {
 
             invoice.clientAddress=clientAddress.trim();
+        }
+
+        if (clientState !== undefined) {
+            invoice.clientState = clientState;
+        }            
+
+        if (clientStateCode !== undefined) {
+            invoice.clientStateCode = clientStateCode;
+        }        
+
+        if (gstType !== undefined){
+            invoice.gstType = gstType;
         }
 
         if (items !== undefined)
@@ -532,7 +645,7 @@ const downloadClientInvoicePDF = async (req, res) => {
 
         const companyId=req.client.companyId;
 
-        const invoice= await ClientInvoice.findOne({_id: req.params.id, company: companyId, isActive: true}).populate("company", "companyName contactPerson email phone").populate("project", "projectName projectType");
+        const invoice= await ClientInvoice.findOne({_id: req.params.id, company: companyId, isActive: true}).populate("company", "companyName contactPerson email phone address gstNumber").populate("project", "projectName projectType");
 
         if (!invoice) {
 
@@ -1157,6 +1270,1359 @@ const downloadClientInvoicePDF = async (req, res) => {
 
 };
 
+
+
+// ======================================================
+// NUMBER TO WORDS - INDIAN FORMAT
+// ======================================================
+
+const numberToWordsIndian = (number) => {
+
+    const ones = [
+        "",
+        "One",
+        "Two",
+        "Three",
+        "Four",
+        "Five",
+        "Six",
+        "Seven",
+        "Eight",
+        "Nine",
+        "Ten",
+        "Eleven",
+        "Twelve",
+        "Thirteen",
+        "Fourteen",
+        "Fifteen",
+        "Sixteen",
+        "Seventeen",
+        "Eighteen",
+        "Nineteen"
+    ];
+
+    const tens = [
+        "",
+        "",
+        "Twenty",
+        "Thirty",
+        "Forty",
+        "Fifty",
+        "Sixty",
+        "Seventy",
+        "Eighty",
+        "Ninety"
+    ];
+
+    const convertBelowThousand = (num) => {
+
+        let result = "";
+
+        if (num >= 100) {
+
+            result +=
+                ones[Math.floor(num / 100)] +
+                " Hundred ";
+
+            num %= 100;
+
+        }
+
+        if (num >= 20) {
+
+            result +=
+                tens[Math.floor(num / 10)] +
+                " ";
+
+            num %= 10;
+
+        }
+
+        if (num > 0) {
+
+            result +=
+                ones[num] +
+                " ";
+
+        }
+
+        return result.trim();
+
+    };
+
+    number = Math.floor(Number(number || 0));
+
+    if (number === 0) {
+
+        return "Zero";
+
+    }
+
+    let result = "";
+
+    const crore = Math.floor(number / 10000000);
+
+    number %= 10000000;
+
+    const lakh = Math.floor(number / 100000);
+
+    number %= 100000;
+
+    const thousand = Math.floor(number / 1000);
+
+    number %= 1000;
+
+    if (crore) {
+
+        result +=
+            convertBelowThousand(crore) +
+            " Crore ";
+
+    }
+
+    if (lakh) {
+
+        result +=
+            convertBelowThousand(lakh) +
+            " Lakh ";
+
+    }
+
+    if (thousand) {
+
+        result +=
+            convertBelowThousand(thousand) +
+            " Thousand ";
+
+    }
+
+    if (number) {
+
+        result +=
+            convertBelowThousand(number);
+
+    }
+
+    return result.trim();
+
+};
+
+
+
+// ======================================================
+// DOWNLOAD GST TAX INVOICE PDF
+// ======================================================
+
+const downloadClientGSTInvoicePDF = async (req, res) => {
+
+    try {
+
+        const invoice = await ClientInvoice.findOne({
+            _id: req.params.id,
+            isActive: true
+        })
+        .populate(
+            "company",
+            "companyName contactPerson email phone address gstNumber"
+        )
+        .populate(
+            "project",
+            "projectName projectType"
+        );
+
+        if (!invoice) {
+
+            return res.status(404).json({
+                success: false,
+                message: "Invoice not found"
+            });
+
+        }
+
+        const doc = new PDFDocument({
+            size: "A4",
+            margin: 0
+        });
+
+        res.setHeader(
+            "Content-Type",
+            "application/pdf"
+        );
+
+        res.setHeader(
+            "Content-Disposition",
+            `attachment; filename="${invoice.invoiceNumber}-GST-Invoice.pdf"`
+        );
+
+        doc.pipe(res);
+
+        // ==================================================
+        // PAGE
+        // ==================================================
+
+        const pageWidth = 595.28;
+        const pageHeight = 841.89;
+
+        const left = 35;
+        const right = pageWidth - 35;
+        const contentWidth = right - left;
+
+        const blue = "#173F91";
+        const lightBlue = "#B8D0F5";
+        const lightGray = "#E5E7EB";
+        const border = "#222222";
+        const textGray = "#444444";
+
+        // ==================================================
+        // HELPERS
+        // ==================================================
+
+        const money = (value) => {
+
+            return `₹${Number(value || 0).toLocaleString(
+                "en-IN",
+                {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }
+            )}`;
+
+        };
+
+        const dateFormat = (date) => {
+
+            if (!date) return "";
+
+            return new Date(date).toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        };
+
+        const drawLine = (
+            x1,
+            y1,
+            x2,
+            y2,
+            width = 1
+        ) => {
+
+            doc
+                .lineWidth(width)
+                .strokeColor(border)
+                .moveTo(x1, y1)
+                .lineTo(x2, y2)
+                .stroke();
+
+        };
+
+        const drawRect = (
+            x,
+            y,
+            width,
+            height,
+            fill = null,
+            stroke = border
+        ) => {
+
+            if (fill) {
+
+                doc
+                    .fillColor(fill)
+                    .rect(x, y, width, height)
+                    .fill();
+
+            }
+
+            if (stroke) {
+
+                doc
+                    .lineWidth(1)
+                    .strokeColor(stroke)
+                    .rect(x, y, width, height)
+                    .stroke();
+
+            }
+
+        };
+
+        // ==================================================
+        // OUTER BORDER
+        // ==================================================
+
+        drawRect(
+            left,
+            35,
+            contentWidth,
+            pageHeight - 70,
+            null,
+            border
+        );
+
+        // ==================================================
+        // HEADER
+        // ==================================================
+
+        const headerTop = 35;
+        const headerHeight = 130;
+
+        doc
+            .font(boldFont)
+            .fontSize(17)
+            .fillColor("#111111")
+            .text(
+                "LAKSHMI NARAYAN AND COMPANY",
+                left + 12,
+                headerTop + 12,
+                {
+                    width: 310
+                }
+            );
+
+        doc
+            .font(regularFont)
+            .fontSize(10)
+            .fillColor(textGray)
+            .text(
+                "76/229, Kuli Bazar",
+                left + 12,
+                headerTop + 38
+            )
+            .text(
+                "District: Kanpur Nagar",
+                left + 12,
+                headerTop + 54
+            )
+            .text(
+                "State: Uttar Pradesh",
+                left + 12,
+                headerTop + 70
+            )
+            .text(
+                "Country: India",
+                left + 12,
+                headerTop + 86
+            )
+            .text(
+                "Contact: 9335187678",
+                left + 12,
+                headerTop + 102
+            )
+            .text(
+                `GSTIN: ${process.env.SELLER_GSTIN || ""}`,
+                left + 12,
+                headerTop + 118
+            );
+
+        doc
+            .font(boldFont)
+            .fontSize(27)
+            .fillColor(blue)
+            .text(
+                "TAX INVOICE",
+                345,
+                headerTop + 42,
+                {
+                    width: 205,
+                    align: "right",
+                    lineBreak: false
+                }
+            );
+
+        drawLine(
+            left,
+            headerTop + headerHeight,
+            right,
+            headerTop + headerHeight
+        );
+
+        // ==================================================
+        // INVOICE INFORMATION
+        // ==================================================
+
+        const infoTop = headerTop + headerHeight;
+        const infoHeight = 82;
+
+        const middleX =
+            left + contentWidth * 0.50;
+
+        drawLine(
+            middleX,
+            infoTop,
+            middleX,
+            infoTop + infoHeight
+        );
+
+        doc
+            .font(regularFont)
+            .fontSize(9.5)
+            .fillColor(textGray)
+            .text(
+                "Invoice#",
+                left + 12,
+                infoTop + 13
+            )
+            .text(
+                "Invoice Date",
+                left + 12,
+                infoTop + 31
+            )
+            .text(
+                "Terms",
+                left + 12,
+                infoTop + 49
+            )
+            .text(
+                "Due Date",
+                left + 12,
+                infoTop + 67
+            );
+
+        doc
+            .font(boldFont)
+            .fontSize(9.5)
+            .fillColor("#222222")
+            .text(
+                invoice.invoiceNumber,
+                left + 105,
+                infoTop + 13
+            )
+            .text(
+                dateFormat(invoice.issueDate),
+                left + 105,
+                infoTop + 31
+            )
+            .text(
+                "Due on Receipt",
+                left + 105,
+                infoTop + 49
+            )
+            .text(
+                dateFormat(invoice.dueDate),
+                left + 105,
+                infoTop + 67
+            );
+
+        // ==================================================
+        // SUPPLY / GST INFORMATION
+        // ==================================================
+
+        doc
+            .font(regularFont)
+            .fontSize(9.5)
+            .fillColor(textGray)
+            .text(
+                "Place of Supply",
+                middleX + 10,
+                infoTop + 13
+            )
+            .text(
+                "Supply Type",
+                middleX + 10,
+                infoTop + 31
+            )
+            .text(
+                "Seller State Code",
+                middleX + 10,
+                infoTop + 49
+            )
+            .text(
+                "Buyer State Code",
+                middleX + 10,
+                infoTop + 67
+            );
+
+        doc
+            .font(boldFont)
+            .fontSize(9.5)
+            .fillColor("#222222")
+            .text(
+                invoice.placeOfSupply ||
+                invoice.clientState ||
+                "",
+                middleX + 105,
+                infoTop + 13
+            )
+            .text(
+                invoice.gstType === "IGST"
+                    ? "Inter-State"
+                    : "Intra-State",
+                middleX + 105,
+                infoTop + 31
+            )
+            .text(
+                process.env.SELLER_STATE_CODE || "09",
+                middleX + 105,
+                infoTop + 49
+            )
+            .text(
+                invoice.clientStateCode || "",
+                middleX + 105,
+                infoTop + 67
+            );
+
+        // ==================================================
+        // BILL TO / SHIP TO
+        // ==================================================
+
+        const addressTop =
+            infoTop + infoHeight;
+
+        const addressHeaderHeight = 27;
+        const addressHeight = 118;
+
+        drawRect(
+            left,
+            addressTop,
+            contentWidth / 2,
+            addressHeaderHeight,
+            lightGray,
+            border
+        );
+
+        drawRect(
+            middleX,
+            addressTop,
+            contentWidth / 2,
+            addressHeaderHeight,
+            lightGray,
+            border
+        );
+
+        doc
+            .font(regularFont)
+            .fontSize(10.5)
+            .fillColor("#222222")
+            .text(
+                "Bill To",
+                left + 10,
+                addressTop + 8
+            )
+            .text(
+                "Ship To",
+                middleX + 10,
+                addressTop + 8
+            );
+
+        drawLine(
+            middleX,
+            addressTop,
+            middleX,
+            addressTop +
+            addressHeaderHeight +
+            addressHeight
+        );
+
+        drawLine(
+            left,
+            addressTop +
+            addressHeaderHeight +
+            addressHeight,
+            right,
+            addressTop +
+            addressHeaderHeight +
+            addressHeight
+        );
+
+        // ==================================================
+        // BUYER
+        // ==================================================
+
+        const clientName =
+            invoice.company?.companyName ||
+            "Client";
+
+        doc
+            .font(boldFont)
+            .fontSize(10.5)
+            .fillColor("#222222")
+            .text(
+                clientName,
+                left + 10,
+                addressTop + 42,
+                {
+                    width: 195
+                }
+            );
+
+        doc
+            .font(regularFont)
+            .fontSize(9.5)
+            .fillColor(textGray)
+            .text(
+                invoice.clientAddress || "",
+                left + 10,
+                addressTop + 62,
+                {
+                    width: 195,
+                    lineGap: 2
+                }
+            );
+
+        doc
+            .font(boldFont)
+            .fontSize(9.5)
+            .fillColor("#222222")
+            .text(
+                `GSTIN: ${invoice.buyerGSTIN || invoice.company?.gstNumber || "N/A"}`,
+                left + 10,
+                addressTop + 101,
+                {
+                    width: 205
+                }
+            );
+
+        doc
+            .font(regularFont)
+            .fontSize(9)
+            .fillColor(textGray)
+            .text(
+                `State: ${invoice.clientState || ""}`,
+                middleX + 10,
+                addressTop + 44,
+                {
+                    width: 205
+                }
+            )
+            .text(
+                invoice.clientAddress || "",
+                middleX + 10,
+                addressTop + 62,
+                {
+                    width: 205,
+                    lineGap: 2
+                }
+            )
+            .text(
+                `State Code: ${invoice.clientStateCode || ""}`,
+                middleX + 10,
+                addressTop + 101,
+                {
+                    width: 205
+                }
+            );
+
+        // ==================================================
+        // ITEM TABLE
+        // ==================================================
+
+        const tableTop =
+            addressTop +
+            addressHeaderHeight +
+            addressHeight;
+
+        const tableHeaderHeight = 31;
+
+        const colNo = 27;
+        const colDescription = 205;
+        const colHSN = 65;
+        const colQty = 48;
+        const colRate = 70;
+
+        const colAmount =
+            contentWidth -
+            colNo -
+            colDescription -
+            colHSN -
+            colQty -
+            colRate;
+
+        const xNo = left;
+
+        const xDescription =
+            xNo + colNo;
+
+        const xHSN =
+            xDescription + colDescription;
+
+        const xQty =
+            xHSN + colHSN;
+
+        const xRate =
+            xQty + colQty;
+
+        const xAmount =
+            xRate + colRate;
+
+        doc
+            .fillColor(blue)
+            .rect(
+                left,
+                tableTop,
+                contentWidth,
+                tableHeaderHeight
+            )
+            .fill();
+
+        doc
+            .font(regularFont)
+            .fontSize(8)
+            .fillColor("#FFFFFF")
+            .text(
+                "#",
+                xNo + 7,
+                tableTop + 10
+            )
+            .text(
+                "Item & Description",
+                xDescription + 6,
+                tableTop + 10
+            )
+            .text(
+                "HSN/SAC",
+                xHSN + 3,
+                tableTop + 10,
+                {
+                    width: colHSN - 6,
+                    align: "center"
+                }
+            )
+            .text(
+                "Qty",
+                xQty,
+                tableTop + 10,
+                {
+                    width: colQty,
+                    align: "center"
+                }
+            )
+            .text(
+                "Rate",
+                xRate,
+                tableTop + 10,
+                {
+                    width: colRate,
+                    align: "center"
+                }
+            )
+            .text(
+                "Amount",
+                xAmount,
+                tableTop + 10,
+                {
+                    width: colAmount,
+                    align: "center"
+                }
+            );
+
+        drawLine(
+            xDescription,
+            tableTop,
+            xDescription,
+            tableTop + tableHeaderHeight
+        );
+
+        drawLine(
+            xHSN,
+            tableTop,
+            xHSN,
+            tableTop + tableHeaderHeight
+        );
+
+        drawLine(
+            xQty,
+            tableTop,
+            xQty,
+            tableTop + tableHeaderHeight
+        );
+
+        drawLine(
+            xRate,
+            tableTop,
+            xRate,
+            tableTop + tableHeaderHeight
+        );
+
+        drawLine(
+            xAmount,
+            tableTop,
+            xAmount,
+            tableTop + tableHeaderHeight
+        );
+
+        // ==================================================
+        // ITEM ROWS
+        // ==================================================
+
+        let currentY =
+            tableTop +
+            tableHeaderHeight;
+
+        const itemRows =
+            invoice.items || [];
+
+        itemRows.forEach(
+            (item, index) => {
+
+                const description =
+                    item.description || "";
+
+                const descriptionHeight =
+                    doc.heightOfString(
+                        description,
+                        {
+                            width:
+                                colDescription - 12,
+                            font:
+                                regularFont,
+                            fontSize:
+                                9
+                        }
+                    );
+
+                const rowHeight =
+                    Math.max(
+                        50,
+                        descriptionHeight + 25
+                    );
+
+                drawRect(
+                    left,
+                    currentY,
+                    contentWidth,
+                    rowHeight,
+                    null,
+                    border
+                );
+
+                drawLine(
+                    xDescription,
+                    currentY,
+                    xDescription,
+                    currentY + rowHeight
+                );
+
+                drawLine(
+                    xHSN,
+                    currentY,
+                    xHSN,
+                    currentY + rowHeight
+                );
+
+                drawLine(
+                    xQty,
+                    currentY,
+                    xQty,
+                    currentY + rowHeight
+                );
+
+                drawLine(
+                    xRate,
+                    currentY,
+                    xRate,
+                    currentY + rowHeight
+                );
+
+                drawLine(
+                    xAmount,
+                    currentY,
+                    xAmount,
+                    currentY + rowHeight
+                );
+
+                doc
+                    .font(regularFont)
+                    .fontSize(8.5)
+                    .fillColor("#222222")
+                    .text(
+                        String(index + 1),
+                        xNo + 9,
+                        currentY + 15
+                    );
+
+                doc
+                    .font(regularFont)
+                    .fontSize(9)
+                    .text(
+                        description,
+                        xDescription + 6,
+                        currentY + 12,
+                        {
+                            width:
+                                colDescription - 12
+                        }
+                    );
+
+                doc
+                    .font(regularFont)
+                    .fontSize(8)
+                    .text(
+                        item.hsnSac || "-",
+                        xHSN + 3,
+                        currentY + 15,
+                        {
+                            width:
+                                colHSN - 6,
+                            align: "center"
+                        }
+                    );
+
+                doc
+                    .font(regularFont)
+                    .fontSize(8.5)
+                    .text(
+                        Number(
+                            item.quantity || 0
+                        ).toFixed(2),
+                        xQty,
+                        currentY + 15,
+                        {
+                            width: colQty,
+                            align: "center"
+                        }
+                    );
+
+                doc
+                    .font(regularFont)
+                    .fontSize(8.5)
+                    .text(
+                        money(item.rate),
+                        xRate + 2,
+                        currentY + 15,
+                        {
+                            width:
+                                colRate - 4,
+                            align: "center"
+                        }
+                    );
+
+                doc
+                    .font(regularFont)
+                    .fontSize(8.5)
+                    .text(
+                        money(item.amount),
+                        xAmount + 2,
+                        currentY + 15,
+                        {
+                            width:
+                                colAmount - 4,
+                            align: "center"
+                        }
+                    );
+
+                currentY += rowHeight;
+
+            }
+        );
+
+        // ==================================================
+        // TAXABLE VALUE
+        // ==================================================
+
+        drawRect(
+            xRate,
+            currentY,
+            colRate + colAmount,
+            30,
+            null,
+            border
+        );
+
+        doc
+            .font(boldFont)
+            .fontSize(9)
+            .text(
+                "Taxable Value",
+                xRate - 92,
+                currentY + 9,
+                {
+                    width: 88,
+                    align: "right"
+                }
+            );
+
+        doc
+            .font(regularFont)
+            .fontSize(9)
+            .text(
+                money(invoice.subtotal),
+                xAmount + 4,
+                currentY + 9,
+                {
+                    width:
+                        colAmount - 8,
+                    align: "center"
+                }
+            );
+
+        currentY += 30;
+
+        // ==================================================
+        // GST CALCULATION
+        // ==================================================
+
+        const taxableValue =
+            Number(invoice.subtotal || 0);
+
+        const gstRate =
+            Number(invoice.taxPercentage || 0);
+
+        const totalGST =
+            Number(invoice.taxAmount || 0);
+
+        let cgst = 0;
+        let sgst = 0;
+        let igst = 0;
+
+        if (invoice.gstType === "IGST") {
+
+            igst = totalGST;
+
+        } else {
+
+            cgst = totalGST / 2;
+            sgst = totalGST / 2;
+
+        }
+
+        // ==================================================
+        // SUMMARY
+        // ==================================================
+
+        const summaryTop = currentY;
+
+        const summaryX =
+            xQty;
+
+        const summaryWidth =
+            right - summaryX;
+
+        const summaryHeight =
+            invoice.gstType === "IGST"
+                ? 150
+                : 170;
+
+        drawRect(
+            summaryX,
+            summaryTop,
+            summaryWidth,
+            summaryHeight,
+            lightBlue,
+            border
+        );
+
+        // LEFT TERMS
+
+        doc
+            .font(boldFont)
+            .fontSize(10)
+            .fillColor("#222222")
+            .text(
+                "Terms & Conditions",
+                left + 10,
+                summaryTop + 15
+            );
+
+        doc
+            .font(regularFont)
+            .fontSize(8)
+            .fillColor(textGray)
+            .text(
+                "Full payment is due upon receipt of this invoice.",
+                left + 10,
+                summaryTop + 35,
+                {
+                    width:
+                        summaryX - left - 20
+                }
+            )
+            .text(
+                "Late payments may incur additional charges",
+                left + 10,
+                summaryTop + 50,
+                {
+                    width:
+                        summaryX - left - 20
+                }
+            )
+            .text(
+                "as per the applicable terms.",
+                left + 10,
+                summaryTop + 65,
+                {
+                    width:
+                        summaryX - left - 20
+                }
+            );
+
+        // RIGHT TAX SUMMARY
+
+        const taxX =
+            summaryX + 10;
+
+        const taxValueX =
+            summaryX + 100;
+
+        doc
+            .font(boldFont)
+            .fontSize(9)
+            .fillColor("#222222")
+            .text(
+                "Taxable Amount",
+                taxX,
+                summaryTop + 12
+            )
+            .text(
+                money(taxableValue),
+                taxValueX,
+                summaryTop + 12,
+                {
+                    width:
+                        summaryWidth - 110,
+                    align: "right"
+                }
+            );
+
+        if (invoice.gstType === "IGST") {
+
+            doc
+                .font(boldFont)
+                .fontSize(9)
+                .text(
+                    `IGST (${gstRate.toFixed(2)}%)`,
+                    taxX,
+                    summaryTop + 35
+                )
+                .text(
+                    money(igst),
+                    taxValueX,
+                    summaryTop + 35,
+                    {
+                        width:
+                            summaryWidth - 110,
+                        align: "right"
+                    }
+                );
+
+        } else {
+
+            doc
+                .font(boldFont)
+                .fontSize(9)
+                .text(
+                    `CGST (${(gstRate / 2).toFixed(2)}%)`,
+                    taxX,
+                    summaryTop + 35
+                )
+                .text(
+                    money(cgst),
+                    taxValueX,
+                    summaryTop + 35,
+                    {
+                        width:
+                            summaryWidth - 110,
+                        align: "right"
+                    }
+                )
+                .text(
+                    `SGST (${(gstRate / 2).toFixed(2)}%)`,
+                    taxX,
+                    summaryTop + 58
+                )
+                .text(
+                    money(sgst),
+                    taxValueX,
+                    summaryTop + 58,
+                    {
+                        width:
+                            summaryWidth - 110,
+                        align: "right"
+                    }
+                );
+
+        }
+
+        const totalY =
+            invoice.gstType === "IGST"
+                ? summaryTop + 68
+                : summaryTop + 91;
+
+        drawLine(
+            summaryX + 8,
+            totalY - 7,
+            right - 8,
+            totalY - 7
+        );
+
+        doc
+            .font(boldFont)
+            .fontSize(10)
+            .text(
+                "Grand Total",
+                taxX,
+                totalY + 5
+            )
+            .text(
+                money(invoice.totalAmount),
+                taxValueX,
+                totalY + 5,
+                {
+                    width:
+                        summaryWidth - 110,
+                    align: "right"
+                }
+            );
+
+        doc
+            .font(boldFont)
+            .fontSize(9.5)
+            .text(
+                "Paid Amount",
+                taxX,
+                totalY + 30
+            )
+            .text(
+                money(invoice.paidAmount),
+                taxValueX,
+                totalY + 30,
+                {
+                    width:
+                        summaryWidth - 110,
+                    align: "right"
+                }
+            );
+
+        doc
+            .font(boldFont)
+            .fontSize(10)
+            .text(
+                "Balance Due",
+                taxX,
+                totalY + 53
+            )
+            .text(
+                money(invoice.dueAmount),
+                taxValueX,
+                totalY + 53,
+                {
+                    width:
+                        summaryWidth - 110,
+                    align: "right"
+                }
+            );
+
+        // ==================================================
+        // AMOUNT IN WORDS
+        // ==================================================
+
+        const amountWordsY =
+            summaryTop +
+            summaryHeight +
+            15;
+
+        doc
+            .font(boldFont)
+            .fontSize(9)
+            .fillColor("#222222")
+            .text(
+                "Amount in Words:",
+                left + 10,
+                amountWordsY
+            );
+
+        doc
+            .font(regularFont)
+            .fontSize(9)
+            .fillColor(textGray)
+            .text(
+                `Rupees ${numberToWordsIndian(
+                    Number(invoice.totalAmount || 0)
+                )} Only`,
+                left + 105,
+                amountWordsY,
+                {
+                    width:
+                        contentWidth - 115
+                }
+            );
+
+        // ==================================================
+        // AUTHORIZED SIGNATORY
+        // ==================================================
+
+        const signY =
+            amountWordsY + 42;
+
+        doc
+            .font(regularFont)
+            .fontSize(8)
+            .fillColor(textGray)
+            .text(
+                "For LAKSHMI NARAYAN AND COMPANY",
+                right - 190,
+                signY,
+                {
+                    width: 175,
+                    align: "center"
+                }
+            );
+
+        drawLine(
+            right - 180,
+            signY + 35,
+            right - 15,
+            signY + 35
+        );
+
+        doc
+            .font(regularFont)
+            .fontSize(8)
+            .text(
+                "Authorized Signatory",
+                right - 180,
+                signY + 40,
+                {
+                    width: 165,
+                    align: "center"
+                }
+            );
+
+        // ==================================================
+        // FOOTER
+        // ==================================================
+
+        doc
+            .font(regularFont)
+            .fontSize(8)
+            .fillColor(textGray)
+            .text(
+                "This is a computer generated GST Tax Invoice.",
+                left,
+                pageHeight - 52,
+                {
+                    width: contentWidth,
+                    align: "center",
+                    lineBreak: false
+                }
+            );
+
+        doc.end();
+
+    } catch (error) {
+
+        console.error(
+            "GST Invoice PDF Error:",
+            error
+        );
+
+        if (!res.headersSent) {
+
+            return res.status(500).json({
+                success: false,
+                message: "Failed to generate GST invoice PDF"
+            });
+
+        }
+
+    }
+
+};
+
 // ======================================================
 // EXPORT
 // ======================================================
@@ -1171,5 +2637,6 @@ module.exports={
             getClientInvoiceById,
             createInvoicePaymentOrder,
             verifyInvoicePayment,
-            downloadClientInvoicePDF
+            downloadClientInvoicePDF,
+            downloadClientGSTInvoicePDF
 };
