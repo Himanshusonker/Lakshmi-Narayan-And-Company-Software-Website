@@ -507,10 +507,21 @@ main {
             1px solid
             transparent;
 
-        transition:
+        /* transition:
             max-height 0.35s ease,
             padding 0.35s ease,
-            border-color 0.35s ease;
+            border-color 0.35s ease; */
+
+        opacity: 0;
+        visibility: hidden;
+
+        transition:
+            max-height 0.22s ease,
+            padding 0.22s ease,
+            opacity 0.15s ease,
+            border-color 0.22s ease;
+
+        will-change: max-height, opacity;
 
     }
 
@@ -521,6 +532,8 @@ main {
 
         padding:
             12px 20px 22px;
+
+        padding: 12px 20px 22px;
 
         border-top-color:
             rgba(255,255,255,0.08);
@@ -2013,9 +2026,9 @@ main {
     cursor: pointer;
 
     transition:
-        background 0.25s ease,
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
+    background 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .home-contact-submit span {
