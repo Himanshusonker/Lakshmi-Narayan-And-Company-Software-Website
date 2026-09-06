@@ -690,10 +690,10 @@
 
 @media (max-width: 600px) {
 
-    .about-hero {
+    /* .about-hero {
         min-height: 420px;
         padding: 65px 20px;
-    }
+    } */
 
 
     .about-hero-container {
@@ -716,12 +716,12 @@
     }
 
 
-    /* .company-section,
+    .company-section,
     .mission-section,
     .values-section,
     .about-why-section {
         padding: 70px 20px;
-    } */
+    }
 
 
     /* .company-container {
