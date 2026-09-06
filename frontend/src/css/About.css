@@ -690,7 +690,7 @@
 
 @media (max-width: 600px) {
 
-    .about-hero {
+    /* .about-hero {
         min-height: 420px;
         padding: 65px 20px;
     }
@@ -701,14 +701,14 @@
     }
 
 
-    /* .about-hero-content h1 {
+    .about-hero-content h1 {
         font-size: 38px;
     }
 
 
     .about-hero-content p {
         font-size: 15px;
-    } */
+    }
 
 
     .about-hero-image {
@@ -721,10 +721,10 @@
     .values-section,
     .about-why-section {
         padding: 70px 20px;
-    }
+    } */
 
 
-    /* .company-container {
+    .company-container {
         gap: 40px;
     }
 
@@ -769,7 +769,7 @@
 
     .about-cta-container h2 {
         font-size: 27px;
-    } */
+    }
 
 }
 
