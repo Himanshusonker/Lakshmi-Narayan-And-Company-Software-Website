@@ -701,19 +701,19 @@
     }
 
 
-    .about-hero-content h1 {
+    /* .about-hero-content h1 {
         font-size: 38px;
     }
 
 
     .about-hero-content p {
         font-size: 15px;
-    }
-
-
-    /* .about-hero-image {
-        height: 300px;
     } */
+
+
+    .about-hero-image {
+        height: 300px;
+    }
 
 
     .company-section,
