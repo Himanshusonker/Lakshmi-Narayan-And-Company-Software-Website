@@ -128,7 +128,8 @@ const About=()=>{
 
                         {aboutData.hero?.image && (
 
-                            <img src={aboutData.hero.image} alt="Lakshmi Narayan And Company" loading="eager" decoding="async" />
+                            // <img src={aboutData.hero.image} alt="Lakshmi Narayan And Company" loading="eager" decoding="async" />
+                            <img src={aboutData.hero.image} alt="Lakshmi Narayan And Company" />
                         )}
 
                     </div>
