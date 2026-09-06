@@ -144,8 +144,7 @@ const About=()=>{
 
                         {aboutData.company?.image && (
 
-                            // <img src={aboutData.company.image} alt="Our Company" loading="lazy" decoding="async" />
-                            <img src={aboutData.company.image} alt="Our Company" />
+                            <img src={aboutData.company.image} alt="Our Company" loading="lazy" decoding="async" />
 
                         )}
 
