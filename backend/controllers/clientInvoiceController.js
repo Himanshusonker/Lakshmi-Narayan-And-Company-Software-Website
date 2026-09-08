@@ -1417,25 +1417,20 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
 
     try {
 
-        const invoice = await ClientInvoice.findOne({
-            _id: req.params.id,
-            isActive: true
-        })
-        .populate(
-            "company",
-            "companyName contactPerson email phone address gstNumber"
-        )
-        .populate(
-            "project",
-            "projectName projectType"
-        );
+        const companyId = req.client.companyId;
+        const invoice = await ClientInvoice.findOne({_id: req.params.id, company: companyId, isActive: true})
+        .populate("company", "companyName contactPerson email phone address gstNumber")
+        .populate("project", "projectName projectType");
 
         if (!invoice) {
 
-            return res.status(404).json({
-                success: false,
-                message: "Invoice not found"
-            });
+            return res.status(404).json({success: false, message: "Invoice not found"});
+
+        }
+
+        if (invoice.invoiceType !== "GST Invoice") {
+
+            return res.status(400).json({success: false, message: "This is not a GST Invoice"});
 
         }
 
@@ -1569,7 +1564,7 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
         // ==================================================
 
         const headerTop = 35;
-        const headerHeight = 130;
+        const headerHeight = 146;
 
         doc
             .font(boldFont)
@@ -1609,15 +1604,43 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
                 headerTop + 86
             )
             .text(
-                "Contact: 9335187678",
+                `Email: ${process.env.SELLER_EMAIL || ""}`,
                 left + 12,
                 headerTop + 102
             )
             .text(
-                `GSTIN: ${process.env.SELLER_GSTIN || ""}`,
+                "Contact: 9335187678",
                 left + 12,
                 headerTop + 118
+            )
+            .text(
+                `GSTIN: ${process.env.SELLER_GSTIN || "09BYAPS6688F1ZT"}`,
+                left + 12,
+                headerTop + 134
             );
+
+        // ==================================================
+        // ORIGINAL FOR RECIPIENT
+        // ==================================================
+
+        doc
+            .font(boldFont)
+            .fontSize(9)
+            .fillColor("#444444")
+            .text(
+                "ORIGINAL FOR RECIPIENT",
+                345,
+                headerTop + 17,
+                {
+                    width: 205,
+                    align: "right",
+                    lineBreak: false
+                }
+            );
+
+        // ==================================================
+        // TAX INVOICE HEADING
+        // ==================================================
 
         doc
             .font(boldFont)
@@ -1626,7 +1649,7 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
             .text(
                 "TAX INVOICE",
                 345,
-                headerTop + 42,
+                headerTop + 48,
                 {
                     width: 205,
                     align: "right",
@@ -1774,7 +1797,7 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
             infoTop + infoHeight;
 
         const addressHeaderHeight = 27;
-        const addressHeight = 118;
+        const addressHeight = 60;
 
         drawRect(
             left,
@@ -1839,12 +1862,12 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
 
         doc
             .font(boldFont)
-            .fontSize(10.5)
+            .fontSize(8.5)
             .fillColor("#222222")
             .text(
                 clientName,
                 left + 10,
-                addressTop + 42,
+                addressTop + 27,
                 {
                     width: 195
                 }
@@ -1852,26 +1875,26 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
 
         doc
             .font(regularFont)
-            .fontSize(9.5)
+            .fontSize(7)
             .fillColor(textGray)
             .text(
                 invoice.clientAddress || "",
                 left + 10,
-                addressTop + 62,
+                addressTop + 40,
                 {
                     width: 195,
-                    lineGap: 2
+                    lineGap: 1
                 }
             );
 
         doc
             .font(boldFont)
-            .fontSize(9.5)
+            .fontSize(8)
             .fillColor("#222222")
             .text(
                 `GSTIN: ${invoice.buyerGSTIN || invoice.company?.gstNumber || "N/A"}`,
                 left + 10,
-                addressTop + 101,
+                addressTop + 68,
                 {
                     width: 205
                 }
@@ -1879,12 +1902,12 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
 
         doc
             .font(regularFont)
-            .fontSize(9)
+            .fontSize(7)
             .fillColor(textGray)
             .text(
                 `State: ${invoice.clientState || ""}`,
                 middleX + 10,
-                addressTop + 44,
+                addressTop + 27,
                 {
                     width: 205
                 }
@@ -1892,16 +1915,16 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
             .text(
                 invoice.clientAddress || "",
                 middleX + 10,
-                addressTop + 62,
+                addressTop + 37,
                 {
                     width: 205,
-                    lineGap: 2
+                    lineGap: 1
                 }
             )
             .text(
                 `State Code: ${invoice.clientStateCode || ""}`,
                 middleX + 10,
-                addressTop + 101,
+                addressTop + 67,
                 {
                     width: 205
                 }
@@ -1919,10 +1942,11 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
         const tableHeaderHeight = 31;
 
         const colNo = 27;
-        const colDescription = 205;
+        const colDescription = 190;
         const colHSN = 65;
-        const colQty = 48;
-        const colRate = 70;
+        const colQty = 45;
+        const colRate = 65;
+        const colIGST = 55;
 
         const colAmount =
             contentWidth -
@@ -1930,24 +1954,22 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
             colDescription -
             colHSN -
             colQty -
-            colRate;
+            colRate -
+            colIGST;
 
         const xNo = left;
 
-        const xDescription =
-            xNo + colNo;
+        const xDescription =xNo + colNo;
 
-        const xHSN =
-            xDescription + colDescription;
+        const xHSN =xDescription + colDescription;
 
-        const xQty =
-            xHSN + colHSN;
+        const xQty =xHSN + colHSN;
 
-        const xRate =
-            xQty + colQty;
+        const xRate =xQty + colQty;
 
-        const xAmount =
-            xRate + colRate;
+        const xIGST =xRate + colRate;
+
+        const xAmount=xIGST + colIGST;
 
         doc
             .fillColor(blue)
@@ -2001,6 +2023,15 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
                 }
             )
             .text(
+                "IGST",
+                xIGST,
+                tableTop + 10,
+                {
+                    width: colIGST,
+                    align: "center"
+                }
+            )
+            .text(
                 "Amount",
                 xAmount,
                 tableTop + 10,
@@ -2035,6 +2066,13 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
             xRate,
             tableTop,
             xRate,
+            tableTop + tableHeaderHeight
+        );
+
+        drawLine(
+            xIGST,
+            tableTop,
+            xIGST,
             tableTop + tableHeaderHeight
         );
 
@@ -2077,7 +2115,7 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
 
                 const rowHeight =
                     Math.max(
-                        50,
+                        35,
                         descriptionHeight + 25
                     );
 
@@ -2115,6 +2153,13 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
                     xRate,
                     currentY,
                     xRate,
+                    currentY + rowHeight
+                );
+
+                drawLine(
+                    xIGST,
+                    currentY,
+                    xIGST,
                     currentY + rowHeight
                 );
 
@@ -2191,6 +2236,32 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
                         }
                     );
 
+                    const itemIGSTPercentage=Number(invoice.igstPercentage || 0);
+
+            const itemIGSTAmount =invoice.gstType === "IGST" ? Number(item.amount || 0) * itemIGSTPercentage / 100: 0;
+
+            doc
+                .font(regularFont)
+                .fontSize(8)
+                .text(
+                    `${itemIGSTPercentage.toFixed(2)}%`,
+                    xIGST,
+                    currentY + 10,
+                    {
+                        width: colIGST,
+                        align: "center"
+                    }
+                )
+                .text(
+                    money(itemIGSTAmount),
+                    xIGST,
+                    currentY + 22,
+                    {
+                        width: colIGST,
+                        align: "center"
+                    }
+                );
+
                 doc
                     .font(regularFont)
                     .fontSize(8.5)
@@ -2211,59 +2282,35 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
         );
 
         // ==================================================
-        // TAXABLE VALUE
+        // BANK ACCOUNT DETAILS
         // ==================================================
 
-        drawRect(
-            xRate,
-            currentY,
-            colRate + colAmount,
-            30,
-            null,
-            border
-        );
-
-        doc
-            .font(boldFont)
-            .fontSize(9)
-            .text(
-                "Taxable Value",
-                xRate - 92,
-                currentY + 9,
-                {
-                    width: 88,
-                    align: "right"
-                }
-            );
-
-        doc
-            .font(regularFont)
-            .fontSize(9)
-            .text(
-                money(invoice.subtotal),
-                xAmount + 4,
-                currentY + 9,
-                {
-                    width:
-                        colAmount - 8,
-                    align: "center"
-                }
-            );
-
-        currentY += 30;
-
         // ==================================================
-        // GST CALCULATION
+        // BOTTOM SECTION
+        // LEFT  = BANK DETAILS + TERMS
+        // RIGHT = AMOUNT / GST SUMMARY
         // ==================================================
 
-        const taxableValue =
-            Number(invoice.subtotal || 0);
+        const bottomTop = currentY;
 
-        const gstRate =
-            Number(invoice.taxPercentage || 0);
+        // --------------------------------------------------
+        // COLUMN WIDTHS
+        // --------------------------------------------------
 
-        const totalGST =
-            Number(invoice.taxAmount || 0);
+        const leftColumnWidth = xQty - left;
+        const rightColumnX = xQty;
+        const rightColumnWidth = right - rightColumnX;
+
+
+        // ==================================================
+        // RIGHT SIDE - AMOUNT SECTION
+        // ==================================================
+
+        const taxableValue = Number(invoice.subtotal || 0);
+
+        const gstRate = Number(invoice.taxPercentage || 0);
+
+        const totalGST = Number(invoice.taxAmount || 0);
 
         let cgst = 0;
         let sgst = 0;
@@ -2280,121 +2327,83 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
 
         }
 
-        // ==================================================
-        // SUMMARY
-        // ==================================================
 
-        const summaryTop = currentY;
-
-        const summaryX =
-            xQty;
-
-        const summaryWidth =
-            right - summaryX;
+        // --------------------------------------------------
+        // RIGHT SUMMARY HEIGHT
+        // --------------------------------------------------
 
         const summaryHeight =
             invoice.gstType === "IGST"
                 ? 150
                 : 170;
 
+
+        // --------------------------------------------------
+        // RIGHT SUMMARY BOX
+        // --------------------------------------------------
+
         drawRect(
-            summaryX,
-            summaryTop,
-            summaryWidth,
+            rightColumnX,
+            bottomTop,
+            rightColumnWidth,
             summaryHeight,
             lightBlue,
             border
         );
 
-        // LEFT TERMS
+
+        // ==================================================
+        // RIGHT SIDE - TAXABLE VALUE
+        // ==================================================
+
+        const taxX = rightColumnX + 10;
+
+        const taxValueX = rightColumnX + 92;
 
         doc
             .font(boldFont)
-            .fontSize(10)
-            .fillColor("#222222")
-            .text(
-                "Terms & Conditions",
-                left + 10,
-                summaryTop + 15
-            );
-
-        doc
-            .font(regularFont)
-            .fontSize(8)
-            .fillColor(textGray)
-            .text(
-                "Full payment is due upon receipt of this invoice.",
-                left + 10,
-                summaryTop + 35,
-                {
-                    width:
-                        summaryX - left - 20
-                }
-            )
-            .text(
-                "Late payments may incur additional charges",
-                left + 10,
-                summaryTop + 50,
-                {
-                    width:
-                        summaryX - left - 20
-                }
-            )
-            .text(
-                "as per the applicable terms.",
-                left + 10,
-                summaryTop + 65,
-                {
-                    width:
-                        summaryX - left - 20
-                }
-            );
-
-        // RIGHT TAX SUMMARY
-
-        const taxX =
-            summaryX + 10;
-
-        const taxValueX =
-            summaryX + 100;
-
-        doc
-            .font(boldFont)
-            .fontSize(9)
+            .fontSize(8.8)
             .fillColor("#222222")
             .text(
                 "Taxable Amount",
                 taxX,
-                summaryTop + 12
-            )
+                bottomTop + 12
+            );
+
+        doc
+            .font(boldFont)
+            .fontSize(8.8)
             .text(
                 money(taxableValue),
                 taxValueX,
-                summaryTop + 12,
+                bottomTop + 12,
                 {
-                    width:
-                        summaryWidth - 110,
+                    width: rightColumnWidth - 102,
                     align: "right"
                 }
             );
+
+
+        // ==================================================
+        // GST
+        // ==================================================
 
         if (invoice.gstType === "IGST") {
 
             doc
                 .font(boldFont)
-                .fontSize(9)
+                .fontSize(8.8)
                 .text(
                     `IGST (${gstRate.toFixed(2)}%)`,
                     taxX,
-                    summaryTop + 35
+                    bottomTop + 35
                 )
                 .text(
                     money(igst),
                     taxValueX,
-                    summaryTop + 35,
+                    bottomTop + 35,
                     {
-                        width:
-                            summaryWidth - 110,
+                        width: rightColumnWidth - 102,
                         align: "right"
                     }
                 );
@@ -2403,117 +2412,270 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
 
             doc
                 .font(boldFont)
-                .fontSize(9)
+                .fontSize(8.8)
                 .text(
                     `CGST (${(gstRate / 2).toFixed(2)}%)`,
                     taxX,
-                    summaryTop + 35
+                    bottomTop + 35
                 )
                 .text(
                     money(cgst),
                     taxValueX,
-                    summaryTop + 35,
+                    bottomTop + 35,
                     {
-                        width:
-                            summaryWidth - 110,
+                        width: rightColumnWidth - 102,
                         align: "right"
                     }
-                )
+                );
+
+            doc
+                .font(boldFont)
+                .fontSize(8.8)
                 .text(
                     `SGST (${(gstRate / 2).toFixed(2)}%)`,
                     taxX,
-                    summaryTop + 58
+                    bottomTop + 58
                 )
                 .text(
                     money(sgst),
                     taxValueX,
-                    summaryTop + 58,
+                    bottomTop + 58,
                     {
-                        width:
-                            summaryWidth - 110,
+                        width: rightColumnWidth - 102,
                         align: "right"
                     }
                 );
 
         }
 
+
+        // ==================================================
+        // TOTAL POSITION
+        // ==================================================
+
         const totalY =
             invoice.gstType === "IGST"
-                ? summaryTop + 68
-                : summaryTop + 91;
+                ? bottomTop + 68
+                : bottomTop + 91;
+
+
+        // --------------------------------------------------
+        // SEPARATOR
+        // --------------------------------------------------
 
         drawLine(
-            summaryX + 8,
+            rightColumnX + 8,
             totalY - 7,
             right - 8,
             totalY - 7
         );
 
+
+        // ==================================================
+        // GRAND TOTAL
+        // ==================================================
+
         doc
             .font(boldFont)
-            .fontSize(10)
+            .fontSize(9.5)
+            .fillColor("#222222")
             .text(
                 "Grand Total",
                 taxX,
                 totalY + 5
-            )
-            .text(
-                money(invoice.totalAmount),
-                taxValueX,
-                totalY + 5,
-                {
-                    width:
-                        summaryWidth - 110,
-                    align: "right"
-                }
             );
 
         doc
             .font(boldFont)
             .fontSize(9.5)
             .text(
+                money(invoice.totalAmount),
+                taxValueX,
+                totalY + 5,
+                {
+                    width: rightColumnWidth - 102,
+                    align: "right"
+                }
+            );
+
+
+        // ==================================================
+        // PAID AMOUNT
+        // ==================================================
+
+        doc
+            .font(boldFont)
+            .fontSize(8.8)
+            .text(
                 "Paid Amount",
                 taxX,
                 totalY + 30
-            )
+            );
+
+        doc
+            .font(boldFont)
+            .fontSize(8.8)
             .text(
                 money(invoice.paidAmount),
                 taxValueX,
                 totalY + 30,
                 {
-                    width:
-                        summaryWidth - 110,
+                    width: rightColumnWidth - 102,
                     align: "right"
                 }
             );
 
+
+        // ==================================================
+        // BALANCE DUE
+        // ==================================================
+
         doc
             .font(boldFont)
-            .fontSize(10)
+            .fontSize(9.5)
             .text(
                 "Balance Due",
                 taxX,
                 totalY + 53
-            )
+            );
+
+        doc
+            .font(boldFont)
+            .fontSize(9.5)
             .text(
                 money(invoice.dueAmount),
                 taxValueX,
                 totalY + 53,
                 {
-                    width:
-                        summaryWidth - 110,
+                    width: rightColumnWidth - 102,
                     align: "right"
                 }
             );
+
+
+        // ==================================================
+        // LEFT SIDE - BANK ACCOUNT DETAILS
+        // ==================================================
+
+        const bankTop = bottomTop + 5;
+
+        doc
+            .font(boldFont)
+            .fontSize(10)
+            .fillColor("#222222")
+            .text(
+                "Bank Account Details",
+                left + 10,
+                bankTop,
+                {
+                    width: leftColumnWidth - 20
+                }
+            );
+
+        doc
+            .font(regularFont)
+            .fontSize(8.5)
+            .fillColor(textGray)
+            .text(
+                "Account Holder Name: Lakshmi Narayan And Co",
+                left + 10,
+                bankTop + 18,
+                {
+                    width: leftColumnWidth - 20
+                }
+            )
+            .text(
+                "Bank Name: State Bank Of India",
+                left + 10,
+                bankTop + 33,
+                {
+                    width: leftColumnWidth - 20
+                }
+            )
+            .text(
+                "Account Number: 44567921145",
+                left + 10,
+                bankTop + 48,
+                {
+                    width: leftColumnWidth - 20
+                }
+            )
+            .text(
+                "Branch Name: Halsey Road (Kanpur)",
+                left + 10,
+                bankTop + 63,
+                {
+                    width: leftColumnWidth - 20
+                }
+            )
+            .text(
+                "IFSC Code: SBIN0001226",
+                left + 10,
+                bankTop + 78,
+                {
+                    width: leftColumnWidth - 20
+                }
+            );
+
+
+        // ==================================================
+        // LEFT SIDE - TERMS & CONDITIONS
+        // VERY SMALL GAP AFTER BANK DETAILS
+        // ==================================================
+
+        const termsTop = bankTop + 99;
+
+        doc
+            .font(boldFont)
+            .fontSize(10)
+            .fillColor("#222222")
+            .text(
+                "Terms & Conditions",
+                left + 10,
+                termsTop,
+                {
+                    width: leftColumnWidth - 20
+                }
+            );
+
+        doc
+            .font(regularFont)
+            .fontSize(7.8)
+            .fillColor(textGray)
+            .text(
+                "Full payment is due upon receipt of this invoice.",
+                left + 10,
+                termsTop + 17,
+                {
+                    width: leftColumnWidth - 20
+                }
+            )
+            .text(
+                "Late payments may incur additional charges",
+                left + 10,
+                termsTop + 31,
+                {
+                    width: leftColumnWidth - 20
+                }
+            )
+            .text(
+                "as per the applicable terms.",
+                left + 10,
+                termsTop + 44,
+                {
+                    width: leftColumnWidth - 20
+                }
+            );
+
 
         // ==================================================
         // AMOUNT IN WORDS
         // ==================================================
 
         const amountWordsY =
-            summaryTop +
-            summaryHeight +
-            15;
+            bottomTop +
+            Math.max(summaryHeight, 160) +
+            10;
 
         doc
             .font(boldFont)
@@ -2536,8 +2698,7 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
                 left + 105,
                 amountWordsY,
                 {
-                    width:
-                        contentWidth - 115
+                    width: contentWidth - 115
                 }
             );
 
@@ -2546,7 +2707,7 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
         // ==================================================
 
         const signY =
-            amountWordsY + 42;
+            amountWordsY + 10;
 
         doc
             .font(regularFont)
@@ -2564,9 +2725,9 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
 
         drawLine(
             right - 180,
-            signY + 35,
+            signY + 55,
             right - 15,
-            signY + 35
+            signY + 55
         );
 
         doc
@@ -2575,7 +2736,7 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
             .text(
                 "Authorized Signatory",
                 right - 180,
-                signY + 40,
+                signY + 60,
                 {
                     width: 165,
                     align: "center"
@@ -2605,17 +2766,11 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
 
     } catch (error) {
 
-        console.error(
-            "GST Invoice PDF Error:",
-            error
-        );
+        console.error("GST Invoice PDF Error:", error);
 
         if (!res.headersSent) {
 
-            return res.status(500).json({
-                success: false,
-                message: "Failed to generate GST invoice PDF"
-            });
+            return res.status(500).json({success: false, message: "Failed to generate GST invoice PDF"});
 
         }
 

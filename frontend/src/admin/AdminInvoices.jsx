@@ -27,7 +27,7 @@ const AdminInvoices = () => {
         invoiceType: "Invoice",
         clientState: "",
         clientStateCode: "",
-        sellerGSTIN: "",
+        // sellerGSTIN: "",
         buyerGSTIN: "",
         placeOfSupply: "",
         reverseCharge: false,
@@ -301,7 +301,7 @@ const AdminInvoices = () => {
 
             gstType: invoice.gstType || "CGST_SGST",
 
-            sellerGSTIN: invoice.sellerGSTIN || "",
+            // sellerGSTIN: invoice.sellerGSTIN || "",
             
             buyerGSTIN: invoice.buyerGSTIN || "",
 
@@ -954,11 +954,11 @@ const AdminInvoices = () => {
                                     GST Invoice Details
                                 </h3>
 
-                                <label>
+                                {/* <label>
                                     Seller GSTIN *
                                 </label>
 
-                                <input name="sellerGSTIN" value={formData.sellerGSTIN} onChange={handleChange} placeholder="Enter Seller GSTIN" maxLength="15" required/>
+                                <input name="sellerGSTIN" value={formData.sellerGSTIN} onChange={handleChange} placeholder="Enter Seller GSTIN" maxLength="15" required/> */}
 
                                 <label>
                                     Buyer GSTIN *

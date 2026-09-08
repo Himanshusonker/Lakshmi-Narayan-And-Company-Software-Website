@@ -26,7 +26,7 @@ router.put("/admin/invoices/:id", adminAuth, updateInvoice);
 
 router.delete("/admin/invoices/:id", adminAuth, deleteInvoice);
 
-router.get("/admin/invoices/:id/gst-invoice", adminAuth, downloadClientGSTInvoicePDF);
+// router.get("/admin/invoices/:id/gst-invoice", adminAuth, downloadClientGSTInvoicePDF);
 
 
 // ======================================================
@@ -47,5 +47,7 @@ router.post("/client/invoices/:id/payment/order", clientAuth, createInvoicePayme
 router.post("/client/invoices/:id/payment/verify", clientAuth, verifyInvoicePayment);
 
 router.get("/client/invoices/:id/pdf", clientAuth, downloadClientInvoicePDF);
+
+router.get("/client/invoices/:id/gst-invoice", clientAuth, downloadClientGSTInvoicePDF);
 
 module.exports=router;

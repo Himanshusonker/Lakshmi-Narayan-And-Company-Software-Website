@@ -112,7 +112,14 @@ const ClientInvoiceDetails=()=>{
 
     try {
 
-        const response= await clientAxios.get(`/api/client/invoices/${invoice._id}/pdf`, {responseType: "blob"});
+        if (!invoice) return;
+
+        const pdfEndpoint =invoice.invoiceType === "GST Invoice"
+                ? `/api/client/invoices/${invoice._id}/gst-invoice`
+                : `/api/client/invoices/${invoice._id}/pdf`;
+
+        // const response= await clientAxios.get(`/api/client/invoices/${invoice._id}/pdf`, {responseType: "blob"});
+        const response= await clientAxios.get(pdfEndpoint, {responseType: "blob"});
 
         const blob =new Blob( [response.data], {type: "application/pdf"});
 
@@ -122,7 +129,10 @@ const ClientInvoiceDetails=()=>{
 
         link.href = url;
 
-        link.download =`${invoice.invoiceNumber}.pdf`;
+        // link.download =`${invoice.invoiceNumber}.pdf`;
+        link.download =invoice.invoiceType === "GST Invoice"
+                ? `${invoice.invoiceNumber}-GST.pdf`
+                : `${invoice.invoiceNumber}.pdf`;
 
         document.body.appendChild(link);
 
@@ -136,7 +146,7 @@ const ClientInvoiceDetails=()=>{
 
         console.error("PDF Download Error:", error);
 
-        alert("Unable to download invoice PDF");
+        alert(error.response?.data?.message || "Unable to download invoice PDF");
 
     }
 
@@ -318,7 +328,7 @@ const ClientInvoiceDetails=()=>{
                 <div>
 
                     <span>
-                        INVOICE
+                        {invoice.invoiceType === "GST Invoice" ? "GST INVOICE" : "INVOICE"}
                     </span>
 
                     <h1>
@@ -328,6 +338,12 @@ const ClientInvoiceDetails=()=>{
                     <p>
                         {invoice.title}
                     </p>
+
+                    {invoice.invoiceType === "GST Invoice" && (
+                        <small className="invoice-gst-badge">
+                            GST Invoice
+                        </small>
+                    )}
 
                 </div>
 
@@ -339,6 +355,54 @@ const ClientInvoiceDetails=()=>{
 
             <div className="client-invoice-company">
 
+                {invoice.invoiceType === "GST Invoice" && (
+                    <div className="client-invoice-gst-details">
+
+                        <div>
+                            <span>
+                                SELLER GSTIN
+                            </span>
+
+                            <strong>
+                                {invoice.sellerGSTIN || "-"}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>
+                                BUYER GSTIN
+                            </span>
+
+                            <strong>
+                                {invoice.buyerGSTIN || "-"}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>
+                                PLACE OF SUPPLY
+                            </span>
+
+                            <strong>
+                                {invoice.placeOfSupply || "-"}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>
+                                GST TYPE
+                            </span>
+
+                            <strong>
+                                {invoice.gstType === "IGST"
+                                    ? "IGST"
+                                    : "CGST + SGST"}
+                            </strong>
+                        </div>
+
+                    </div>
+                )}
+
                 <div>
 
                     <span>
@@ -346,16 +410,28 @@ const ClientInvoiceDetails=()=>{
                     </span>
 
                     <strong>
-                        {invoice.company ?.companyName}
+                        {invoice.company ?.companyName || "-"}
                     </strong>
 
                     <small>
-                        {invoice.company ?.contactPerson}
+                        {invoice.company ?.contactPerson || "-"}
                     </small>
 
                     <small>
-                        {invoice.company ?.email}
+                        Email: {invoice.company?.email || "-"}
                     </small>
+
+                    {invoice.invoiceType === "GST Invoice" && (
+                    <>
+                        <small>
+                            Buyer GSTIN: {invoice.buyerGSTIN || "-"}
+                        </small>
+
+                        <small>
+                            Place of Supply: {invoice.placeOfSupply || "-"}
+                        </small>
+                    </>
+                    )}
 
                 </div>
 
@@ -397,6 +473,12 @@ const ClientInvoiceDetails=()=>{
                                 Description
                             </th>
 
+                            {invoice.invoiceType === "GST Invoice" && (
+                            <th>
+                                HSN/SAC
+                            </th>
+                            )}
+
                             <th>
                                 Qty
                             </th>
@@ -422,6 +504,12 @@ const ClientInvoiceDetails=()=>{
                                     <td>
                                         {item.description}
                                     </td>
+
+                                    {invoice.invoiceType === "GST Invoice" && (
+                                    <td>
+                                        {item.hsnSac || "-"}
+                                    </td>
+                                    )}
 
                                     <td>
                                         {item.quantity}
@@ -458,14 +546,70 @@ const ClientInvoiceDetails=()=>{
                 </div>
 
                 <div>
-                    <span>
+                    {/* <span>
                         Tax
                         ({invoice.taxPercentage}%)
                     </span>
 
                     <strong>
                         {formatAmount(invoice.taxAmount)}
-                    </strong>
+                    </strong> */}
+
+                    {invoice.invoiceType === "GST Invoice" ? (
+
+                        <>
+                            {invoice.gstType === "IGST" ? (
+
+                                <div>
+                                    <span>
+                                        IGST ({invoice.igstPercentage || 0}%)
+                                    </span>
+
+                                    <strong>
+                                        {formatAmount(invoice.igstAmount)}
+                                    </strong>
+                                </div>
+
+                            ) : (
+
+                                <>
+                                    <div>
+                                        <span>
+                                            CGST ({invoice.cgstPercentage || 0}%)
+                                        </span>
+
+                                        <strong>
+                                            {formatAmount(invoice.cgstAmount)}
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        <span>
+                                            SGST ({invoice.sgstPercentage || 0}%)
+                                        </span>
+
+                                        <strong>
+                                            {formatAmount(invoice.sgstAmount)}
+                                        </strong>
+                                    </div>
+                                </>
+
+                            )}
+                        </>
+
+                    ) : (
+
+                        <div>
+                            <span>
+                                Tax ({invoice.taxPercentage || 0}%)
+                            </span>
+
+                            <strong>
+                                {formatAmount(invoice.taxAmount)}
+                            </strong>
+                        </div>
+
+                    )}
                 </div>
 
                 {/* <div>
