@@ -6,6 +6,7 @@ const crypto = require("crypto");
 const Razorpay = require("razorpay");
 const PDFDocument = require("pdfkit");
 const path = require("path");
+const signatureImage = path.join(__dirname, "../assets/signature.jpeg");
 const regularFont = path.join(__dirname, "../fonts/NotoSans-Regular.ttf");
 const boldFont = path.join(__dirname, "../fonts/NotoSans-Bold.ttf");
 const setRegularFont = () => {
@@ -2708,6 +2709,13 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
 
         const signY =
             amountWordsY + 10;
+        const signBoxX = right - 195;
+        const signBoxWidth = 180;
+        
+
+        // --------------------------------------------------
+        // COMPANY NAME
+        // --------------------------------------------------
 
         doc
             .font(regularFont)
@@ -2715,31 +2723,57 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
             .fillColor(textGray)
             .text(
                 "For LAKSHMI NARAYAN AND COMPANY",
-                right - 190,
+                signBoxX,
                 signY,
                 {
-                    width: 175,
-                    align: "center"
+                    width: signBoxWidth,
+                    align: "center",
+                    lineBreak: false
                 }
             );
 
-        drawLine(
-            right - 180,
-            signY + 55,
-            right - 15,
-            signY + 55
+        // --------------------------------------------------
+        // SIGNATURE IMAGE
+        // --------------------------------------------------
+
+        doc.image(
+            signatureImage,
+            signBoxX + 35,
+            signY + 15,
+            {
+                fit: [110, 42],
+                align: "center",
+                valign: "center"
+            }
         );
+
+        // --------------------------------------------------
+        // SIGNATURE LINE
+        // --------------------------------------------------
+
+        drawLine(
+            signBoxX + 5,
+            signY + 60,
+            signBoxX + signBoxWidth - 5,
+            signY + 60
+        );
+
+        // --------------------------------------------------
+        // AUTHORIZED SIGNATORY
+        // --------------------------------------------------
 
         doc
             .font(regularFont)
             .fontSize(8)
+            .fillColor(textGray)
             .text(
                 "Authorized Signatory",
-                right - 180,
-                signY + 60,
+                signBoxX,
+                signY + 65,
                 {
-                    width: 165,
-                    align: "center"
+                    width: signBoxWidth,
+                    align: "center",
+                    lineBreak: false
                 }
             );
 
