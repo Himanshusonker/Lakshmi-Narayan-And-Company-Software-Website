@@ -35,6 +35,12 @@ const adminWorkRequestRouter=require("./Routes/adminWorkRequestRouter");
 
 const clientInvoicePaymentRouter=require("./Routes/clientInvoiceRouter");
 
+const caRouter = require("./Routes/caRouter");
+
+const caInvoiceRouter =require("./Routes/caInvoiceRouter");
+
+const caDocumentRouter=require("./Routes/caDocumentRouter");
+
 const cors=require('cors');
 const bodyparser=require('body-parser')
 app.use(bodyparser.urlencoded({extended:true}));
@@ -89,6 +95,12 @@ app.use("/api/admin/work-requests", adminWorkRequestRouter);
 // app.use("/api", clientInvoiceRoutes);
 
 app.use("/api", clientInvoicePaymentRouter);
+
+app.use("/api", caRouter);
+
+app.use("/api", caInvoiceRouter);
+
+app.use("/api/ca/documents", caDocumentRouter);
 
 app.get("/", (req, res) => {
     res.json({

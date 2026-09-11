@@ -33,6 +33,35 @@ const populateInvoice=(query)=>{
 
 
 // ======================================================
+// ADD PRICING PLAN TO ITEM DESCRIPTION
+// ======================================================
+
+const validPlans = [
+            "Starter",
+            "Business",
+            "Professional",
+            "Custom"
+        ];
+
+const addPlanToItems = (items, plan) => {
+
+    if (!Array.isArray(items)) {
+        return [];
+    }
+
+    return items.map((item) => {
+
+        return {
+            ...item,
+            plan: item.plan || ""
+        };
+
+    });
+
+};
+
+
+// ======================================================
 // GET ALL INVOICES - ADMIN
 // ======================================================
 
@@ -88,7 +117,7 @@ const createInvoice= async(req, res)=>{
     try {
 
         // const {company, project, invoiceNumber, title, description, items, taxPercentage, discount, issueDate, dueDate, notes}=req.body;
-        const {company, project, invoiceNumber, title, description, clientAddress, clientState, clientStateCode, gstType, items, taxPercentage, invoiceType, sellerGSTIN, buyerGSTIN, placeOfSupply, reverseCharge, hsnSac, cgstPercentage, sgstPercentage, igstPercentage, issueDate, dueDate, notes, status}=req.body;
+        const {company, project, invoiceNumber, title, description, plan, clientAddress, clientState, clientStateCode, gstType, items, taxPercentage, invoiceType, sellerGSTIN, buyerGSTIN, placeOfSupply, reverseCharge, hsnSac, cgstPercentage, sgstPercentage, igstPercentage, issueDate, dueDate, notes, status}=req.body;
 
         if (!company || !invoiceNumber || !title || !dueDate || !clientAddress) {
 
@@ -170,6 +199,8 @@ const createInvoice= async(req, res)=>{
         // CREATE
         // ==================================================
 
+        const processedItems = addPlanToItems(items);
+
         const invoice=new ClientInvoice({
 
                 company,
@@ -190,7 +221,9 @@ const createInvoice= async(req, res)=>{
 
                 invoiceType: finalInvoiceType,
 
-                items:Array.isArray(items) ? items : [],
+                // items:Array.isArray(items) ? items : [],
+
+                items:processedItems,
 
                 taxPercentage:Number(taxPercentage || 0),
 
@@ -274,7 +307,9 @@ const updateInvoice=async(req, res)=>{
         }
 
         // const {company, project, invoiceNumber, title, description, items, taxPercentage, discount, issueDate, dueDate, notes, status}=req.body;
-        const {company, project, invoiceNumber, title, description, clientAddress, clientState, clientStateCode, gstType, items, taxPercentage, invoiceType, sellerGSTIN, buyerGSTIN, placeOfSupply, reverseCharge, hsnSac, cgstPercentage, sgstPercentage, igstPercentage, issueDate, dueDate, notes, status}=req.body;
+        const {company, project, invoiceNumber, title, description, plan, clientAddress, clientState, clientStateCode, gstType, items, taxPercentage, invoiceType, sellerGSTIN, buyerGSTIN, placeOfSupply, reverseCharge, hsnSac, cgstPercentage, sgstPercentage, igstPercentage, issueDate, dueDate, notes, status}=req.body;
+
+        const processedItems = addPlanToItems(items);
 
         if (company !== undefined) {
 
@@ -353,6 +388,9 @@ const updateInvoice=async(req, res)=>{
         if (description !== undefined)
             invoice.description = description;
 
+        if (items !== undefined)
+            invoice.items = processedItems;
+
         if (clientAddress !== undefined) {
 
             invoice.clientAddress=clientAddress.trim();
@@ -369,9 +407,6 @@ const updateInvoice=async(req, res)=>{
         if (gstType !== undefined){
             invoice.gstType = gstType;
         }
-
-        if (items !== undefined)
-            invoice.items = items;
 
         if (taxPercentage !== undefined)
             invoice.taxPercentage =Number(taxPercentage);
@@ -644,9 +679,13 @@ const downloadClientInvoicePDF = async (req, res) => {
 
     try {
 
-        const companyId=req.client.companyId;
+        // const companyId=req.client.companyId;
+        const isCARequest = req.isCA === true;
+        const companyId = req.client?.companyId;
 
-        const invoice= await ClientInvoice.findOne({_id: req.params.id, company: companyId, isActive: true}).populate("company", "companyName contactPerson email phone address gstNumber").populate("project", "projectName projectType");
+        const invoiceQuery = isCARequest ? {_id: req.params.id, isActive: true} : {_id: req.params.id, company: companyId, isActive: true};
+
+        const invoice= await ClientInvoice.findOne(invoiceQuery).populate("company", "companyName contactPerson email phone address gstNumber").populate("project", "projectName projectType");
 
         if (!invoice) {
 
@@ -1066,7 +1105,7 @@ const downloadClientInvoicePDF = async (req, res) => {
                         }
                     );
 
-                const rowHeight =Math.max(54, descriptionHeight + 30);
+                const rowHeight =Math.max(36, descriptionHeight + 18);
 
                 // Row border
 
@@ -1085,12 +1124,27 @@ const downloadClientInvoicePDF = async (req, res) => {
 
                 // Description
 
-                doc.font(regularFont).fontSize(10).fillColor("#222222").text(description, xDescription + 10, currentY + 14,
+                const descriptionParts = description.split("\n");
+                const itemDescription = descriptionParts[0] || "";
+
+                const itemPlan = descriptionParts.find(line => /^Plan:/i.test(line)) ?.replace(/^Plan:\s*/i, "").trim() || "";
+
+                doc.font(regularFont).fontSize(9).fillColor("#222222").text(itemDescription, xDescription + 10, currentY + 8,
                         {
-                            width:
-                                colDescription - 20
+                            width: colDescription - 20,
+                            lineBreak: false
                         }
                     );
+
+                if (itemPlan) {
+
+                    doc.font(boldFont).fontSize(8).fillColor("#444444").text(`Plan: ${itemPlan}`, xDescription + 10, currentY + 18,
+                            {
+                                width: colDescription - 20,
+                                lineBreak: false
+                            }
+                        );
+                }
 
                 // Quantity
 
@@ -1418,8 +1472,12 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
 
     try {
 
-        const companyId = req.client.companyId;
-        const invoice = await ClientInvoice.findOne({_id: req.params.id, company: companyId, isActive: true})
+        const isCARequest = req.isCA === true;
+
+        const companyId = req.client?.companyId;
+
+        const invoiceQuery = isCARequest ? {_id: req.params.id, isActive: true} : {_id: req.params.id, company: companyId, isActive: true};
+        const invoice = await ClientInvoice.findOne(invoiceQuery)
         .populate("company", "companyName contactPerson email phone address gstNumber")
         .populate("project", "projectName projectType");
 
@@ -2103,7 +2161,7 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
 
                 const descriptionHeight =
                     doc.heightOfString(
-                        description,
+                        item.description || "",
                         {
                             width:
                                 colDescription - 12,
@@ -2114,10 +2172,13 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
                         }
                     );
 
+                const hasPlan = String(item.plan || "").trim() !== "";
+
                 const rowHeight =
                     Math.max(
-                        35,
-                        descriptionHeight + 25
+                        hasPlan ? 34 : 25,
+                        
+                        descriptionHeight + (hasPlan ? 25 : 15)
                     );
 
                 drawRect(
@@ -2181,18 +2242,30 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
                         currentY + 15
                     );
 
-                doc
-                    .font(regularFont)
-                    .fontSize(9)
-                    .text(
-                        description,
-                        xDescription + 6,
-                        currentY + 12,
+            // ==================================================
+            // ITEM DESCRIPTION + PLAN
+            // ==================================================
+
+            const itemDescription = String(item.description || "").trim();
+
+            const itemPlan = String(item.plan || "").trim();
+
+            doc.font(regularFont).fontSize(9).fillColor("#222222").text(itemDescription, xDescription + 6, currentY + 8,
+                    {
+                        width: colDescription - 12,
+                        lineBreak: false
+                    }
+                );
+
+            if (itemPlan) {
+
+                doc.font(boldFont).fontSize(8).fillColor("#444444").text(`Plan: ${itemPlan}`, xDescription + 6, currentY + 18,
                         {
-                            width:
-                                colDescription - 12
+                            width: colDescription - 12,
+                            lineBreak: false
                         }
                     );
+            }
 
                 doc
                     .font(regularFont)
@@ -2237,7 +2310,7 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
                         }
                     );
 
-                    const itemIGSTPercentage=Number(invoice.igstPercentage || 0);
+            const itemIGSTPercentage=Number(invoice.igstPercentage || 0);
 
             const itemIGSTAmount =invoice.gstType === "IGST" ? Number(item.amount || 0) * itemIGSTPercentage / 100: 0;
 

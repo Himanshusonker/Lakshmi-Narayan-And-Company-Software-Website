@@ -1,56 +1,157 @@
-const jwt=require("jsonwebtoken");
+// const jwt=require("jsonwebtoken");
+
+// // =================================================================================================
+// // ADMIN AUTHENTICATION
+// // =================================================================================================
+
+// const adminAuth=(req, res, next)=>{
+
+//     try {
+
+//         const authorization= req.headers.authorization;
+
+//         if (!authorization) {
+
+//             return res.status(401).json({success: false, message:"Authorization token required"});
+
+//         }
+
+// // -----------------------------------------------------------------------------------------
+// // BEARER TOKEN
+// // -----------------------------------------------------------------------------------------
+
+//         const token= authorization.startsWith("Bearer ") ? authorization.split(" ")[1]: null;
+
+//         if (!token) {
+
+//             return res.status(401).json({success: false, message:"Invalid authorization token"});
+
+//         }
+
+// // -----------------------------------------------------------------------------------------
+// // VERIFY TOKEN
+// // -----------------------------------------------------------------------------------------
+
+//         const decoded= jwt.verify(token, process.env.TOKEN_SECRET);
+
+// // -----------------------------------------------------------------------------------------
+// // ADMIN ROLE CHECK
+// // -----------------------------------------------------------------------------------------
+
+//         if (decoded.role !== "admin") {
+
+//             return res.status(403).json({success: false, message:"Admin access required"});
+
+//         }
+//         req.admin = decoded;
+//         next();
+//     } catch (error) {
+
+//         console.log("Admin Auth Error:", error.message);
+
+//         return res.status(401).json({success: false, message:"Invalid or expired token"});
+
+//     }
+// };
+// module.exports = adminAuth;
+
+
+const jwt = require("jsonwebtoken");
 
 // =================================================================================================
 // ADMIN AUTHENTICATION
 // =================================================================================================
 
-const adminAuth=(req, res, next)=>{
+const adminAuth = (req, res, next) => {
 
     try {
 
-        const authorization= req.headers.authorization;
+        // -----------------------------------------------------------------------------------------
+        // GET AUTHORIZATION HEADER
+        // -----------------------------------------------------------------------------------------
+
+        const authorization = req.headers.authorization;
 
         if (!authorization) {
 
-            return res.status(401).json({success: false, message:"Authorization token required"});
+            return res.status(401).json({
+                success: false,
+                message: "Authorization token required"
+            });
 
         }
 
-// -----------------------------------------------------------------------------------------
-// BEARER TOKEN
-// -----------------------------------------------------------------------------------------
+        // -----------------------------------------------------------------------------------------
+        // BEARER TOKEN
+        // -----------------------------------------------------------------------------------------
 
-        const token= authorization.startsWith("Bearer ") ? authorization.split(" ")[1]: null;
+        const token =
+            authorization.startsWith("Bearer ")
+                ? authorization.split(" ")[1]
+                : null;
 
         if (!token) {
 
-            return res.status(401).json({success: false, message:"Invalid authorization token"});
+            return res.status(401).json({
+                success: false,
+                message: "Invalid authorization token"
+            });
 
         }
 
-// -----------------------------------------------------------------------------------------
-// VERIFY TOKEN
-// -----------------------------------------------------------------------------------------
+        // -----------------------------------------------------------------------------------------
+        // VERIFY TOKEN
+        // -----------------------------------------------------------------------------------------
 
-        const decoded= jwt.verify(token, process.env.TOKEN_SECRET);
+        const decoded = jwt.verify(
+            token,
+            process.env.TOKEN_SECRET
+        );
 
-// -----------------------------------------------------------------------------------------
-// ADMIN ROLE CHECK
-// -----------------------------------------------------------------------------------------
+        // -----------------------------------------------------------------------------------------
+        // ADMIN ROLE CHECK
+        // -----------------------------------------------------------------------------------------
 
         if (decoded.role !== "admin") {
 
-            return res.status(403).json({success: false, message:"Admin access required"});
+            return res.status(403).json({
+                success: false,
+                message: "Admin access required"
+            });
 
         }
-        req.admin = decoded;
+
+        // -----------------------------------------------------------------------------------------
+        // SET ADMIN DATA
+        // -----------------------------------------------------------------------------------------
+
+        req.admin = {
+            _id: decoded.adminId || decoded._id || decoded.id,
+            adminId: decoded.adminId || decoded._id || decoded.id,
+            email: decoded.email,
+            role: decoded.role
+        };
+
+        // -----------------------------------------------------------------------------------------
+        // CONTINUE
+        // -----------------------------------------------------------------------------------------
+
         next();
+
     } catch (error) {
 
-        console.log("Admin Auth Error:", error.message);
+        console.log(
+            "Admin Auth Error:",
+            error.message
+        );
 
-        return res.status(401).json({success: false, message:"Invalid or expired token"});
+        return res.status(401).json({
+            success: false,
+            message: "Invalid or expired token"
+        });
 
     }
+
 };
+
 module.exports = adminAuth;

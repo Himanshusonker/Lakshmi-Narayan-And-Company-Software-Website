@@ -37,6 +37,9 @@ import ClientWorkRequest from "./pages/ClientWorkRequest";
 import ClientInvoices from "./pages/ClientInvoices";
 import ClientInvoiceDetails from "./pages/ClientInvoiceDetails";
 import AdminInvoices from "./admin/AdminInvoices";
+import CADashboard from "./pages/CADashboard";
+import CALogin from "./pages/CALogin";
+import AdminCA from "./admin/AdminCA";
 
 
 
@@ -84,6 +87,9 @@ const App=()=>{
                 <Route path="/client/invoices" element={<ClientInvoices/>}/>
                 <Route path="/client/invoices/:id" element={<ClientInvoiceDetails/>}/>
                 <Route path="/admin/invoices" element={<AdminInvoices/>}/>
+                <Route path="/admin/ca-registration" element={<AdminCA/>}/>
+                <Route path="/ca/login" element={<CALogin/>}/>
+                <Route path="/ca/dashboard" element={<CADashboard/>}/>
 
                 </Route>
             </Routes>

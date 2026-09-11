@@ -23,6 +23,7 @@ const AdminInvoices = () => {
         invoiceNumber: "",
         title: "",
         description: "",
+        // plan: "",
         clientAddress: "",
         invoiceType: "Invoice",
         clientState: "",
@@ -41,7 +42,8 @@ const AdminInvoices = () => {
                 description: "",
                 hsnSac: "",
                 quantity: 1,
-                rate: 0
+                rate: 0,
+                plan: ""
             }
         ],
 
@@ -234,7 +236,8 @@ const AdminInvoices = () => {
                     description: "",
                     hsnSac: "",
                     quantity: 1,
-                    rate: 0
+                    rate: 0,
+                    plan: "",
                 }
             ]
 
@@ -327,9 +330,12 @@ const AdminInvoices = () => {
                 
                 quantity: item.quantity || 1,
                 
-                rate: item.rate || 0
+                rate: item.rate || 0,
+
+                plan: item.plan || ""
             
             })) || [],
+
 
             taxPercentage:invoice.taxPercentage || 0,
 
@@ -372,6 +378,8 @@ const AdminInvoices = () => {
 
                 reverseCharge: Boolean(formData.reverseCharge),
 
+                // plan: formData.plan,
+
                 // discount:Number(formData.discount),
 
                 items: formData.items.map(item => {
@@ -384,7 +392,8 @@ const AdminInvoices = () => {
                         hsnSac: item.hsnSac || "",
                         quantity,
                         rate,
-                        amount: quantity * rate
+                        amount: quantity * rate,
+                        plan: item.plan || ""
                     };
                 })
             };
@@ -1086,6 +1095,14 @@ const AdminInvoices = () => {
 
                                         <input type="number" min="0" placeholder="Rate" value={item.rate} onChange={e =>handleItemChange(index, "rate", e.target.value)}/>
 
+                                        <select value={item.plan || ""} onChange={(e)=>handleItemChange(index, "plan", e.target.value)} required>
+                                            <option value="">Select Pricing Plan</option>
+                                            <option value="Starter">Starter</option>
+                                            <option value="Business">Business</option>
+                                            <option value="Professional">Professional</option>
+                                            <option value="Custom">Custom Project</option>
+                                        </select>
+
                                         {formData.items.length > 1 && (
 
                                             <button type="button" onClick={() =>removeItem(index)}>
@@ -1097,6 +1114,32 @@ const AdminInvoices = () => {
                                     </div>
                                 )
                             )}
+
+                            {/* <label>
+                                Pricing Plan
+                            </label>
+
+                            <select name="plan" value={formData.plan} onChange={handleChange}>
+                                <option value="">
+                                    Select Pricing Plan
+                                </option>
+
+                                <option value="Starter">
+                                    Starter
+                                </option>
+
+                                <option value="Business">
+                                    Business
+                                </option>
+
+                                <option value="Professional">
+                                    Professional
+                                </option>
+
+                                <option value="Custom">
+                                    Custom Project
+                                </option>
+                            </select> */}
 
                             <button type="button" onClick={addItem}>
                                 + Add Item

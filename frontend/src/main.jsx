@@ -38,6 +38,9 @@ import "./css/AdminWorkRequests.css";
 import "./css/ClientInvoices.css";
 import "./css/ClientInvoiceDetails.css";
 import "./css/AdminInvoices.css";
+import "./css/CADashboard.css";
+import "./css/CALogin.css";
+import "./css/AdminCA.css";
 import store from './productStore.jsx';
 import { Provider } from "react-redux";
 ReactDOM.createRoot(document.getElementById('root')).render(

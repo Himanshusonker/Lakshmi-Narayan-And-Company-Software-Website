@@ -164,6 +164,16 @@ const AdminDashboard=()=>{
                         
                     </Link>
 
+                    <Link to="/admin/ca-registration" onClick={() => setSidebarOpen(false)}>
+
+                        <span>
+                            👨‍💼
+                        </span>
+
+                        CA Registration
+                        
+                    </Link>
+
                     <Link to="/admin/work-requests" onClick={() => setSidebarOpen(false)}> 
      
                         <span> 

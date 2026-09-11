@@ -8,6 +8,17 @@ const invoiceItemSchema= new mongoose.Schema(
             trim: true
         },
 
+        plan: {
+            type: String,
+            enum: [
+                "Starter",
+                "Business",
+                "Professional",
+                "Custom"
+            ],
+            default: undefined
+        },
+
         hsnSac: {
             type: String,
             default: "",
