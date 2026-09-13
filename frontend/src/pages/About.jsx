@@ -124,7 +124,7 @@ const About=()=>{
 
                     </div>
 
-                    <div className="about-hero-image">
+                    <div className="about-hero-image" id="about-hero-image">
 
                         {aboutData.hero?.image && (
 
