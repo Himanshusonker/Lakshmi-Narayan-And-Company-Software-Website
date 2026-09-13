@@ -973,7 +973,7 @@ const AdminInvoices = () => {
                                     Buyer GSTIN *
                                 </label>
 
-                                <input name="buyerGSTIN" value={formData.buyerGSTIN} onChange={handleChange} placeholder="Enter Client GSTIN" maxLength="15" required/>
+                                <input name="buyerGSTIN" value={formData.buyerGSTIN} onChange={handleChange} placeholder="Enter Client GSTIN" maxLength="15"/>
 
                                 <label>
                                     Place of Supply

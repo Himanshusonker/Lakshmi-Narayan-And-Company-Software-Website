@@ -1951,7 +1951,7 @@ const downloadClientGSTInvoicePDF = async (req, res) => {
             .fontSize(8)
             .fillColor("#222222")
             .text(
-                `GSTIN: ${invoice.buyerGSTIN || invoice.company?.gstNumber || "N/A"}`,
+                `GSTIN: ${invoice.buyerGSTIN || invoice.company?.gstNumber}`,
                 left + 10,
                 addressTop + 68,
                 {
