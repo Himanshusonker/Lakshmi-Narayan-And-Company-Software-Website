@@ -194,7 +194,7 @@ const Contact=()=>{
                                 </small>
 
                                 <p>
-                                    India
+                                    Coolie Bazar, Kanpur 208001
                                 </p>
 
                             </div>

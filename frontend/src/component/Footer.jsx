@@ -48,20 +48,20 @@ const Footer=()=>{
 
                         <div className="footer-social">
 
-                            <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                            <a href="https://www.linkedin.com/in/himanshu-sonker-153b03436/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
                                 in
                             </a>
 
-                            <a href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram">
+                            <a href="https://www.instagram.com/lakshmi_narayan_and_company/" target="_blank" rel="noreferrer" aria-label="Instagram">
                                 ig
                             </a>
 
-                            <a href="https://www.facebook.com/" target="_blank" rel="noreferrer" aria-label="Facebook">
+                            <a href="https://www.facebook.com/people/Lakshmi-Narayan-And-Company/61594406070268/" target="_blank" rel="noreferrer" aria-label="Facebook">
                                 f
                             </a>
 
-                            <a href="https://github.com/" target="_blank" rel="noreferrer" aria-label="GitHub" >
-                                gh
+                            <a href="https://x.com/LakshmiNarAndCo" target="_blank" rel="noreferrer" aria-label="Twitter" >
+                                𝕏
                             </a>
 
                         </div>
