@@ -48,7 +48,7 @@ const HomeAI = () => {
             setError("");
 
             const response = await axios.get(
-                `${API_URL}/homeai`
+                `${API_URL}/api/homeai`
             );
 
             if (response.data.success) {

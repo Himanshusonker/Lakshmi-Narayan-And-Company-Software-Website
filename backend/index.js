@@ -192,7 +192,7 @@ app.use("/api/ca/documents", caDocumentRouter);
 //                         Start AI
 // ============================================================
 
-app.use("/homeai", homeAIRouter);
+app.use("/api/homeai", homeAIRouter);
 
 app.use("/site", siteAIRouter);
 
