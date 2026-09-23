@@ -77,7 +77,7 @@ const Footer=()=>{
                             Company
                         </h3>
 
-                        <Link to="/home">
+                        <Link to="/">
                             Home
                         </Link>
 
