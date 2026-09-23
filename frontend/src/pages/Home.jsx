@@ -29,7 +29,7 @@ const Home=()=>{
         try {
             setLoading(true);
 
-            const response= await axios.get(`${import.meta.env.VITE_LAKSHMI_NARAYAN_AND_COMPANY_SW_W_API_URL}/home`);
+            const response= await axios.get(`${import.meta.env.VITE_LAKSHMI_NARAYAN_AND_COMPANY_SW_W_API_URL}/api/home`);
 
             if (response.data.success)
             {
