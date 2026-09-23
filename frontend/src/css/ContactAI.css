@@ -1,0 +1,754 @@
+/* =========================================================
+   CONTACT AI PAGE - GLOBAL
+========================================================= */
+
+.contact-ai-page {
+    width: 100%;
+    overflow: hidden;
+    background: #ffffff;
+    color: #07142f;
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+.contact-ai-page *,
+.contact-ai-page *::before,
+.contact-ai-page *::after {
+    box-sizing: border-box;
+}
+
+.contact-ai-page a {
+    text-decoration: none;
+}
+
+.contact-ai-container {
+    width: min(1200px, calc(100% - 40px));
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.contact-ai-hero {
+    position: relative;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    isolation: isolate;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(4, 15, 38, 0.97),
+            rgba(4, 15, 38, 0.82)
+        ),
+        url("https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=2000&q=85")
+        center / cover no-repeat;
+}
+
+.contact-ai-hero::before {
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    right: -220px;
+    top: -200px;
+    border: 1px solid rgba(245, 185, 66, 0.18);
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.contact-ai-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(
+            circle at 75% 50%,
+            rgba(245, 185, 66, 0.10),
+            transparent 35%
+        );
+    pointer-events: none;
+}
+
+.contact-ai-hero-content {
+    position: relative;
+    z-index: 2;
+    padding-top: 100px;
+    padding-bottom: 90px;
+}
+
+.contact-ai-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 9px 17px;
+    border: 1px solid rgba(245, 185, 66, 0.45);
+    border-radius: 50px;
+    background: rgba(245, 185, 66, 0.08);
+    color: #f5b942;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.contact-ai-hero h1 {
+    max-width: 850px;
+    margin: 25px 0 20px;
+    color: #ffffff;
+    font-size: clamp(42px, 5.5vw, 70px);
+    line-height: 1.08;
+    letter-spacing: -2px;
+}
+
+.contact-ai-hero h1 span {
+    display: block;
+    color: #f5b942;
+}
+
+.contact-ai-hero p {
+    max-width: 700px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   MAIN CONTACT SECTION
+========================================================= */
+
+.contact-ai-main-section {
+    padding: 100px 0;
+    background: #ffffff;
+}
+
+.contact-ai-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.6fr);
+    gap: 45px;
+    align-items: start;
+}
+
+
+/* =========================================================
+   SECTION HEADING
+========================================================= */
+
+.contact-ai-section-heading {
+    margin-bottom: 35px;
+}
+
+.contact-ai-section-heading > span {
+    display: block;
+    margin-bottom: 13px;
+    color: #f5b942;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.contact-ai-section-heading h2 {
+    margin: 0 0 16px;
+    color: #07142f;
+    font-size: clamp(32px, 4vw, 47px);
+    line-height: 1.15;
+    letter-spacing: -1.3px;
+}
+
+.contact-ai-section-heading h2 strong {
+    color: #f5b942;
+}
+
+.contact-ai-section-heading p {
+    max-width: 650px;
+    margin: 0;
+    color: #667085;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.contact-ai-form-wrapper {
+    min-width: 0;
+}
+
+.contact-ai-form {
+    padding: 35px;
+    border: 1px solid #e5e9f0;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 20px 60px rgba(7, 20, 47, 0.07);
+}
+
+.contact-ai-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+}
+
+.contact-ai-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.contact-ai-field label {
+    color: #07142f;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.contact-ai-field input,
+.contact-ai-field select,
+.contact-ai-field textarea {
+    width: 100%;
+    border: 1px solid #dfe4eb;
+    border-radius: 9px;
+    outline: none;
+    background: #f9fafb;
+    color: #07142f;
+    font-family: inherit;
+    font-size: 14px;
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+.contact-ai-field input,
+.contact-ai-field select {
+    height: 50px;
+    padding: 0 15px;
+}
+
+.contact-ai-field textarea {
+    min-height: 165px;
+    padding: 14px 15px;
+    resize: vertical;
+    line-height: 1.7;
+}
+
+.contact-ai-field input::placeholder,
+.contact-ai-field textarea::placeholder {
+    color: #98a2b3;
+}
+
+.contact-ai-field input:focus,
+.contact-ai-field select:focus,
+.contact-ai-field textarea:focus {
+    border-color: #f5b942;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(245, 185, 66, 0.10);
+}
+
+.contact-ai-submit-button {
+    width: 100%;
+    min-height: 54px;
+    margin-top: 5px;
+    border: 1px solid #f5b942;
+    border-radius: 9px;
+    background: #f5b942;
+    color: #07142f;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 800;
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.contact-ai-submit-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    background: #ffd36a;
+    box-shadow: 0 12px 30px rgba(245, 185, 66, 0.25);
+}
+
+.contact-ai-submit-button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.contact-ai-success {
+    margin-bottom: 18px;
+    padding: 13px 15px;
+    border: 1px solid #b7ebc6;
+    border-radius: 8px;
+    background: #f0fff4;
+    color: #18743a;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.contact-ai-error {
+    margin-bottom: 18px;
+    padding: 13px 15px;
+    border: 1px solid #f1b5b5;
+    border-radius: 8px;
+    background: #fff5f5;
+    color: #b42318;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   SIDE PANEL
+========================================================= */
+
+.contact-ai-side {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    position: sticky;
+    top: 30px;
+}
+
+.contact-ai-assistant-card {
+    position: relative;
+    padding: 32px 28px;
+    border-radius: 17px;
+    background: #07142f;
+    overflow: hidden;
+}
+
+.contact-ai-assistant-card::before {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    top: -130px;
+    right: -90px;
+    border: 1px solid rgba(245, 185, 66, 0.18);
+    border-radius: 50%;
+}
+
+.contact-ai-assistant-icon {
+    position: relative;
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 22px;
+    border-radius: 14px;
+    background: #f5b942;
+    color: #07142f;
+    font-size: 17px;
+    font-weight: 900;
+}
+
+.contact-ai-small-label {
+    position: relative;
+    display: block;
+    margin-bottom: 12px;
+    color: #f5b942;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+}
+
+.contact-ai-assistant-card h3 {
+    position: relative;
+    margin: 0 0 15px;
+    color: #ffffff;
+    font-size: 26px;
+    line-height: 1.25;
+}
+
+.contact-ai-assistant-card h3 strong {
+    color: #f5b942;
+}
+
+.contact-ai-assistant-card > p {
+    position: relative;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 14px;
+    line-height: 1.75;
+}
+
+.contact-ai-assistant-list {
+    position: relative;
+    margin: 25px 0;
+}
+
+.contact-ai-assistant-list div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 13px;
+}
+
+.contact-ai-assistant-list div:last-child {
+    border-bottom: none;
+}
+
+.contact-ai-assistant-list span {
+    color: #f5b942;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.contact-ai-assistant-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 12px 18px;
+    border: 1px solid rgba(245, 185, 66, 0.45);
+    border-radius: 8px;
+    background: rgba(245, 185, 66, 0.08);
+    color: #f5b942;
+    font-size: 13px;
+    font-weight: 800;
+    transition: background 0.25s ease;
+}
+
+.contact-ai-assistant-button:hover {
+    background: rgba(245, 185, 66, 0.16);
+}
+
+
+/* =========================================================
+   QUOTE CARD
+========================================================= */
+
+.contact-ai-quote-card {
+    padding: 30px 28px;
+    border: 1px solid #e4e8ef;
+    border-radius: 16px;
+    background: #f7f9fc;
+}
+
+.contact-ai-quote-card > span {
+    display: block;
+    margin-bottom: 10px;
+    color: #f5b942;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+}
+
+.contact-ai-quote-card h3 {
+    margin: 0 0 12px;
+    color: #07142f;
+    font-size: 23px;
+}
+
+.contact-ai-quote-card p {
+    margin: 0 0 20px;
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.contact-ai-quote-card a {
+    color: #07142f;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.contact-ai-quote-card a:hover {
+    color: #f5b942;
+}
+
+
+/* =========================================================
+   BUSINESS INFORMATION
+========================================================= */
+
+.contact-ai-business-section {
+    padding: 100px 0;
+    background: #f7f9fc;
+}
+
+.contact-ai-business-section .contact-ai-section-heading {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.contact-ai-business-section .contact-ai-section-heading p {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contact-ai-business-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.contact-ai-business-card {
+    padding: 32px 27px;
+    border: 1px solid #e4e8ef;
+    border-radius: 15px;
+    background: #ffffff;
+    text-align: center;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.contact-ai-business-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(7, 20, 47, 0.08);
+}
+
+.contact-ai-business-icon {
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+    border-radius: 14px;
+    background: #07142f;
+    font-size: 24px;
+}
+
+.contact-ai-business-card h3 {
+    margin: 0 0 12px;
+    color: #07142f;
+    font-size: 20px;
+}
+
+.contact-ai-business-card p {
+    margin: 0;
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   FINAL CTA
+========================================================= */
+
+.contact-ai-final-cta {
+    position: relative;
+    padding: 100px 0;
+    background: #07142f;
+    overflow: hidden;
+}
+
+.contact-ai-final-cta::before {
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    right: -240px;
+    bottom: -300px;
+    border: 1px solid rgba(245, 185, 66, 0.16);
+    border-radius: 50%;
+}
+
+.contact-ai-final-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.contact-ai-final-content > span {
+    color: #f5b942;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.contact-ai-final-content h2 {
+    margin: 20px 0;
+    color: #ffffff;
+    font-size: clamp(36px, 5vw, 58px);
+    line-height: 1.12;
+}
+
+.contact-ai-final-content h2 strong {
+    display: block;
+    color: #f5b942;
+}
+
+.contact-ai-final-content p {
+    max-width: 650px;
+    margin: 0 auto 30px;
+    color: rgba(255, 255, 255, 0.70);
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.contact-ai-final-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 14px 25px;
+    border-radius: 8px;
+    background: #f5b942;
+    color: #07142f;
+    font-size: 14px;
+    font-weight: 800;
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.contact-ai-final-button:hover {
+    transform: translateY(-3px);
+    background: #ffd36a;
+    box-shadow: 0 12px 30px rgba(245, 185, 66, 0.25);
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.contact-ai-page a:focus-visible,
+.contact-ai-page button:focus-visible,
+.contact-ai-page input:focus-visible,
+.contact-ai-page select:focus-visible,
+.contact-ai-page textarea:focus-visible {
+    outline: 3px solid rgba(245, 185, 66, 0.55);
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .contact-ai-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-ai-side {
+        position: static;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .contact-ai-business-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+/* =========================================================
+   MOBILE TABLET
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .contact-ai-container {
+        width: calc(100% - 30px);
+    }
+
+    .contact-ai-hero {
+        min-height: 550px;
+    }
+
+    .contact-ai-hero-content {
+        padding-top: 90px;
+        padding-bottom: 75px;
+    }
+
+    .contact-ai-hero h1 {
+        font-size: 42px;
+        letter-spacing: -1px;
+    }
+
+    .contact-ai-hero p {
+        font-size: 15px;
+    }
+
+    .contact-ai-main-section,
+    .contact-ai-business-section {
+        padding: 70px 0;
+    }
+
+    .contact-ai-form {
+        padding: 25px 20px;
+    }
+
+    .contact-ai-form-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .contact-ai-side {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-ai-business-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-ai-final-cta {
+        padding: 75px 0;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .contact-ai-container {
+        width: calc(100% - 24px);
+    }
+
+    .contact-ai-hero {
+        min-height: 570px;
+    }
+
+    .contact-ai-hero-content {
+        padding-top: 75px;
+        padding-bottom: 65px;
+    }
+
+    .contact-ai-hero h1 {
+        font-size: 35px;
+    }
+
+    .contact-ai-section-heading h2 {
+        font-size: 30px;
+    }
+
+    .contact-ai-form {
+        padding: 22px 16px;
+    }
+
+    .contact-ai-assistant-card,
+    .contact-ai-quote-card {
+        padding: 26px 20px;
+    }
+
+    .contact-ai-final-content h2 {
+        font-size: 34px;
+    }
+
+    .contact-ai-final-button {
+        width: 100%;
+    }
+}

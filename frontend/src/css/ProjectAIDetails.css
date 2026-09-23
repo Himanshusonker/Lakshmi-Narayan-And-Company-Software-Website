@@ -1,0 +1,539 @@
+/* =========================================================
+   PROJECT DETAILS
+========================================================= */
+
+.project-details-page {
+  width: 100%;
+  background: #ffffff;
+  color: #07142f;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.project-details-hero {
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(245, 185, 66, 0.13),
+      transparent 35%
+    ),
+    #020b1d;
+
+  padding: 110px 20px 100px;
+
+  text-align: center;
+}
+
+.project-details-hero-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.project-details-category {
+  display: inline-block;
+
+  color: #f5b942;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+
+  margin-bottom: 18px;
+}
+
+.project-details-hero h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: clamp(40px, 6vw, 68px);
+
+  line-height: 1.1;
+}
+
+.project-details-hero p {
+  max-width: 700px;
+
+  margin: 25px auto 0;
+
+  color: #c8d1e1;
+
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+
+/* =========================================================
+   COMMON
+========================================================= */
+
+.project-details-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.project-details-image-section {
+  padding: 70px 20px 20px;
+}
+
+.project-details-image {
+  width: 100%;
+  max-height: 560px;
+
+  object-fit: cover;
+
+  border-radius: 18px;
+
+  display: block;
+
+  box-shadow:
+    0 20px 60px rgba(7, 20, 47, 0.15);
+}
+
+
+/* =========================================================
+   OVERVIEW
+========================================================= */
+
+.project-overview-section {
+  padding: 70px 20px;
+}
+
+.project-overview {
+  max-width: 850px;
+}
+
+.details-label {
+  display: block;
+
+  color: #b27b00;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+
+  margin-bottom: 12px;
+}
+
+.project-overview h2,
+.details-heading h2 {
+  margin: 0 0 20px;
+
+  color: #07142f;
+
+  font-size: clamp(30px, 4vw, 46px);
+
+  line-height: 1.2;
+}
+
+.project-overview p {
+  margin: 0;
+
+  color: #657287;
+
+  font-size: 17px;
+  line-height: 1.9;
+}
+
+
+/* =========================================================
+   PROBLEM SOLUTION
+========================================================= */
+
+.problem-solution-section {
+  padding: 80px 20px;
+
+  background: #f7f9fc;
+}
+
+.problem-solution-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 30px;
+}
+
+.details-box {
+  background: #ffffff;
+
+  padding: 38px;
+
+  border-radius: 16px;
+
+  border: 1px solid #e4e9f1;
+
+  box-shadow:
+    0 10px 35px rgba(7, 20, 47, 0.06);
+}
+
+.details-box h2 {
+  margin: 0 0 18px;
+
+  font-size: 27px;
+}
+
+.details-box p {
+  margin: 0;
+
+  color: #657287;
+
+  line-height: 1.8;
+}
+
+.solution-box {
+  border-top: 4px solid #f5b942;
+}
+
+
+/* =========================================================
+   FEATURES
+========================================================= */
+
+.project-features-section {
+  padding: 90px 20px;
+}
+
+.details-heading {
+  margin-bottom: 40px;
+}
+
+.features-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 20px;
+}
+
+.feature-card {
+  padding: 28px;
+
+  background: #f7f9fc;
+
+  border-radius: 14px;
+
+  border: 1px solid #e4e9f1;
+}
+
+.feature-number {
+  color: #f5b942;
+
+  font-size: 13px;
+  font-weight: 900;
+
+  letter-spacing: 1px;
+}
+
+.feature-card p {
+  margin: 20px 0 0;
+
+  color: #33425a;
+
+  font-weight: 700;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   TECHNOLOGY
+========================================================= */
+
+.project-tech-section {
+  padding: 80px 20px;
+
+  background: #020b1d;
+}
+
+.project-tech-section .details-label {
+  color: #f5b942;
+}
+
+.project-tech-section h2 {
+  color: #ffffff;
+}
+
+.details-tech-list {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+}
+
+.details-tech-list span {
+  padding: 11px 16px;
+
+  color: #e3e8f1;
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  border-radius: 8px;
+
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   RESULTS
+========================================================= */
+
+.project-results-section {
+  padding: 90px 20px;
+}
+
+.results-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 18px;
+}
+
+.result-card {
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 22px;
+
+  background: #f7f9fc;
+
+  border-radius: 12px;
+}
+
+.result-card > span {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #f5b942;
+
+  color: #020b1d;
+
+  font-weight: 900;
+}
+
+.result-card p {
+  margin: 0;
+
+  color: #33425a;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.project-details-cta {
+  padding: 100px 20px;
+
+  text-align: center;
+
+  background:
+    radial-gradient(
+      circle at 20% 50%,
+      rgba(245, 185, 66, 0.12),
+      transparent 35%
+    ),
+    #07142f;
+}
+
+.project-details-cta > span {
+  color: #f5b942;
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+  letter-spacing: 2px;
+}
+
+.project-details-cta h2 {
+  margin: 15px 0;
+
+  color: #ffffff;
+
+  font-size: clamp(34px, 5vw, 55px);
+}
+
+.project-details-cta h2 strong {
+  color: #f5b942;
+}
+
+.project-details-cta p {
+  max-width: 650px;
+
+  margin: 0 auto 30px;
+
+  color: #bec8d9;
+
+  line-height: 1.8;
+}
+
+.project-details-cta-button {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 14px 25px;
+
+  background: #f5b942;
+
+  color: #020b1d;
+
+  border-radius: 8px;
+
+  text-decoration: none;
+
+  font-weight: 800;
+}
+
+.project-details-cta-button span {
+  font-size: 20px;
+}
+
+
+/* =========================================================
+   BACK
+========================================================= */
+
+.project-back-wrapper {
+  padding: 25px 20px;
+
+  text-align: center;
+
+  border-top: 1px solid #e6eaf0;
+}
+
+.project-back-wrapper a {
+  color: #07142f;
+
+  text-decoration: none;
+
+  font-weight: 700;
+}
+
+.project-back-wrapper a:hover {
+  color: #b27b00;
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.project-details-message {
+  min-height: 60vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 20px;
+
+  text-align: center;
+}
+
+.project-details-message a {
+  color: #b27b00;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+  .project-details-hero {
+    padding: 80px 18px;
+  }
+
+  .project-details-hero p {
+    font-size: 15px;
+  }
+
+  .project-details-image-section {
+    padding: 40px 15px 10px;
+  }
+
+  .project-details-image {
+    border-radius: 12px;
+  }
+
+  .project-overview-section,
+  .problem-solution-section,
+  .project-features-section,
+  .project-results-section {
+    padding: 65px 15px;
+  }
+
+  .problem-solution-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .details-box {
+    padding: 25px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-tech-section {
+    padding: 65px 15px;
+  }
+
+  .project-details-cta {
+    padding: 75px 18px;
+  }
+
+}

@@ -1,0 +1,1129 @@
+/* =========================================================
+ABOUT AI PAGE - GLOBAL
+========================================================= */
+
+.about-ai-page {
+width: 100%;
+overflow: hidden;
+background: #ffffff;
+color: #07142f;
+font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+.about-ai-page *,
+.about-ai-page *::before,
+.about-ai-page *::after {
+box-sizing: border-box;
+}
+
+.about-ai-page a {
+text-decoration: none;
+}
+
+.about-ai-container {
+width: min(1200px, calc(100% - 40px));
+margin: 0 auto;
+}
+
+/* =========================================================
+HERO
+========================================================= */
+
+.about-ai-hero {
+position: relative;
+min-height: 590px;
+display: flex;
+align-items: center;
+isolation: isolate;
+overflow: hidden;
+background:
+    linear-gradient(
+        90deg,
+        rgba(4, 15, 38, 0.96) 0%,
+        rgba(4, 15, 38, 0.86) 48%,
+        rgba(4, 15, 38, 0.62) 100%
+    ),
+    url("https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=2000&q=85")
+    center / cover no-repeat;
+
+
+}
+
+.about-ai-hero::before {
+content: "";
+position: absolute;
+width: 500px;
+height: 500px;
+top: -220px;
+right: -120px;
+border: 1px solid rgba(245, 185, 66, 0.18);
+border-radius: 50%;
+z-index: -1;
+}
+
+.about-ai-hero::after {
+content: "";
+position: absolute;
+width: 350px;
+height: 350px;
+bottom: -200px;
+left: -100px;
+border: 1px solid rgba(255, 255, 255, 0.08);
+border-radius: 50%;
+z-index: -1;
+}
+
+.about-ai-hero-overlay {
+position: absolute;
+inset: 0;
+background:
+radial-gradient(
+circle at 75% 50%,
+rgba(245, 185, 66, 0.10),
+transparent 35%
+);
+pointer-events: none;
+}
+
+.about-ai-hero-content {
+position: relative;
+z-index: 2;
+padding-top: 100px;
+padding-bottom: 100px;
+max-width: 1200px;
+}
+
+.about-ai-badge {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+padding: 9px 17px;
+border: 1px solid rgba(245, 185, 66, 0.45);
+border-radius: 50px;
+background: rgba(245, 185, 66, 0.08);
+color: #f5b942;
+font-size: 12px;
+font-weight: 800;
+letter-spacing: 2px;
+text-transform: uppercase;
+}
+
+.about-ai-hero h1 {
+max-width: 850px;
+margin: 24px 0 22px;
+color: #ffffff;
+font-size: clamp(42px, 5.4vw, 72px);
+line-height: 1.08;
+font-weight: 800;
+letter-spacing: -2px;
+}
+
+.about-ai-hero h1 span {
+display: block;
+color: #f5b942;
+}
+
+.about-ai-hero p {
+max-width: 720px;
+margin: 0;
+color: rgba(255, 255, 255, 0.78);
+font-size: 18px;
+line-height: 1.8;
+}
+
+.about-ai-hero-buttons {
+display: flex;
+flex-wrap: wrap;
+gap: 14px;
+margin-top: 34px;
+}
+
+.about-ai-main-button,
+.about-ai-outline-button {
+min-height: 52px;
+padding: 14px 26px;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+border-radius: 8px;
+font-size: 14px;
+font-weight: 700;
+transition:
+transform 0.25s ease,
+background 0.25s ease,
+color 0.25s ease,
+border-color 0.25s ease,
+box-shadow 0.25s ease;
+}
+
+.about-ai-main-button {
+background: #f5b942;
+border: 1px solid #f5b942;
+color: #07142f;
+}
+
+.about-ai-main-button:hover {
+transform: translateY(-3px);
+background: #ffd36a;
+border-color: #ffd36a;
+box-shadow: 0 12px 28px rgba(245, 185, 66, 0.25);
+}
+
+.about-ai-outline-button {
+background: transparent;
+border: 1px solid rgba(255, 255, 255, 0.45);
+color: #ffffff;
+}
+
+.about-ai-outline-button:hover {
+transform: translateY(-3px);
+background: rgba(255, 255, 255, 0.08);
+border-color: #f5b942;
+color: #f5b942;
+}
+
+/* =========================================================
+COMMON SECTION
+========================================================= */
+
+.about-ai-section {
+position: relative;
+padding: 100px 0;
+}
+
+.about-ai-section-content {
+max-width: 650px;
+}
+
+.about-ai-section-label,
+.about-ai-section-heading > span,
+.about-ai-mission-content > span,
+.about-ai-vision-content > span {
+display: block;
+margin-bottom: 14px;
+color: #f5b942;
+font-size: 12px;
+font-weight: 800;
+letter-spacing: 2px;
+text-transform: uppercase;
+}
+
+.about-ai-section-content h2,
+.about-ai-section-heading h2,
+.about-ai-mission-content h2,
+.about-ai-vision-content h2 {
+margin: 0 0 20px;
+color: #07142f;
+font-size: clamp(32px, 4vw, 48px);
+line-height: 1.15;
+letter-spacing: -1.5px;
+}
+
+.about-ai-section-content h2 strong,
+.about-ai-section-heading h2 strong,
+.about-ai-mission-content h2 strong,
+.about-ai-vision-content h2 strong {
+color: #f5b942;
+font-weight: 800;
+}
+
+.about-ai-section-content p,
+.about-ai-section-heading p,
+.about-ai-mission-content p,
+.about-ai-vision-content p {
+margin: 0 0 17px;
+color: #667085;
+font-size: 16px;
+line-height: 1.85;
+}
+
+/* =========================================================
+WHO WE ARE
+========================================================= */
+
+.about-ai-who-section {
+background: #ffffff;
+}
+
+.about-ai-two-column {
+display: grid;
+grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
+align-items: center;
+gap: 80px;
+}
+
+.about-ai-info-card {
+position: relative;
+padding: 45px 40px;
+border: 1px solid #e7eaf0;
+border-radius: 18px;
+background:
+linear-gradient(
+145deg,
+#ffffff,
+#f7f9fc
+);
+box-shadow: 0 20px 60px rgba(7, 20, 47, 0.08);
+overflow: hidden;
+}
+
+.about-ai-info-card::before {
+content: "";
+position: absolute;
+width: 220px;
+height: 220px;
+right: -100px;
+top: -100px;
+border-radius: 50%;
+background: rgba(245, 185, 66, 0.10);
+}
+
+.about-ai-info-icon {
+position: relative;
+width: 62px;
+height: 62px;
+display: flex;
+align-items: center;
+justify-content: center;
+margin-bottom: 25px;
+border-radius: 14px;
+background: #07142f;
+color: #f5b942;
+font-size: 18px;
+font-weight: 800;
+letter-spacing: 1px;
+}
+
+.about-ai-info-card h3 {
+position: relative;
+margin: 0 0 15px;
+color: #07142f;
+font-size: 25px;
+}
+
+.about-ai-info-card p {
+position: relative;
+margin: 0;
+color: #667085;
+font-size: 15px;
+line-height: 1.8;
+}
+
+.about-ai-info-line {
+width: 100%;
+height: 1px;
+margin: 28px 0 22px;
+background: #e4e7ec;
+}
+
+.about-ai-info-card > strong {
+color: #07142f;
+font-size: 13px;
+letter-spacing: 2px;
+}
+
+/* =========================================================
+WHAT WE DO
+========================================================= */
+
+.about-ai-what-section {
+background: #f7f9fc;
+}
+
+.about-ai-section-heading {
+max-width: 760px;
+margin: 0 auto 55px;
+text-align: center;
+}
+
+.about-ai-section-heading p {
+max-width: 680px;
+margin-left: auto;
+margin-right: auto;
+}
+
+.about-ai-services-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 24px;
+}
+
+.about-ai-service-card {
+position: relative;
+padding: 35px 30px;
+border: 1px solid #e5e9f0;
+border-radius: 16px;
+background: #ffffff;
+transition:
+transform 0.3s ease,
+box-shadow 0.3s ease,
+border-color 0.3s ease;
+}
+
+.about-ai-service-card::before {
+content: "";
+position: absolute;
+top: 0;
+left: 30px;
+width: 50px;
+height: 3px;
+border-radius: 0 0 5px 5px;
+background: #f5b942;
+}
+
+.about-ai-service-card:hover {
+transform: translateY(-8px);
+border-color: rgba(245, 185, 66, 0.55);
+box-shadow: 0 20px 45px rgba(7, 20, 47, 0.10);
+}
+
+.about-ai-service-icon {
+width: 62px;
+height: 62px;
+display: flex;
+align-items: center;
+justify-content: center;
+margin-bottom: 24px;
+border-radius: 15px;
+background: #07142f;
+font-size: 27px;
+}
+
+.about-ai-service-card h3 {
+margin: 0 0 14px;
+color: #07142f;
+font-size: 22px;
+}
+
+.about-ai-service-card p {
+min-height: 105px;
+margin: 0 0 23px;
+color: #667085;
+font-size: 15px;
+line-height: 1.75;
+}
+
+.about-ai-service-card a {
+display: inline-flex;
+color: #07142f;
+font-size: 14px;
+font-weight: 800;
+transition: color 0.25s ease;
+}
+
+.about-ai-service-card a:hover {
+color: #f5b942;
+}
+
+/* =========================================================
+MISSION
+========================================================= */
+
+.about-ai-mission-section {
+position: relative;
+padding: 105px 0;
+background: #07142f;
+overflow: hidden;
+}
+
+.about-ai-mission-section::before {
+content: "";
+position: absolute;
+width: 450px;
+height: 450px;
+right: -220px;
+top: -200px;
+border: 1px solid rgba(245, 185, 66, 0.14);
+border-radius: 50%;
+}
+
+.about-ai-mission-grid {
+position: relative;
+display: grid;
+grid-template-columns: 280px minmax(0, 1fr);
+gap: 80px;
+align-items: center;
+}
+
+.about-ai-mission-number {
+color: rgba(255, 255, 255, 0.08);
+font-size: clamp(48px, 7vw, 92px);
+line-height: 1;
+font-weight: 900;
+letter-spacing: 4px;
+}
+
+.about-ai-mission-content {
+max-width: 760px;
+}
+
+.about-ai-mission-content > span {
+color: #f5b942;
+}
+
+.about-ai-mission-content h2 {
+color: #ffffff;
+}
+
+.about-ai-mission-content p {
+color: rgba(255, 255, 255, 0.70);
+}
+
+.about-ai-mission-content strong {
+color: #f5b942;
+}
+
+/* =========================================================
+VISION
+========================================================= */
+
+.about-ai-vision-section {
+position: relative;
+padding: 110px 0;
+background: #f7f9fc;
+overflow: hidden;
+}
+
+.about-ai-vision-grid {
+display: grid;
+grid-template-columns: minmax(0, 1fr) 460px;
+align-items: center;
+gap: 80px;
+}
+
+.about-ai-vision-content {
+max-width: 650px;
+}
+
+.about-ai-vision-content h2 {
+color: #07142f;
+}
+
+.about-ai-vision-content p {
+color: #667085;
+}
+
+.about-ai-vision-graphic {
+position: relative;
+width: 420px;
+height: 420px;
+margin: 0 auto;
+}
+
+.about-ai-orbit {
+position: absolute;
+left: 50%;
+top: 50%;
+border: 1px solid rgba(7, 20, 47, 0.14);
+border-radius: 50%;
+transform: translate(-50%, -50%);
+}
+
+.about-ai-orbit span {
+position: absolute;
+display: flex;
+align-items: center;
+justify-content: center;
+width: 52px;
+height: 52px;
+border: 1px solid rgba(245, 185, 66, 0.55);
+border-radius: 50%;
+background: #ffffff;
+color: #07142f;
+font-size: 11px;
+font-weight: 800;
+box-shadow: 0 8px 25px rgba(7, 20, 47, 0.10);
+}
+
+.orbit-one {
+width: 180px;
+height: 180px;
+border-color: rgba(245, 185, 66, 0.35);
+}
+
+.orbit-one span {
+top: -26px;
+left: 50%;
+transform: translateX(-50%);
+}
+
+.orbit-two {
+width: 285px;
+height: 285px;
+}
+
+.orbit-two span {
+right: -26px;
+top: 50%;
+transform: translateY(-50%);
+}
+
+.orbit-three {
+width: 390px;
+height: 390px;
+}
+
+.orbit-three span {
+bottom: -26px;
+left: 50%;
+transform: translateX(-50%);
+}
+
+.about-ai-vision-center {
+position: absolute;
+top: 50%;
+left: 50%;
+width: 92px;
+height: 92px;
+display: flex;
+align-items: center;
+justify-content: center;
+border: 5px solid #f5b942;
+border-radius: 50%;
+background: #07142f;
+color: #f5b942;
+transform: translate(-50%, -50%);
+box-shadow: 0 15px 45px rgba(7, 20, 47, 0.20);
+}
+
+.about-ai-vision-center span {
+font-size: 23px;
+font-weight: 900;
+letter-spacing: 2px;
+}
+
+/* =========================================================
+TECHNOLOGY
+========================================================= */
+
+.about-ai-tech-section {
+background: #ffffff;
+}
+
+.about-ai-tech-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 22px;
+}
+
+.about-ai-tech-card {
+padding: 30px 27px;
+border: 1px solid #e6e9ef;
+border-radius: 15px;
+background: #ffffff;
+transition:
+transform 0.3s ease,
+border-color 0.3s ease,
+box-shadow 0.3s ease;
+}
+
+.about-ai-tech-card:hover {
+transform: translateY(-6px);
+border-color: rgba(245, 185, 66, 0.60);
+box-shadow: 0 15px 35px rgba(7, 20, 47, 0.08);
+}
+
+.about-ai-tech-icon {
+width: 55px;
+height: 55px;
+display: flex;
+align-items: center;
+justify-content: center;
+margin-bottom: 20px;
+border-radius: 13px;
+background: #f7f9fc;
+font-size: 25px;
+}
+
+.about-ai-tech-card h3 {
+margin: 0 0 11px;
+color: #07142f;
+font-size: 19px;
+}
+
+.about-ai-tech-card p {
+margin: 0;
+color: #667085;
+font-size: 14px;
+line-height: 1.75;
+}
+
+/* =========================================================
+WHY CHOOSE US
+========================================================= */
+
+.about-ai-why-section {
+padding: 105px 0;
+background: #f7f9fc;
+}
+
+.about-ai-why-grid {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 20px;
+}
+
+.about-ai-why-card {
+position: relative;
+min-height: 280px;
+padding: 30px 25px;
+border: 1px solid #e4e8ef;
+border-radius: 15px;
+background: #ffffff;
+overflow: hidden;
+transition:
+transform 0.3s ease,
+box-shadow 0.3s ease;
+}
+
+.about-ai-why-card:hover {
+transform: translateY(-6px);
+box-shadow: 0 18px 40px rgba(7, 20, 47, 0.09);
+}
+
+.about-ai-why-number {
+display: block;
+margin-bottom: 35px;
+color: #f5b942;
+font-size: 13px;
+font-weight: 900;
+letter-spacing: 2px;
+}
+
+.about-ai-why-card h3 {
+margin: 0 0 14px;
+color: #07142f;
+font-size: 19px;
+line-height: 1.35;
+}
+
+.about-ai-why-card p {
+margin: 0;
+color: #667085;
+font-size: 14px;
+line-height: 1.75;
+}
+
+/* =========================================================
+FINAL CTA
+========================================================= */
+
+.about-ai-final-cta {
+position: relative;
+padding: 110px 0;
+background:
+radial-gradient(
+circle at 80% 20%,
+rgba(245, 185, 66, 0.13),
+transparent 30%
+),
+#07142f;
+overflow: hidden;
+}
+
+.about-ai-final-cta::before {
+content: "";
+position: absolute;
+width: 500px;
+height: 500px;
+right: -250px;
+bottom: -300px;
+border: 1px solid rgba(245, 185, 66, 0.16);
+border-radius: 50%;
+}
+
+.about-ai-final-content {
+position: relative;
+z-index: 2;
+max-width: 850px;
+margin: 0 auto;
+text-align: center;
+}
+
+.about-ai-final-content h2 {
+margin: 24px 0 20px;
+color: #ffffff;
+font-size: clamp(35px, 4.5vw, 58px);
+line-height: 1.12;
+letter-spacing: -1.5px;
+}
+
+.about-ai-final-content h2 span {
+display: block;
+color: #f5b942;
+}
+
+.about-ai-final-content p {
+max-width: 700px;
+margin: 0 auto;
+color: rgba(255, 255, 255, 0.72);
+font-size: 16px;
+line-height: 1.8;
+}
+
+.about-ai-final-buttons {
+display: flex;
+justify-content: center;
+flex-wrap: wrap;
+gap: 14px;
+margin-top: 32px;
+}
+
+.about-ai-final-buttons .about-ai-outline-button {
+border-color: rgba(255, 255, 255, 0.35);
+}
+
+/* =========================================================
+FOCUS ACCESSIBILITY
+========================================================= */
+
+.about-ai-page a:focus-visible {
+outline: 3px solid rgba(245, 185, 66, 0.65);
+outline-offset: 4px;
+}
+
+/* =========================================================
+TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+.about-ai-container {
+    width: min(100% - 32px, 1000px);
+}
+
+.about-ai-two-column {
+    gap: 45px;
+}
+
+.about-ai-services-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.about-ai-tech-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.about-ai-why-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.about-ai-mission-grid {
+    grid-template-columns: 180px minmax(0, 1fr);
+    gap: 45px;
+}
+
+.about-ai-vision-grid {
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 45px;
+}
+
+.about-ai-vision-graphic {
+    width: 360px;
+    height: 360px;
+}
+
+.orbit-three {
+    width: 330px;
+    height: 330px;
+}
+
+}
+
+/* =========================================================
+MOBILE / TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+
+.about-ai-hero {
+    min-height: 560px;
+}
+
+.about-ai-hero-content {
+    padding-top: 90px;
+    padding-bottom: 80px;
+}
+
+.about-ai-hero h1 {
+    font-size: clamp(38px, 8vw, 55px);
+    letter-spacing: -1.5px;
+}
+
+.about-ai-hero p {
+    font-size: 16px;
+}
+
+.about-ai-section {
+    padding: 75px 0;
+}
+
+.about-ai-two-column,
+.about-ai-vision-grid {
+    grid-template-columns: 1fr;
+    gap: 45px;
+}
+
+.about-ai-section-content {
+    max-width: 100%;
+}
+
+.about-ai-info-card {
+    max-width: 600px;
+}
+
+.about-ai-mission-section {
+    padding: 80px 0;
+}
+
+.about-ai-mission-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+}
+
+.about-ai-mission-number {
+    font-size: 55px;
+}
+
+.about-ai-vision-graphic {
+    width: 360px;
+    height: 360px;
+    max-width: 100%;
+}
+
+.about-ai-tech-grid,
+.about-ai-services-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.about-ai-why-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+}
+
+/* =========================================================
+MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+.about-ai-container {
+    width: calc(100% - 28px);
+}
+
+.about-ai-hero {
+    min-height: 600px;
+    background-position: 60% center;
+}
+
+.about-ai-hero-content {
+    padding-top: 85px;
+    padding-bottom: 75px;
+}
+
+.about-ai-badge {
+    padding: 8px 13px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+}
+
+.about-ai-hero h1 {
+    margin-top: 20px;
+    font-size: 39px;
+    line-height: 1.12;
+    letter-spacing: -1px;
+}
+
+.about-ai-hero p {
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.about-ai-hero-buttons {
+    width: 100%;
+    flex-direction: column;
+}
+
+.about-ai-hero-buttons a,
+.about-ai-final-buttons a {
+    width: 100%;
+}
+
+.about-ai-main-button,
+.about-ai-outline-button {
+    min-height: 50px;
+    padding: 13px 20px;
+}
+
+.about-ai-section {
+    padding: 65px 0;
+}
+
+.about-ai-section-heading {
+    margin-bottom: 38px;
+}
+
+.about-ai-section-content h2,
+.about-ai-section-heading h2,
+.about-ai-mission-content h2,
+.about-ai-vision-content h2 {
+    font-size: 32px;
+    letter-spacing: -0.8px;
+}
+
+.about-ai-section-content p,
+.about-ai-section-heading p,
+.about-ai-mission-content p,
+.about-ai-vision-content p {
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+.about-ai-info-card {
+    padding: 32px 25px;
+}
+
+.about-ai-services-grid,
+.about-ai-tech-grid,
+.about-ai-why-grid {
+    grid-template-columns: 1fr;
+}
+
+.about-ai-service-card {
+    padding: 30px 25px;
+}
+
+.about-ai-service-card p {
+    min-height: auto;
+}
+
+.about-ai-mission-section {
+    padding: 70px 0;
+}
+
+.about-ai-mission-number {
+    font-size: 45px;
+}
+
+.about-ai-vision-section {
+    padding: 75px 0;
+}
+
+.about-ai-vision-graphic {
+    width: 300px;
+    height: 300px;
+}
+
+.orbit-one {
+    width: 130px;
+    height: 130px;
+}
+
+.orbit-two {
+    width: 215px;
+    height: 215px;
+}
+
+.orbit-three {
+    width: 295px;
+    height: 295px;
+}
+
+.about-ai-orbit span {
+    width: 45px;
+    height: 45px;
+    font-size: 9px;
+}
+
+.about-ai-vision-center {
+    width: 75px;
+    height: 75px;
+    border-width: 4px;
+}
+
+.about-ai-vision-center span {
+    font-size: 18px;
+}
+
+.about-ai-why-card {
+    min-height: auto;
+}
+
+.about-ai-final-cta {
+    padding: 75px 0;
+}
+
+.about-ai-final-content h2 {
+    font-size: 36px;
+}
+
+.about-ai-final-content p {
+    font-size: 15px;
+}
+
+.about-ai-final-buttons {
+    flex-direction: column;
+}
+
+}
+
+/* =========================================================
+SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+.about-ai-container {
+    width: calc(100% - 24px);
+}
+
+.about-ai-hero {
+    min-height: 620px;
+}
+
+.about-ai-hero-content {
+    padding-top: 75px;
+}
+
+.about-ai-hero h1 {
+    font-size: 34px;
+}
+
+.about-ai-section-content h2,
+.about-ai-section-heading h2,
+.about-ai-mission-content h2,
+.about-ai-vision-content h2 {
+    font-size: 29px;
+}
+
+.about-ai-info-card {
+    padding: 27px 20px;
+}
+
+.about-ai-vision-graphic {
+    width: 270px;
+    height: 270px;
+}
+
+.orbit-one {
+    width: 115px;
+    height: 115px;
+}
+
+.orbit-two {
+    width: 195px;
+    height: 195px;
+}
+
+.orbit-three {
+    width: 265px;
+    height: 265px;
+}
+
+.about-ai-final-content h2 {
+    font-size: 31px;
+}
+
+
+}

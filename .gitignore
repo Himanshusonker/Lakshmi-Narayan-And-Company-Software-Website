@@ -9,6 +9,9 @@ node_modules/
 .env
 .env.*
 !.env.example
+.env.local 
+.env.production 
+.env.development
 
 # =========================
 # Frontend Build Files
@@ -49,3 +52,7 @@ Thumbs.db
 .cache/
 .parcel-cache/
 .vite/
+
+uploads/ 
+logs/
+

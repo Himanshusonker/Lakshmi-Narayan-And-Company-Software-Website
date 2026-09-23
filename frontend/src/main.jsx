@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { HelmetProvider } from "react-helmet-async";
 import App from './App.jsx'
 import "./css/style.css";
 import "./css/Footer.css";
@@ -41,10 +42,32 @@ import "./css/AdminInvoices.css";
 import "./css/CADashboard.css";
 import "./css/CALogin.css";
 import "./css/AdminCA.css";
+
+
+
+import "./css/HomeAI.css";
+import "./css/indexAI.css";
+import "./css/ServicesAI.css";
+import "./css/ServiceAIDetails.css";
+import "./css/AISolutions.css";
+import "./css/AISolutionDetails.css";
+import "./css/ProjectsAI.css";
+import "./css/ProjectAIDetails.css";
+import "./css/PricingAI.css";
+import "./css/ResourcesAI.css";
+import "./css/AboutAI.css";
+import "./css/ContactAI.css";
+import "./css/AdminAIDashboard.css";
+import "./css/AIChat.css";
+
+
+
 import store from './productStore.jsx';
 import { Provider } from "react-redux";
 ReactDOM.createRoot(document.getElementById('root')).render(
         <Provider store={store}>
-            <App />
+            <HelmetProvider>
+                <App />
+            </HelmetProvider>
         </Provider>
 );

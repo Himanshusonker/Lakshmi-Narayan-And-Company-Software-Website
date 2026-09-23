@@ -42,6 +42,23 @@ import CALogin from "./pages/CALogin";
 import AdminCA from "./admin/AdminCA";
 
 
+import HomeAI from "./pagesAI/HomeAI";
+import LayoutAI from "./LayoutAI";
+import ServicesAI from "./pagesAI/ServicesAI";
+import ServiceAIDetails from "./pagesAI/ServiceAIDetails";
+import AISolutions from "./pagesAI/AISolutions";
+import AISolutionDetails from "./pagesAI/AISolutionDetails";
+import ProjectsAI from "./pagesAI/ProjectsAI";
+import ProjectAIDetails from "./pagesAI/ProjectAIDetails";
+import PricingAI from "./pagesAI/PricingAI";
+import ResourcesAI from "./pagesAI/ResourcesAI";
+import AboutAI from "./pagesAI/AboutAI";
+import ContactAI from "./pagesAI/ContactAI";
+import AdminAIDashboard from "./adminAI/AdminAIDashboard";
+import AIChat from "./pagesAI/AIChat";
+
+
+
 
 
 const App=()=>{
@@ -91,7 +108,27 @@ const App=()=>{
                 <Route path="/ca/login" element={<CALogin/>}/>
                 <Route path="/ca/dashboard" element={<CADashboard/>}/>
 
+                                
+
                 </Route>
+
+                <Route path="/" element={<LayoutAI/>}>
+                <Route path="/homeai" element={<HomeAI/>}/>
+                <Route path="/servicesai" element={<ServicesAI/>}/>
+                <Route path="/servicesai/:slug" element={<ServiceAIDetails/>}/>
+                <Route path="/ai-solutions" element={<AISolutions/>}/>
+                <Route path="/ai-solutions/:slug" element={<AISolutionDetails/>}/>
+                <Route path="/projectsai" element={<ProjectsAI/>}/>
+                <Route path="/projectsai/:slug" element={<ProjectAIDetails/>}/>
+                <Route path="/pricingai" element={<PricingAI/>}/>
+                <Route path="/resourcesai" element={<ResourcesAI/>}/>
+                <Route path="/aboutai" element={<AboutAI/>}/>
+                <Route path="/contactai" element={<ContactAI/>}/>
+                <Route path="/adminai/dashboard" element={<AdminAIDashboard/>}/>
+                <Route path="ai-assistant" element={<AIChat/>}/>
+
+                </Route>
+
             </Routes>
             <WhatsAppButton />
         </BrowserRouter>
