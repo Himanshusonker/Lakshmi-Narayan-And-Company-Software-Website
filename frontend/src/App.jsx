@@ -113,18 +113,18 @@ const App=()=>{
                 </Route>
 
                 <Route path="/" element={<LayoutAI/>}>
-                <Route path="/homeai" element={<HomeAI/>}/>
-                <Route path="/servicesai" element={<ServicesAI/>}/>
-                <Route path="/servicesai/:slug" element={<ServiceAIDetails/>}/>
-                <Route path="/ai-solutions" element={<AISolutions/>}/>
-                <Route path="/ai-solutions/:slug" element={<AISolutionDetails/>}/>
-                <Route path="/projectsai" element={<ProjectsAI/>}/>
-                <Route path="/projectsai/:slug" element={<ProjectAIDetails/>}/>
-                <Route path="/pricingai" element={<PricingAI/>}/>
-                <Route path="/resourcesai" element={<ResourcesAI/>}/>
-                <Route path="/aboutai" element={<AboutAI/>}/>
-                <Route path="/contactai" element={<ContactAI/>}/>
-                <Route path="/adminai/dashboard" element={<AdminAIDashboard/>}/>
+                <Route path="homeai" element={<HomeAI/>}/>
+                <Route path="servicesai" element={<ServicesAI/>}/>
+                <Route path="servicesai/:slug" element={<ServiceAIDetails/>}/>
+                <Route path="ai-solutions" element={<AISolutions/>}/>
+                <Route path="ai-solutions/:slug" element={<AISolutionDetails/>}/>
+                <Route path="projectsai" element={<ProjectsAI/>}/>
+                <Route path="projectsai/:slug" element={<ProjectAIDetails/>}/>
+                <Route path="pricingai" element={<PricingAI/>}/>
+                <Route path="resourcesai" element={<ResourcesAI/>}/>
+                <Route path="aboutai" element={<AboutAI/>}/>
+                <Route path="contactai" element={<ContactAI/>}/>
+                <Route path="adminai/dashboard" element={<AdminAIDashboard/>}/>
                 <Route path="ai-assistant" element={<AIChat/>}/>
 
                 </Route>
