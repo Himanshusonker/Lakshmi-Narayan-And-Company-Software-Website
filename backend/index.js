@@ -259,7 +259,7 @@ const startServer = async () => {
 
         const databaseUrl=process.env.DATABASE_URL || "mongodb+srv://himanshusonker90_db_user:XdKrWxqdlBxHtIGI@cluster0.sabhzdy.mongodb.net/lakshminarayanandcodata?appName=Cluster0";
 
-        const databaseName=process.env.DATABASE_NAME || "lakshminarayanandco";
+        const databaseName=process.env.DATABASE_NAME || "lakshminarayanandcodata";
 
         if (!databaseUrl) {
             
