@@ -48,7 +48,7 @@ const Navbar=()=>{
 
                 <nav className="desktop-navigation">
 
-                    <NavLink to="/" className={({ isActive })=> isActive ? "nav-link active": "nav-link"}>
+                    <NavLink to="/home" className={({ isActive })=> isActive ? "nav-link active": "nav-link"}>
                         Home
                     </NavLink>
 
