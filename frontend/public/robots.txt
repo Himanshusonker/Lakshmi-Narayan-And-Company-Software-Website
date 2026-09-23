@@ -1,2 +1,4 @@
 User-agent: *
-Allow: /Sitemap: https://www.lakshminarayanandco.com/sitemap.xml
+Allow: /
+
+Sitemap: https://www.lakshminarayanandco.com/sitemap.xml
